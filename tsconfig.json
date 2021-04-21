@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "outFile": "built.js",
+        "allowJs": true,
+        "sourceMap": true,
+        "target": "ES2020",
+        "noImplicitAny": true,
+        "checkJs": true
+    },
+    "include": ["src/**/*", "lib/**/*"],
+    "exclude": ["imgs/**/*", "static/**/*"]
+}

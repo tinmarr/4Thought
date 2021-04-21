@@ -1,0 +1,42 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Start Typescript Build and Server",
+            "dependsOn": ["Start Python Server", "Start Typescript Build"],
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Start Python Server",
+            "type": "shell",
+            "command": "python -m http.server 8080",
+            "presentation": {
+                "group": "startTypescript",
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+        {
+            "label": "Start Typescript Build",
+            "type": "shell",
+            "command": "tsc -watch",
+            "presentation": {
+                "group": "startTypescript",
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        }
+    ]
+}

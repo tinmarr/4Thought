@@ -7,6 +7,9 @@ const port = 8000;
 app.set('views', path.join(__dirname, '../views'));
 app.set('view engine', 'pug');
 
+app.use('/quill_scripts', express.static(path.join(__dirname, '../node_modules/quill/dist')));
+app.use('/scripts', express.static(path.join(__dirname, '../dist')));
+
 app.get('/', (req, res) => {
     res.render('index', {title: 'Welcome'});
 });

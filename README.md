@@ -8,14 +8,13 @@
 
 #### Key Features
 
-1. Text editor
 1. Markdown shortcuts (with rendering)
 1. Shorthand conversion
-1. CRTL+B, CTRL+I, ect...
 1. Colors and Highlighting
 1. [Math Typing](https://latexer.ymath.io/)
 1. Personal Dictionary for shortcuts
 1. Wikepedia scraping for revelent info
+1. Sign in/sign out/sync
 
 #### Other Features
 

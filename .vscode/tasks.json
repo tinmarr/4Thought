@@ -3,7 +3,7 @@
     "tasks": [
         {
             "label": "Start Typescript Build and Server",
-            "dependsOn": ["Start Python Server", "Start Typescript Build"],
+            "dependsOn": ["Start Server", "Start Typescript Build"],
             "problemMatcher": [],
             "group": {
                 "kind": "build",
@@ -11,9 +11,9 @@
             }
         },
         {
-            "label": "Start Python Server",
+            "label": "Start Server",
             "type": "shell",
-            "command": "python -m http.server 8080",
+            "command": "nodemon dist/app.js",
             "presentation": {
                 "group": "startTypescript",
                 "echo": true,
@@ -27,7 +27,7 @@
         {
             "label": "Start Typescript Build",
             "type": "shell",
-            "command": "tsc -watch",
+            "command": "tsc --watch",
             "presentation": {
                 "group": "startTypescript",
                 "echo": true,

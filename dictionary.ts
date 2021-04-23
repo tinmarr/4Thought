@@ -1,5 +1,5 @@
 // https://johnresig.com/files/dict/ospd4.txt
-let dictionary = 
+let dictionary : string[] = 
 [
     "aa",
     "aah",

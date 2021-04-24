@@ -26,7 +26,7 @@ let quill: Quill = new Quill("#editor", {
             "link-tooltip": true,
         },
     },
-    placeholder: "Start typing...",
+    placeholder: "start typing...",
     theme: "snow",
 });
 

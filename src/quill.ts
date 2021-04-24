@@ -1,4 +1,7 @@
 import Quill from "quill";
+const { deltaToMarkdown } = require("quill-delta-to-markdown");
+import { MarkdownToQuill } from "md-to-quill-delta";
+
 // Add a 'custom-color' option to the the color tool
 let tools: any[][] = [
     ["bold", "italic", "underline", "strike"],
@@ -35,6 +38,7 @@ quill.getModule("toolbar").addHandler("color", (value: string) => {
     quill.format("color", value);
 });
 
-window.onkeyup = (ev: KeyboardEvent) => {
-    console.log(quill);
-};
+export function toMarkdown(): void {
+    console.log(quill.getContents());
+    console.log(deltaToMarkdown(quill.getContents()));
+}

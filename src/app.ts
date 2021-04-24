@@ -9,6 +9,7 @@ app.set("view engine", "pug");
 
 app.use("/quill_scripts", express.static(path.join(__dirname, "../node_modules/quill/dist")));
 app.use("/scripts", express.static(path.join(__dirname, "../dist")));
+app.use("/css", express.static(path.join(__dirname, "../public/css")));
 
 app.get("/", (req, res) => {
     res.render("index", { title: "Home" });

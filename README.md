@@ -2,7 +2,7 @@
 
 ## Features
 
--   None right now
+-   Editor!
 
 ## Todo
 

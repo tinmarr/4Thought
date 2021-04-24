@@ -39,7 +39,18 @@ quill.getModule("toolbar").addHandler("color", (value: string) => {
     quill.format("color", value);
 });
 
-export function toMarkdown(): void {
+function toMarkdown(): void {
     console.log(quill.getContents());
     console.log(deltaToMarkdown(quill.getContents()));
 }
+
+// This is how you can reference variables outside of the bundled script
+declare global {
+    interface Window {
+        toMarkdown: any;
+        quill: Quill;
+    }
+}
+
+window.quill = quill;
+window.toMarkdown = toMarkdown;

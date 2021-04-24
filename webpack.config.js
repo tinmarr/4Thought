@@ -13,7 +13,6 @@ module.exports = [
         output: {
             filename: "quill.bundle.js",
             path: path.join(__dirname, "./dist"),
-            library: { name: "QuillFile" },
         },
     },
 ];

@@ -3,7 +3,7 @@
     "tasks": [
         {
             "label": "Start Typescript Build and Server",
-            "dependsOn": ["Start Server", "Start Typescript Build"],
+            "dependsOn": ["Start Server", "Start Typescript Build", "Start Webpack Bundling"],
             "problemMatcher": [],
             "group": {
                 "kind": "build",
@@ -20,7 +20,7 @@
                 "reveal": "always",
                 "focus": false,
                 "panel": "shared",
-                "showReuseMessage": true,
+                "showReuseMessage": false,
                 "clear": false
             }
         },
@@ -34,7 +34,21 @@
                 "reveal": "always",
                 "focus": false,
                 "panel": "shared",
-                "showReuseMessage": true,
+                "showReuseMessage": false,
+                "clear": false
+            }
+        },
+        {
+            "label": "Start Webpack Bundling",
+            "type": "shell",
+            "command": "npm run build",
+            "presentation": {
+                "group": "startTypescript",
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
                 "clear": false
             }
         }

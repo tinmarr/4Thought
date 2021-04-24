@@ -1,4 +1,4 @@
-/// <reference path="/node_modules/@types/quill/index.d.ts" />
+import Quill from 'quill';
 
 let quill : Quill = new Quill('#editor', {
     theme: 'bubble'

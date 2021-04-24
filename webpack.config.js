@@ -7,10 +7,10 @@ module.exports = [
         watchOptions: {
             ignored: ["**/node_modules", "**/**/*.ts"],
         },
-        entry: "./dist/quill.js",
+        entry: "./dist/src/quill.js",
         output: {
             filename: "quill.bundle.js",
-            path: path.join(__dirname, "./dist"),
+            path: path.join(__dirname, "./dist/src"),
         },
     },
 ];

@@ -7,10 +7,10 @@ let tools: any[][] = [
 ];
 
 let quill: Quill = new Quill("#editor", {
-    placeholder: "Start typing...",
     modules: {
         toolbar: tools,
     },
+    placeholder: "Start typing...",
     theme: "bubble",
 });
 
@@ -22,3 +22,7 @@ quill.getModule("toolbar").addHandler("color", (value: string) => {
     }
     quill.format("color", value);
 });
+
+window.onkeyup = (ev: KeyboardEvent) => {
+    console.log(quill);
+};

@@ -13,16 +13,17 @@ let quill: Quill = new Quill("#editor", {
     modules: {
         toolbar: {
             container: tools, // Selector for toolbar container
-            // doesn't work in the slightest
-            // handlers: {
-            //     'link': function(value:string) {
-            //     if (value) {
-            //       var href = prompt('Enter the URL');
-            //       quill.format('link', href);
-            //     } else {
-            //       quill.format('link', false);
-            //     }
-            // }
+            handlers: {
+                link: function (value: string) {
+                    if (value) {
+                        var href = prompt("Enter the URL");
+                        quill.format("link", href);
+                    } else {
+                        quill.format("link", false);
+                    }
+                },
+            },
+            "link-tooltip": true,
         },
     },
     placeholder: "Start typing...",

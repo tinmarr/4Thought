@@ -1,6 +1,7 @@
 extends layout 
 
 block layout-content
+    a.btn.btn-primary#markdown(onclick="toMarkdown();") To Markdown
     h1.my-4.text-center Your Amazing Note:
     div.shadow-lg.rounded.bg-body.my-4.w-50.mx-auto#editor
     script(src="./quill_scripts/quill.min.js") 

@@ -11,7 +11,7 @@ let quill: Quill = new Quill("#editor", {
         toolbar: tools,
     },
     placeholder: "Start typing...",
-    theme: "bubble",
+    theme: "snow",
 });
 
 // // customize the color tool handler

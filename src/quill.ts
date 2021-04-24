@@ -1,8 +1,9 @@
 import Quill from "quill";
 // Add a 'custom-color' option to the the color tool
 let tools: any[][] = [
-    ["bold", "italic", "underline", "strike", "size"],
+    ["bold", "italic", "underline", "strike"],
     [{ color: [] }, { background: [] }],
+    [{ align: [] }, { header: [1, 2, 3, 4, 5, 6, false] }],
 ];
 
 let quill: Quill = new Quill("#editor", {

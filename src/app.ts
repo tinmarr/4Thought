@@ -11,11 +11,11 @@ app.use('/quill_scripts', express.static(path.join(__dirname, '../node_modules/q
 app.use('/scripts', express.static(path.join(__dirname, '../dist')));
 
 app.get('/', (req, res) => {
-    res.render('index', {title: 'Home'});
+    res.render('index', { title: 'Home' });
 });
 
-app.get('/editor', (req, res) =>{
-    res.render('editor', {title: 'Editor'});
+app.get('/editor', (req, res) => {
+    res.render('editor', { title: 'Editor' });
 });
 
 app.listen(port, () => {

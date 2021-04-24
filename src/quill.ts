@@ -4,3 +4,4 @@ let quill : Quill = new Quill('#editor', {
     placeholder: 'Start typing...',
     theme: 'bubble'
 });
+

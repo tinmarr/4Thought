@@ -1,6 +1,7 @@
 const path = require('path');
-const mode = 'production'; // development or production
+const mode = 'development'; // development or production
 const watch = true; // boolean
+const devtool = 'eval-source-map';
 
 module.exports = [
     {
@@ -14,5 +15,6 @@ module.exports = [
             filename: 'quill.bundle.js',
             path: path.join(__dirname, './dist'),
         },
+        devtool: devtool,
     },
 ];

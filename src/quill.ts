@@ -11,10 +11,22 @@ let tools: any[][] = [
 
 let quill: Quill = new Quill("#editor", {
     modules: {
-        toolbar: tools,
+        toolbar: {
+            container: tools, // Selector for toolbar container
+            // doesn't work in the slightest
+            // handlers: {
+            //     'link': function(value:string) {
+            //     if (value) {
+            //       var href = prompt('Enter the URL');
+            //       quill.format('link', href);
+            //     } else {
+            //       quill.format('link', false);
+            //     }
+            // }
+        },
     },
     placeholder: "Start typing...",
-    theme: "bubble",
+    theme: "snow",
 });
 
 // // customize the color tool handler

@@ -8,6 +8,21 @@ let quill: Quill = new Quill("#editor", {
     theme: "snow",
 });
 
+window.onload = () => {
+    const syncBtn = document.getElementById("sync-btn")!;
+    syncBtn.onclick = function() {
+        if (!syncBtn.classList.contains("rotating")) {
+            syncBtn.classList.add("rotating");
+            setTimeout(() => {
+                syncBtn.classList.remove("rotating");
+            },2000);
+        }
+
+        // todo: sync the note to firebase
+        console.log("synced");
+    }
+}
+
 function toMarkdown(): void {
     console.log(quill.getContents());
     console.log(deltaToMarkdown(quill.getContents()));

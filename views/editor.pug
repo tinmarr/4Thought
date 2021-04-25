@@ -2,8 +2,29 @@ extends layout
 
 block layout-content
     div.mx-auto.w-95.mt-4
-        input(class="w-100 h1 border-0 outline-0", placeholder="name your note", spellcheck="false")
+        input.w-100.h1.border-0.outline-0(placeholder="name your note", spellcheck="false")
     div.shadow-lg.rounded.bg-body.my-2.w-95.mx-auto
+        div#toolbar
+            span.ql-formats
+                select.ql-header
+                select.ql-align
+            span.ql-formats
+                button.ql-bold
+                button.ql-italic
+                button.ql-underline
+                button.ql-strike 
+                button.ql-link 
+            span.ql-formats 
+                select.ql-color
+                select.ql-background
+            span.ql-formats 
+                button.ql-list(value="ordered")
+                button.ql-list(value="bullet")
+            span.ql-formats 
+                button.ql-image
+            span.ql-formats 
+                button.ql-blockquote 
+                button.ql-code-block
         div#editor
     script(src="./quill_scripts/quill.min.js")
     script(src="./scripts/quill.bundle.js")

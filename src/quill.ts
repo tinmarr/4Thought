@@ -13,7 +13,7 @@ window.onload = () => {
             syncBtn.classList.add("rotating");
             setTimeout(() => {
                 syncBtn.classList.remove("rotating");
-            },2000);
+            },1500);
         }
 
         // todo: sync the note to firebase
@@ -21,7 +21,6 @@ window.onload = () => {
     }
 }
 
-// This is how you can reference variables outside of the bundled script
 declare global {
     interface Window {
         quill: Quill;

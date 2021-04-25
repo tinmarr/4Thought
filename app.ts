@@ -21,5 +21,5 @@ app.get("/editor", (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(`server is listening on ${port} at ${d.getHours()}:${d.getMinutes()}`);
+    console.log(`server is listening on ${port} at ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`);
 });

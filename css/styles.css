@@ -3,7 +3,11 @@ body {
     height: 100%;
 }
 
-.button-sync {
+.right-fixed {
+    float: right;
+}
+
+.absolute {
     position: absolute;
 }
 

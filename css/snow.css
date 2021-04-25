@@ -853,8 +853,11 @@
     font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
     padding: 8px;
 }
-.ql-toolbar.ql-snow .ql-formats {
+.ql-toolbar.ql-snow .ql-formats:not(.right-fixed) {
     margin-right: 15px;
+}
+.ql-toolbar.ql-snow .ql-formats.right-fixed {
+    margin-left: 15px;
 }
 /*
 .ql-toolbar.ql-snow .ql-picker-label {

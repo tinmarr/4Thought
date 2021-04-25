@@ -3,6 +3,7 @@ import path from "path";
 
 const app = express();
 const port = 8000;
+const d = new Date();
 
 app.set("views", path.join(__dirname, "../views"));
 app.set("view engine", "pug");
@@ -20,5 +21,5 @@ app.get("/editor", (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(`server is listening on ${port}`);
+    console.log(`server is listening on ${port} at ${d.getHours()}:${d.getMinutes()}`);
 });

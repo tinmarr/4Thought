@@ -23,3 +23,15 @@ router.post("/user", (req, res) => {
     }
     res.send(`name: ${name} ------ email:${email} ------ password:${password}`);
 });
+
+router.post("/data-save", (req, res) => {
+    console.log(req.body);
+    // todo: actually save stuff
+    return res.json("synced");
+});
+
+router.post("/data-login", (req, res) => {
+    console.log(req.body);
+    // todo: do login stuff using data.json
+    return res.json("beep bop boop");
+});

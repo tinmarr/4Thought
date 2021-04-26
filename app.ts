@@ -26,17 +26,6 @@ const middlewares: any[] = [
     flash(),
 ];
 
-app.post("/data-save", (req, res) => {
-    console.log(req.body);
-    // todo: actually save stuff
-    return res.json('synced');
-});
-
-app.post("/data-login", (req, res) => {
-    console.log(req.body);
-    // todo: do login stuff using data.json
-    return res.json('beep bop boop');
-});
 
 app.use(middlewares);
 

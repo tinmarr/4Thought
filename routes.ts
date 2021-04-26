@@ -1,3 +1,4 @@
+import e from "express";
 import express from "express";
 import fs from "fs";
 
@@ -14,23 +15,29 @@ router.get("/", (req, res) => {
 });
 
 router.get("/editor", (req, res) => {
-    res.render("editor", { title: "Editor" });
+    if (req.session?.userEmail == null) {
+        res.redirect("/user?new=false");
+    } else {
+        res.render("editor", { title: "Editor" });
+    }
 });
 
 router.get("/user", (req, res) => {
-    res.render("authPage", { title: "Login", newUser: false });
+    res.render("authPage", { title: "Login", newUser: req.query.new == "true" });
 });
 
-router.post("/user", (req, res) => {
+router.post("/user", (req, res, next) => {
     let email: string = req.body.email;
     let password: string = req.body.password;
     let name: string | null = null;
     let user: User | null = data[email];
     if (user != null) {
         if (user.password == password) {
-            return res.send(`${user.name} is logged in!`);
+            if (req.session != null) req.session.userEmail = email;
+            return res.redirect("/editor");
         } else {
-            return res.send("Login Failed");
+            req.flash("Login Failed");
+            return res.redirect("/login");
         }
     } else {
         if (req.body.newUser == "on") {

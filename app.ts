@@ -13,7 +13,7 @@ app.use([
     express.static(path.join(__dirname, "../node_modules/quill/dist")),
     express.static(path.join(__dirname, "../dist/src")),
     express.static(path.join(__dirname, "../css")),
-    session({ secret: "thisisasecret", maxAge: 60000 }),
+    session({ keys: [process.env.SECRET || "thisisasecret"], maxAge: 60000 }),
     express.json(),
     express.urlencoded({ extended: true }),
     cookieParser(),

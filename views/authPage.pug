@@ -1,0 +1,30 @@
+extends layout 
+
+block layout-content
+    form.w-50.mx-auto.my-5.border.border-5.border-primary.rounded.p-3(action="./user", method="post")
+        if newUser
+            h3.mb-3 Sign Up 
+            div.mb-3
+                label.form-label(for="name") Username 
+                input.form-control#name(type="name", name="name", placeholder="your amazing name")
+            div.mb-3
+                label.form-label(for="email") Email Address 
+                input.form-control#email(type="email", name="email", placeholder="your.email@example.com")
+            div.mb-3
+                label.form-label(for="password") Password
+                input.form-control#password(type="password", name="password")
+            div.mb-3
+                label.form-label(for="password-confirm") Confirm Password
+                input.form-control#password-confirm(type="password", name="password-confirm")
+            input.d-none#newUser(type="checkbox" name="newUser" checked)
+            button.btn.btn-primary(type="submit") Sign Up
+        else
+            h3.mb-3 Log In
+            div.mb-3
+                label.form-label(for="email") Email Address 
+                input.form-control#email(type="email", name="email", placeholder="your.email@example.com")
+            div.mb-3
+                label.form-label(for="password") Password
+                input.form-control#password(type="password", name="password")
+            input.d-none#newUser(type="checkbox" name="newUser")
+            button.btn.btn-primary(type="submit") Log In

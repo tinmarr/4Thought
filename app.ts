@@ -10,6 +10,8 @@ const app = express();
 const port = 8000;
 const d = new Date();
 
+app.use(express.json());
+
 app.set("views", path.join(__dirname, "../views"));
 app.set("view engine", "pug");
 
@@ -23,6 +25,18 @@ const middlewares: any[] = [
     cookieParser(),
     flash(),
 ];
+
+app.post("/data-save", (req, res) => {
+    console.log(req.body);
+    // todo: actually save stuff
+    return res.json('synced');
+});
+
+app.post("/data-login", (req, res) => {
+    console.log(req.body);
+    // todo: do login stuff using data.json
+    return res.json('beep bop boop');
+});
 
 app.use(middlewares);
 

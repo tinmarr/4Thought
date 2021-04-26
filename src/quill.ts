@@ -16,9 +16,20 @@ window.onload = () => {
             },1500);
         }
 
-        // todo: sync the note to firebase
-        console.log("synced");
+        send("/data-save", { noteContents:"send note contents here! :)" }, (res: any) => {
+            console.log(res);
+        });
     }
+}
+
+function send(loc: string, content: object, handler: Function) {
+    fetch(loc, {
+        method: "POST",
+        headers: { "Content-type" : "application/json" },
+        body: JSON.stringify(content)
+    }).then(res => {
+        res.json().then(val => handler(val))
+    });
 }
 
 declare global {

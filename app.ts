@@ -14,10 +14,16 @@ app.use("/quill_scripts", express.static(path.join(__dirname, "../node_modules/q
 app.use("/scripts", express.static(path.join(__dirname, "../dist/src")));
 app.use("/css", express.static(path.join(__dirname, "../css")));
 
-app.post("/save", (req, res) => {
+app.post("/data-save", (req, res) => {
     console.log(req.body);
     // todo: actually save stuff
     return res.json('synced');
+});
+
+app.post("/data-login", (req, res) => {
+    console.log(req.body);
+    // todo: do login stuff using data.json
+    return res.json('beep bop boop');
 });
 
 app.get("/", (req, res) => {

@@ -16,7 +16,7 @@ window.onload = () => {
             },1500);
         }
 
-        send("/save", { noteContents:"send note contents here! :)" }, (res: any) => {
+        send("/data-save", { noteContents:"send note contents here! :)" }, (res: any) => {
             console.log(res);
         });
     }

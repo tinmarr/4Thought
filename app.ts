@@ -1,32 +1,28 @@
 import express from "express";
 import path from "path";
-import session from "express-session";
+import session from "cookie-session";
 import flash from "express-flash";
 import cookieParser from "cookie-parser";
-
-import { router } from "./src/routes";
+import { router } from "./routes";
 
 const app = express();
 const port = process.env.PORT || 8000;
 const d = new Date();
 
-app.use(express.json());
-
-app.set("views", path.join(__dirname, "../views"));
-app.set("view engine", "pug");
-
-const middlewares: any[] = [
+app.use([
     express.static(path.join(__dirname, "../node_modules/quill/dist")),
     express.static(path.join(__dirname, "../dist/src")),
     express.static(path.join(__dirname, "../css")),
-    session({ secret: "thisisasecret", resave: false, saveUninitialized: false, cookie: { maxAge: 60000 } }),
+    session({ keys: [process.env.SECRET || "thisisasecret"], maxAge: 60 * 60 * 1000 }),
     express.json(),
     express.urlencoded({ extended: true }),
     cookieParser(),
     flash(),
-];
+]);
 
-app.use(middlewares);
+app.set("views", path.join(__dirname, "../views"));
+app.set("view engine", "pug");
+
 
 app.use("/", router);
 

@@ -18,6 +18,8 @@ block layout-content
                 input.form-control#password-confirm(type="password", name="password-confirm")
             input.d-none#newUser(type="checkbox" name="newUser" checked)
             button.btn.btn-primary(type="submit") Sign Up
+            br
+            a(href="./user?new=false") Already have an account?
         else
             h3.mb-3 Log In
             div.mb-3
@@ -28,3 +30,5 @@ block layout-content
                 input.form-control#password(type="password", name="password")
             input.d-none#newUser(type="checkbox" name="newUser")
             button.btn.btn-primary(type="submit") Log In
+            br
+            a(href="./user?new=true") Need a new account?

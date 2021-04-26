@@ -50,6 +50,11 @@ router.post("/user", (req, res, next) => {
     }
 });
 
+router.get("/logout", (req, res) => {
+    if (req.session?.userEmail != null) req.session.userEmail = null;
+    return res.redirect("/");
+});
+
 router.post("/data-save", (req, res) => {
     console.log(req.body);
     // todo: actually save stuff

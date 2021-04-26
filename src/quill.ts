@@ -16,7 +16,8 @@ window.onload = () => {
             },1500);
         }
 
-        send("/data-save", { noteContents:"send note contents here! :)" }, (res: any) => {
+        const noteName = (<HTMLInputElement>document.getElementById("notename")).value;
+        send("/data-save", { noteName:noteName }, (res: any) => {
             console.log(res);
         });
     }

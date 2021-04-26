@@ -7,7 +7,7 @@ router.get("/", (req, res) => {
 });
 
 router.get("/editor", (req, res) => {
-    res.render("editor", { title: "Editor" });
+    res.render("editor", { title: "Editor", identifier: 12345 });
 });
 
 router.get("/user", (req, res) => {

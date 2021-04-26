@@ -1,6 +1,12 @@
 import express from "express";
+import fs from "fs";
+
+import { User } from "./server/user";
 
 export const router = express.Router();
+
+let rawData = fs.readFileSync("./data.json");
+export let data = JSON.parse(rawData.toString());
 
 router.get("/", (req, res) => {
     res.render("index", { title: "Home" });
@@ -11,27 +17,35 @@ router.get("/editor", (req, res) => {
 });
 
 router.get("/user", (req, res) => {
-    res.render("authPage", { title: "Login", newUser: true });
+    res.render("authPage", { title: "Login", newUser: false });
 });
 
 router.post("/user", (req, res) => {
     let email: string = req.body.email;
     let password: string = req.body.password;
     let name: string | null = null;
-    if (req.body.newUser == "on") {
-        name = req.body.name;
+    let user: User | null = data[email];
+    if (user != null) {
+        if (user.password == password) {
+            return res.send(`${user.name} is logged in!`);
+        } else {
+            return res.send("Login Failed");
+        }
+    } else {
+        if (req.body.newUser == "on") {
+            name = req.body.name;
+            data[email] = {
+                name: name,
+                password: password,
+            };
+            fs.writeFileSync("data.json", JSON.stringify(data));
+            return res.send("User Saved");
+        }
     }
-    return res.send(`name:${name} ------ email:${email} ------ password:${password}`);
 });
 
 router.post("/data-save", (req, res) => {
     console.log(req.body);
     // todo: actually save stuff
     return res.json("synced");
-});
-
-router.post("/data-login", (req, res) => {
-    console.log(req.body);
-    // todo: do login stuff using data.json
-    return res.json("beep bop boop");
 });

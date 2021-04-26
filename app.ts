@@ -7,7 +7,7 @@ import cookieParser from "cookie-parser";
 import { router } from "./src/routes";
 
 const app = express();
-const port = 8000;
+const port = process.env.PORT || 8000;
 const d = new Date();
 
 app.use(express.json());
@@ -25,7 +25,6 @@ const middlewares: any[] = [
     cookieParser(),
     flash(),
 ];
-
 
 app.use(middlewares);
 

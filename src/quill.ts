@@ -8,27 +8,27 @@ let quill: Quill = new Quill("#editor", {
 
 window.onload = () => {
     const syncBtn = document.getElementById("sync-btn")!;
-    syncBtn.onclick = function() {
+    syncBtn.onclick = function () {
         if (!syncBtn.classList.contains("rotating")) {
             syncBtn.classList.add("rotating");
             setTimeout(() => {
                 syncBtn.classList.remove("rotating");
-            },1500);
+            }, 1500);
         }
 
-        send("/data-save", { noteContents:"send note contents here! :)" }, (res: any) => {
+        send("/data-save", { noteContents: "send note contents here! :)" }, (res: any) => {
             console.log(res);
         });
-    }
-}
+    };
+};
 
-function send(loc: string, content: object, handler: Function) {
+function send(loc: string, content: object, handler: Function): void {
     fetch(loc, {
         method: "POST",
-        headers: { "Content-type" : "application/json" },
-        body: JSON.stringify(content)
-    }).then(res => {
-        res.json().then(val => handler(val))
+        headers: { "Content-type": "application/json" },
+        body: JSON.stringify(content),
+    }).then((res) => {
+        res.json().then((val) => handler(val));
     });
 }
 

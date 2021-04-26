@@ -1,12 +1,13 @@
 import express from "express";
 import fs from "fs";
 
-import { User } from "./server/user";
+import { saveDB, User } from "./server/dataBaseStuff";
 
 export const router = express.Router();
 
 let rawData = fs.readFileSync("./data.json");
 export let data = JSON.parse(rawData.toString());
+saveDB(data);
 
 router.get("/", (req, res) => {
     res.render("index", { title: "Home" });
@@ -38,7 +39,6 @@ router.post("/user", (req, res) => {
                 name: name,
                 password: password,
             };
-            fs.writeFileSync("data.json", JSON.stringify(data));
             return res.send("User Saved");
         }
     }

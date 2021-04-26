@@ -5,12 +5,20 @@ const app = express();
 const port = 8000;
 const d = new Date();
 
+app.use(express.json());
+
 app.set("views", path.join(__dirname, "../views"));
 app.set("view engine", "pug");
 
 app.use("/quill_scripts", express.static(path.join(__dirname, "../node_modules/quill/dist")));
 app.use("/scripts", express.static(path.join(__dirname, "../dist/src")));
 app.use("/css", express.static(path.join(__dirname, "../css")));
+
+app.post("/save", (req, res) => {
+    console.log(req.body);
+    // todo: actually save stuff
+    return res.json('synced');
+});
 
 app.get("/", (req, res) => {
     res.render("index", { title: "Home" });

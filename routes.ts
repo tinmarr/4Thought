@@ -17,7 +17,7 @@ router.get("/editor", (req, res) => {
     if (req.session?.userEmail == null) {
         res.redirect("/user?new=false");
     } else {
-        res.render("editor", { title: "Editor", name: data[req.session.userEmail].name, error_messages: req.flash("error") });
+        res.render("editor", { title: "Editor", name: data[req.session.userEmail].name, error_messages: req.flash("error"), identifier: 12345 });
     }
 });
 

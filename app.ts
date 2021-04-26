@@ -1,6 +1,6 @@
 import express from "express";
 import path from "path";
-import session from "express-session";
+import session from "cookie-session";
 import flash from "express-flash";
 import cookieParser from "cookie-parser";
 import { router } from "./routes";
@@ -13,9 +13,9 @@ app.use([
     express.static(path.join(__dirname, "../node_modules/quill/dist")),
     express.static(path.join(__dirname, "../dist/src")),
     express.static(path.join(__dirname, "../css")),
-    session({ secret: "thisisasecret", resave: false, saveUninitialized: false, cookie: { maxAge: 60000 } }),
+    session({ secret: "thisisasecret", maxAge: 60000 }),
     express.json(),
-    express.urlencoded({ extended:true }),
+    express.urlencoded({ extended: true }),
     cookieParser(),
     flash(),
 ]);

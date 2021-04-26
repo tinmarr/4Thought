@@ -6,7 +6,7 @@ export interface User {
 }
 
 // Delay is in seconds
-export function saveDB(data: object, delay: number = 20, fileName: string = "data.json") {
+export function saveDB(data: object, delay: number = 5, fileName: string = "data.json") {
     setInterval(() => {
         fs.writeFileSync(fileName, JSON.stringify(data));
         saveDB(data, delay, fileName);

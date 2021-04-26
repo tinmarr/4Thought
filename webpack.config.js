@@ -1,9 +1,11 @@
 const path = require("path");
 
+let watch = false;
+
 module.exports = [
     {
         mode: "production",
-        watch: true,
+        watch: watch,
         watchOptions: {
             ignored: ["**/node_modules", "**/**/*.ts"],
         },

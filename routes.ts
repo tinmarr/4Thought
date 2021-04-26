@@ -11,7 +11,7 @@ router.get("/editor", (req, res) => {
 });
 
 router.get("/user", (req, res) => {
-    res.render("authPage", { title: "Login", newUser: false });
+    res.render("authPage", { title: "Login", newUser: true });
 });
 
 router.post("/user", (req, res) => {
@@ -21,7 +21,7 @@ router.post("/user", (req, res) => {
     if (req.body.newUser == "on") {
         name = req.body.name;
     }
-    res.send(`name: ${name} ------ email:${email} ------ password:${password}`);
+    return res.send(`name:${name} ------ email:${email} ------ password:${password}`);
 });
 
 router.post("/data-save", (req, res) => {

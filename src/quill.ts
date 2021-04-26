@@ -1,5 +1,7 @@
 import Quill from "quill";
 
+let identifier: string;
+
 let quill: Quill = new Quill("#editor", {
     modules: { toolbar: "#toolbar" },
     placeholder: "start typing...",
@@ -7,6 +9,8 @@ let quill: Quill = new Quill("#editor", {
 });
 
 window.onload = () => {
+    identifier = document.getElementById("identifier")!.innerText;
+
     const syncBtn = document.getElementById("sync-btn")!;
     syncBtn.onclick = function() {
         if (!syncBtn.classList.contains("rotating")) {
@@ -17,7 +21,7 @@ window.onload = () => {
         }
 
         const noteName = (<HTMLInputElement>document.getElementById("notename")).value;
-        send("/data-save", { noteName:noteName }, (res: any) => {
+        send("/data-save", { id:identifier,name:noteName }, (res: any) => {
             console.log(res);
         });
     }

@@ -50,8 +50,9 @@ router.post("/user", (req, res, next) => {
             data[email] = {
                 name: name,
                 password: password,
-                maxId: 0,
-                documents:{}
+
+                documents: {},
+
             };
             return res.redirect("/home");
         }
@@ -65,14 +66,17 @@ router.get("/logout", (req, res) => {
 
 router.post("/save", (req, res) => {
     let user: string = req.session?.userEmail;
-    if (data[user].documents == undefined) {
-        data[user].documents = {};
-    }
     data[user].documents[req.body.id] = {
         name: req.body.name,
         delta: req.body.delta,
+        postion: Object.keys(data[user].documents).length,
     };
     return res.json("synced");
+});
+
+router.post("/update-order", (req, res) => {
+    let user: string = req.session?.userEmail;
+    return res.json("Did it! (but not really)");
 });
 
 router.get("/home", (req, res) => {
@@ -88,7 +92,7 @@ router.get("/document", (req, res) => {
     let user: string = req.session?.userEmail;
     let documentData: object = { ops: [] };
     if (req.query.id == null) {
-        id = (data[user].maxId++).toString();
+        id = Object.keys(data[user].documents).length.toString();
     } else {
         id = req.query.id as string;
         documentData = data[user].documents[id];

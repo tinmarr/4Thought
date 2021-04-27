@@ -5,16 +5,18 @@ block layout-content
         a.float-end.btn.btn-primary.outline-0(href="./logout", type="button") Logout
         h1 Welcome #{userData.name}!
         a.btn.btn-primary(href="./document") new notepad
-        each document in Object.keys(userData.documents)
-            hr.w-75(id="bar"+document)
-            .my-3.w-75.d-flex.align-middle(id=document)
-                .m-0.py-2.d-inline
-                    | #{userData.documents[document].name}
-                    - let redirect = "./document?id=" + document
-                .flex-grow-1
-                .m-0.p-0.d-inline
-                    a.btn.btn-primary.outline-0.mx-1(href=redirect) Edit
-                    a.btn.btn-primary.outline-0.mx-1(onclick="deleteDoc(" + document + ")", id="delete" + document) Delete
+        .sortable
+            each document in Object.keys(userData.documents)
+                .w-75.drag(id=document)
+                    hr(id="bar"+document)
+                    .my-3.d-flex.align-middle(id=document)
+                        .m-0.py-2.d-inline
+                            | #{userData.documents[document].name}
+                            - let redirect = "./document?id=" + document
+                        .flex-grow-1
+                        .m-0.p-0.d-inline
+                            a.btn.btn-primary.outline-0.mx-1(href=redirect) Edit
+                            a.btn.btn-primary.outline-0.mx-1(onclick="deleteDoc(" + document + ")", id="delete" + document) Delete
         if Object.keys(userData.documents).length != 0
             .my-3.invisible#noneLeft
                 hr.w-75
@@ -23,6 +25,7 @@ block layout-content
             .my-3#noneLeft
                 hr.w-75
                 | No Documents Yet!
+    script(src="./dragManager.js")
     script(src="./documentManager.js") 
     script
         | numOfDocs = !{Object.keys(userData.documents).length}

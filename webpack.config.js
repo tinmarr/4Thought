@@ -14,13 +14,4 @@ module.exports = [
             path: pth,
         },
     },
-    {
-        mode: mode,
-        watch: watch,
-        entry: "./dist/src/documentManager.js",
-        output: {
-            filename: "docManager.bundle.js",
-            path: pth,
-        },
-    },
 ];

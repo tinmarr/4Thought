@@ -1,13 +1,22 @@
 import express from "express";
 import fs from "fs";
 
-import { saveDB, User } from "./dataBaseStuff";
+import { save, User } from "./dbHandler";
 
 export const router = express.Router();
 
 let rawData = fs.readFileSync("./data.json");
 export let data = JSON.parse(rawData.toString());
-saveDB(data);
+setInterval(() => { save(data) }, 30 * 1000);
+
+function exitHandler(options: string, exitCode: any) {
+    if (options == "exit") save(data);
+    else process.exit();
+}
+
+[`exit`, `SIGINT`, `SIGUSR1`, `SIGUSR2`, `uncaughtException`, `SIGTERM`].forEach((eventType) => {
+    process.on(eventType, exitHandler.bind(null, eventType));
+});
 
 router.get("/", (req, res) => {
     res.render("index", { title: "Home", error_messages: req.flash("error") });
@@ -23,20 +32,27 @@ router.post("/user", (req, res, next) => {
     let name: string | null = null;
     let user: User | null = data[email];
     if (user != null) {
+        if (req.body.newUser == "on") {
+            req.flash("error", "User already exists");
+            return res.redirect(req.url);
+        }
+        
         if (user.password == password) {
             if (req.session != null) req.session.userEmail = email;
             return res.redirect("/home");
-        } else {
-            req.flash("error", "Incorrect username or password");
-            return res.redirect(req.url);
         }
+        
+        req.flash("error", "Incorrect username or password");
+        return res.redirect(req.url);
     } else {
         if (req.body.newUser == "on") {
             name = req.body.name;
             data[email] = {
                 name: name,
                 password: password,
+
                 documents: {},
+
             };
             return res.redirect("/home");
         }
@@ -48,7 +64,7 @@ router.get("/logout", (req, res) => {
     return res.redirect("/");
 });
 
-router.post("/data-save", (req, res) => {
+router.post("/save", (req, res) => {
     let user: string = req.session?.userEmail;
     data[user].documents[req.body.id] = {
         name: req.body.name,

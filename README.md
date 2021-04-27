@@ -14,7 +14,6 @@
 1. [Math Typing](https://latexer.ymath.io/)
 1. Personal Dictionary for shortcuts
 1. Wikepedia scraping for revelent info
-1. Sign in/sign out/sync
 
 #### Other Features
 

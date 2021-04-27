@@ -1,1 +1,1 @@
-{"martin@martin.com":{"name":"Martin","password":"123456","documents":{}},"hello@hello.com":{"name":"LOL","password":"123","documents":{"1":{"name":"h"},"2":{"name":"e"},"3":{"name":"l"},"4":{"name":"l"},"5":{"name":"o"}}}}
+{"martin@martin.com":{"name":"Martin","password":"123456","maxId":0},"hello@hello.com":{"name":"LOL","password":"123","maxId":23,"documents":{}}}

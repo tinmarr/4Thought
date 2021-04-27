@@ -13,10 +13,6 @@ router.get("/", (req, res) => {
     res.render("index", { title: "Home", error_messages: req.flash("error") });
 });
 
-router.get("/editor", (req, res) => {
-    return res.render("editor", { title: "Editor", error_messages: req.flash("error"), identifier: req.query.id });
-});
-
 router.get("/user", (req, res) => {
     res.render("authPage", { title: "Login", newUser: req.query.new == "true", error_messages: req.flash("error") });
 });
@@ -40,6 +36,7 @@ router.post("/user", (req, res, next) => {
             data[email] = {
                 name: name,
                 password: password,
+                maxId: 0,
             };
             return res.redirect("/home");
         }
@@ -52,8 +49,14 @@ router.get("/logout", (req, res) => {
 });
 
 router.post("/data-save", (req, res) => {
-    console.log(req.body);
-    // todo: actually save stuff
+    let user: string = req.session?.userEmail;
+    if (data[user].documents == undefined) {
+        data[user].documents = {};
+    }
+    data[user].documents[req.body.id] = {
+        name: req.body.name,
+        delta: req.body.delta,
+    };
     return res.json("synced");
 });
 
@@ -62,5 +65,22 @@ router.get("/home", (req, res) => {
         res.redirect("/user?new=false");
     } else {
         return res.render("userHome", { title: "Editor", userData: data[req.session.userEmail], error_messages: req.flash("error") });
+    }
+});
+
+router.get("/document", (req, res) => {
+    let id: string;
+    let user: string = req.session?.userEmail;
+    let documentData: object = { ops: [] };
+    if (req.query.id == null) {
+        id = (data[user].maxId++).toString();
+    } else {
+        id = req.query.id as string;
+        documentData = data[user].documents[id];
+    }
+    if (req.query.del == "true") {
+        delete data[user].documents[id];
+    } else {
+        return res.render("editor", { title: "Editor", error_messages: req.flash("error"), documentData: documentData, identifier: id });
     }
 });

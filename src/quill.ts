@@ -1,8 +1,9 @@
 import Quill from "quill";
+// import { send } from "../server/dataBaseStuff";
 
 let identifier: string;
 
-let quill: Quill = new Quill("#editor", {
+const quill: Quill = new Quill("#editor", {
     modules: { toolbar: "#toolbar" },
     placeholder: "start typing...",
     theme: "snow",
@@ -19,8 +20,9 @@ window.onload = () => {
                 syncBtn.classList.remove("rotating");
             }, 1500);
         }
-        const noteName = (<HTMLInputElement>document.getElementById("notename")).value;
-        send("/data-save", { id:identifier,name:noteName }, (res: any) => {
+        const noteName = (<HTMLInputElement>document.getElementById("notename")).value || "New Note";
+        let data = { id: identifier, name: noteName, delta: quill.getContents() };
+        send("/data-save", data, (res: any) => {
             console.log(res);
         });
     };

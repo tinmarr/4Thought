@@ -1,6 +1,6 @@
 const path = require("path");
 
-let watch = false;
+let watch = true;
 
 module.exports = [
     {

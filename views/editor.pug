@@ -3,7 +3,7 @@ extends layout
 block layout-content
     a.float-end.btn.btn-primary.outline-0.mx-4(href="./home") Close Note
     .mx-auto.w-95.mt-4
-        input.w-100.h1.border-0.outline-0(placeholder="name your note", spellcheck="false")
+        input.w-100.h1.border-0.outline-0#notename(placeholder="name your note", spellcheck="false")
     .shadow-lg.rounded.bg-body.my-2.w-95.mx-auto
         #toolbar
             span.ql-formats
@@ -33,3 +33,8 @@ block layout-content
         #editor
     p.d-none#identifier #{identifier}
     script(src="./quill.bundle.js")
+    script(type="text/javascript") 
+        | let data = !{JSON.stringify(documentData)};
+        | quill.setContents(data.delta);
+        | if (data.name != null) document.getElementById("notename").value = data.name;
+        | 

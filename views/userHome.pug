@@ -4,13 +4,16 @@ block layout-content
     div.w-95.mx-auto.mt-4
         a.float-end.btn.btn-primary.outline-0(href="./logout", type="button") Logout
         h1 Welcome #{userData.name}!
-        a.btn.btn-primary(href="./editor") new notepad
-        if userData.documents != null
+        a.btn.btn-primary(href="./document") new notepad
+        if Object.keys(userData.documents).length != 0
+            hr.w-50
             each document in Object.keys(userData.documents)
-                .my-3.w-25 #{userData.documents[document].name}
+                .my-3.w-50  
+                    | #{userData.documents[document].name}
                     - let redirect = "./document?id=" + document
-                    - let del = redirect + "&del=true"
                     .float-end
                         a.btn.btn-primary.outline-0.mx-1(href=redirect) Edit
                         a.btn.btn-primary.outline-0.mx-1(href=del) Delete
-                    
+                    hr
+        else
+            .my-3 No Documents Yet!

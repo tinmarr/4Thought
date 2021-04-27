@@ -10,7 +10,6 @@
 #### Key Features
 
 1. Shorthand conversion
-1. Colors and Highlighting
 1. [Math Typing](https://latexer.ymath.io/)
 1. Personal Dictionary for shortcuts
 1. Wikepedia scraping for revelent info

@@ -1,16 +1,26 @@
 const path = require("path");
 
-let watch = true;
+let mode = "production",
+    watch = true,
+    pth = path.join(__dirname, "./dist/src");
 
 module.exports = [
     {
-        mode: "production",
+        mode: mode,
         watch: watch,
-        devtool: "inline-source-map",
         entry: "./dist/src/quill.js",
         output: {
             filename: "quill.bundle.js",
-            path: path.join(__dirname, "./dist/src"),
+            path: pth,
+        },
+    },
+    {
+        mode: mode,
+        watch: watch,
+        entry: "./dist/src/documentManager.js",
+        output: {
+            filename: "docManager.bundle.js",
+            path: pth,
         },
     },
 ];

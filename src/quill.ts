@@ -1,4 +1,5 @@
 import Quill from "quill";
+/// <reference path="./documentManager.ts"/>
 
 let identifier: string;
 
@@ -26,16 +27,6 @@ window.onload = () => {
         });
     };
 };
-
-function send(loc: string, content: object, handler: Function): void {
-    fetch(loc, {
-        method: "POST",
-        headers: { "Content-type": "application/json" },
-        body: JSON.stringify(content),
-    }).then((res) => {
-        res.json().then((val) => handler(val));
-    });
-}
 
 declare global {
     interface Window {

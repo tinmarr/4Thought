@@ -78,9 +78,11 @@ router.get("/document", (req, res) => {
         id = req.query.id as string;
         documentData = data[user].documents[id];
     }
-    if (req.query.del == "true") {
-        delete data[user].documents[id];
-    } else {
-        return res.render("editor", { title: "Editor", error_messages: req.flash("error"), documentData: documentData, identifier: id });
-    }
+    return res.render("editor", { title: "Editor", error_messages: req.flash("error"), documentData: documentData, identifier: id });
+});
+
+router.post("/document", (req, res) => {
+    let user: string = req.session?.userEmail;
+    delete data[user].documents[req.body.id];
+    return res.json("deleted");
 });

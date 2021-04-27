@@ -9,16 +9,16 @@
 
 #### Key Features
 
-1. Markdown shortcuts (with rendering)
-2. Shorthand conversion
-3. Colors and Highlighting
-4. [Math Typing](https://latexer.ymath.io/)
-5. Personal Dictionary for shortcuts
-6. Wikepedia scraping for revelent info
-7. Sign in/sign out/sync
+1. Shorthand conversion
+1. Colors and Highlighting
+1. [Math Typing](https://latexer.ymath.io/)
+1. Personal Dictionary for shortcuts
+1. Wikepedia scraping for revelent info
+1. Sign in/sign out/sync
 
 #### Other Features
 
+-   Markdown shortcuts (with rendering)
 -   Define Key words / Highlighted words
 -   Key word auto-detect
 -   Record sound and automatically transcribe it

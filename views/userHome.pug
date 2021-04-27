@@ -15,8 +15,8 @@ block layout-content
                             - let redirect = "./document?id=" + document
                         .flex-grow-1
                         .m-0.p-0.d-inline
-                            a.btn.btn-primary.outline-0.mx-1(href=redirect) Edit
-                            a.btn.btn-primary.outline-0.mx-1(onclick="deleteDoc(" + document + ")", id="delete" + document) Delete
+                            a.btn.btn-secondary.outline-0.mx-1(href=redirect) Edit
+                            a.btn.btn-outline-danger.outline-0.mx-1(onclick="deleteDoc(" + document + ")", id="delete" + document) Delete
         if Object.keys(userData.documents).length != 0
             .my-3.invisible#noneLeft
                 hr.w-75

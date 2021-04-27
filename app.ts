@@ -3,7 +3,7 @@ import path from "path";
 import session from "cookie-session";
 import flash from "express-flash";
 import cookieParser from "cookie-parser";
-import { router } from "./routes";
+import { router } from "./server/routes";
 
 const app = express();
 const port = process.env.PORT || 8000;

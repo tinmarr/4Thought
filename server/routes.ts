@@ -7,7 +7,9 @@ export const router = express.Router();
 
 let rawData = fs.readFileSync("./data.json");
 export let data = JSON.parse(rawData.toString());
-setInterval(() => { save(data) }, 30 * 1000);
+setInterval(() => {
+    save(data);
+}, 30 * 1000);
 
 function exitHandler(options: string, exitCode: any) {
     if (options == "exit") save(data);
@@ -36,12 +38,12 @@ router.post("/user", (req, res, next) => {
             req.flash("error", "User already exists");
             return res.redirect(req.url);
         }
-        
+
         if (user.password == password) {
             if (req.session != null) req.session.userEmail = email;
             return res.redirect("/home");
         }
-        
+
         req.flash("error", "Incorrect username or password");
         return res.redirect(req.url);
     } else {
@@ -52,10 +54,11 @@ router.post("/user", (req, res, next) => {
                 password: password,
 
                 documents: {},
-
             };
             return res.redirect("/home");
         }
+        req.flash("error", "Incorrect username or password");
+        return res.redirect(req.url);
     }
 });
 

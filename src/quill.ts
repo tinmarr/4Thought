@@ -1,5 +1,4 @@
 import Quill from "quill";
-// import { send } from "../server/dataBaseStuff";
 
 let identifier: string;
 

@@ -20,11 +20,10 @@ window.onload = () => {
                 syncBtn.classList.remove("rotating");
             }, 1500);
         }
-        const noteName = (<HTMLInputElement>document.getElementById("notename")).value || "New Note";
+        
+        const noteName = (<HTMLInputElement>document.getElementById("notename")).value || "untitled note";
         let data = { id: identifier, name: noteName, delta: quill.getContents() };
-        send("/data-save", data, (res: any) => {
-            console.log(res);
-        });
+        send("/save", data, (res: any) => { console.log(res) });
     };
 };
 

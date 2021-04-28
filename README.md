@@ -23,7 +23,6 @@
 -   Export to PDF
 -   Personal Dictionary for shorthand typing
 -   Wikepedia scraping for revelent info
--   Markdown shortcuts (with rendering)
 -   Define Key words / Highlighted words
 -   Key word auto-detect
 -   Image manipulation in editor

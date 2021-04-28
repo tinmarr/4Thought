@@ -3,23 +3,26 @@ import QuillMarkdown from "quilljs-markdown";
 /// <reference path="./documentManager.ts"/>
 
 const quill: Quill = new Quill("#editor", {
-    modules: { toolbar: "#toolbar", formula: true },
+    modules: {
+        toolbar: "#toolbar",
+        // formula: true,
+    },
     placeholder: "start typing...",
     theme: "snow",
 });
 const markdownShortcuts = new QuillMarkdown(quill, {});
 
-declare function mathquill4quill(): any;
-var enableMathQuillFormulaAuthoring = mathquill4quill();
-enableMathQuillFormulaAuthoring(quill, {
-    operators: [
-        ["\\frac{x}{y}", "\\frac"],
-        ["\\sqrt[n]{x}", "\\nthroot"],
-        ["\\int_{a}^{b}", "\\int"],
-        ["\\sum^{a}_{b}", "\\sum"],
-        ["\\infty", "\\infty"],
-    ],
-});
+// declare function mathquill4quill(): any;
+// var enableMathQuillFormulaAuthoring = mathquill4quill();
+// enableMathQuillFormulaAuthoring(quill, {
+//     operators: [
+//         ["\\frac{x}{y}", "\\frac"],
+//         ["\\sqrt[n]{x}", "\\nthroot"],
+//         ["\\int_{a}^{b}", "\\int"],
+//         ["\\sum^{a}_{b}", "\\sum"],
+//         ["\\infty", "\\infty"],
+//     ],
+// });
 
 const identifier: string = document.currentScript?.getAttribute("note-id")!;
 const data = JSON.parse(document.currentScript?.getAttribute("doc-data")!);

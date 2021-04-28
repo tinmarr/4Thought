@@ -5,6 +5,7 @@
 -   Minimalist yet feature-rich text editor for lectures and notetaking
 -   Extremely optimized UX
 -   Cloud-synced notes, available from any device
+-   Adaptive AI that gives you dynamic suggestions based on your note's contents
 
 ## Todo
 

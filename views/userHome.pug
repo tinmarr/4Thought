@@ -2,8 +2,9 @@ extends layout
 
 block layout-content 
     div.w-95.mx-auto.mt-4
-        a.float-end.btn.btn-primary.outline-0(href="./logout", type="button") Logout
-        h1 Welcome #{userData.name}!
+        div.position-relative
+            a.btn.btn-secondary.position-absolute.top-50.end-0.translate-middle-y(href="./logout") logout
+            h1 #{userData.name}'s notes
         a.btn.btn-primary(href="./document") new notepad
         .sortable
             each document in Object.keys(userData.documents)
@@ -15,8 +16,8 @@ block layout-content
                             - let redirect = "./document?id=" + document
                         .flex-grow-1
                         .m-0.p-0.d-inline
-                            a.btn.btn-secondary.outline-0.mx-1(href=redirect) Edit
-                            a.btn.btn-outline-danger.outline-0.mx-1(onclick="deleteDoc(" + document + ")", id="delete" + document) Delete
+                            a.btn.btn-secondary.mx-1(href=redirect) Edit
+                            a.btn.btn-outline-danger.mx-1(onclick="deleteDoc(" + document + ")", id="delete" + document) Delete
         if Object.keys(userData.documents).length != 0
             .my-3.invisible#noneLeft
                 hr.w-75

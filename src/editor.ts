@@ -1,6 +1,7 @@
 import Quill from "quill";
 import QuillMarkdown from "quilljs-markdown";
 /// <reference path="./documentManager.ts"/>
+
 const quill: Quill = new Quill("#editor", {
     modules: {
         toolbar: "#toolbar",

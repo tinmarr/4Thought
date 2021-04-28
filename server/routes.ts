@@ -52,7 +52,6 @@ router.post("/user", (req, res, next) => {
             data[email] = {
                 name: name,
                 password: password,
-
                 documents: {},
             };
             return res.redirect("/home");

@@ -8,7 +8,7 @@ block layout-content
         a.btn.btn-primary(href="./document") new notepad
         .sortable
             each document in Object.keys(userData.documents)
-                .w-75.drag(id=document)
+                .w-75.drag(id="doc"+document)
                     hr(id="bar"+document)
                     .my-3.d-flex.align-middle(id=document)
                         .m-0.py-2.d-inline

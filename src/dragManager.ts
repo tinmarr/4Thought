@@ -4,8 +4,19 @@
 $(".sortable")
     .sortable({
         revert: true,
+        appendTo: $(".sortable"),
+        cancel: "a",
+        delay: 500,
+        opacity: 0.5,
+        scroll: false,
+        zIndex: 5,
     })
     .disableSelection();
+
+$(".drag").draggable({
+    connectToSortable: ".sortable",
+    revert: "invalid",
+});
 
 $(".sortable").on("mouseup", () => {
     let array = $(".sortable").sortable("toArray");

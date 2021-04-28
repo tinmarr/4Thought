@@ -8,9 +8,9 @@ module.exports = [
     {
         mode: mode,
         watch: watch,
-        entry: "./dist/src/quill.js",
+        entry: "./dist/src/editor.js",
         output: {
-            filename: "quill.bundle.js",
+            filename: "editor.bundle.js",
             path: pth,
         },
     },

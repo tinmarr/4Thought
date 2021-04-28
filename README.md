@@ -13,7 +13,7 @@
 
 -   Redesigned homepage
 -   Persistent navbar
--   Logo and favicon
+-   Logo and ~~favicon~~
 -   Snippets div in the editor
 -   User settings page
 

@@ -24,7 +24,7 @@
 -   Wikepedia scraping for revelent info
 -   Define Key words / Highlighted words
 -   Key word auto-detect
--   Image manipulation in editor
+-   Image manipulation in editor (Kinda Done)
 -   Drawing tool
 -   Speech to text
 -   Transcribe images

@@ -15,6 +15,7 @@ enableMathQuillFormulaAuthoring(quill, {
         ["\\sqrt[n]{x}", "\\nthroot"],
         ["\\int_{a}^{b}", "\\int"],
         ["\\sum^{a}_{b}", "\\sum"],
+        ["\\infty", "\\infty"],
     ],
 });
 

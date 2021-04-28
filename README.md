@@ -4,22 +4,31 @@
 
 -   Minimalist yet feature-rich text editor for lectures and notetaking
 -   Extremely optimized UX
+-   Cloud-synced notes, available from any device
+-   Adaptive AI that gives you dynamic suggestions based on your note's contents
 
 ## Todo
 
-#### Key Features
+#### User Interface
 
-1. Shorthand conversion
-1. Personal Dictionary for shortcuts
-1. Wikepedia scraping for revelent info
+-   Redesigned homepage
+-   Persistent navbar
+-   Logo and favicon
+-   Snippets div in the editor
+-   Improved dragging
+-   User settings page
 
-#### Other Features
+#### Editor Features
 
+-   Export to PDF
+-   Personal Dictionary for shorthand typing
+-   Wikepedia scraping for revelent info
 -   Markdown shortcuts (with rendering)
 -   Define Key words / Highlighted words
 -   Key word auto-detect
--   Record sound and automatically transcribe it
--   Image insert
--   Freehand drawing
--   Image OCR
--   Layouts
+-   Image manipulation in editor
+-   Drawing tool
+-   Speech to text
+-   Transcribe images
+-   Note templates
+-   Shorthand conversion

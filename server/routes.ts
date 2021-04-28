@@ -10,12 +10,13 @@ let rawData = fs.readFileSync("./data.json");
 export let data = JSON.parse(rawData.toString());
 
 // Auto Save DB
-setInterval(() => {
+const saveLoop = setInterval(() => {
     save(data);
 }, 10 * 1000);
 
 function exitHandler(options: string, exitCode: any) {
-    if (options == "exit") save(data);
+    clearInterval(saveLoop);
+    if (options == "exit") save(data)
     else process.exit();
 }
 

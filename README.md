@@ -21,7 +21,6 @@
 #### Editor Features
 
 -   Export to PDF
--   [Math Typing](https://latexer.ymath.io/)
 -   Personal Dictionary for shorthand typing
 -   Wikepedia scraping for revelent info
 -   Markdown shortcuts (with rendering)

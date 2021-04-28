@@ -15,7 +15,6 @@
 -   Persistent navbar
 -   Logo and favicon
 -   Snippets div in the editor
--   Improved dragging
 -   User settings page
 
 #### Editor Features

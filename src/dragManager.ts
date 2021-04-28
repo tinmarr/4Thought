@@ -12,12 +12,11 @@ const sortable = new Sortable(document.getElementById("sortable") as HTMLElement
     draggable: ".drag",
     dataIdAttr: "id",
     direction: "vertical",
-    ghostClass: 'transparent'
+    ghostClass: 'transparent',
+    onSort: (ev: Sortable.SortableEvent) => {
+        let array = sortable.toArray();
+        send("/update-order", { order: array }, (res: any) => {
+            console.log(res);
+        });
+    },
 });
-
-// $(".sortable").on("mouseup", () => {
-//     let array = $(".sortable").sortable("toArray");
-//     send("/update-order", { order: array }, (res: any) => {
-//         console.log(res);
-//     });
-// });

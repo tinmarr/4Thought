@@ -87,7 +87,10 @@ router.post("/save", (req, res) => {
 // Update order of documents in dashboard
 router.post("/update-order", (req, res) => {
     let user: string = req.session?.userEmail;
-    return res.json("Did it! (but not really)");
+    for (let i = 0; i < req.body.order.length; i++) {
+        data[user].documents[req.body.order[i].substring(3)].position = i;
+    }
+    return res.json(data[user]);
 });
 
 // User Dashboard

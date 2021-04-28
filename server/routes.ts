@@ -12,7 +12,7 @@ export let data = JSON.parse(rawData.toString());
 // Auto Save DB
 setInterval(() => {
     save(data);
-}, 30 * 1000);
+}, 10 * 1000);
 
 function exitHandler(options: string, exitCode: any) {
     if (options == "exit") save(data);
@@ -79,7 +79,6 @@ router.post("/save", (req, res) => {
     data[user].documents[req.body.id] = {
         name: req.body.name,
         delta: req.body.delta,
-        postion: Object.keys(data[user].documents).length,
     };
     return res.json("synced");
 });
@@ -87,10 +86,12 @@ router.post("/save", (req, res) => {
 // Update order of documents in dashboard
 router.post("/update-order", (req, res) => {
     let user: string = req.session?.userEmail;
+    let sortedDocuments: object[] = [];
     for (let i = 0; i < req.body.order.length; i++) {
-        data[user].documents[req.body.order[i].substring(3)].position = i;
+        sortedDocuments[i] = data[user].documents[req.body.order[i].substring(3)];
     }
-    return res.json(data[user]);
+    data[user].documents = { ...sortedDocuments };
+    return res.json("updated order");
 });
 
 // User Dashboard
@@ -98,7 +99,11 @@ router.get("/home", (req, res) => {
     if (req.session?.userEmail == null) {
         res.redirect("/user?new=false");
     } else {
-        return res.render("userHome", { title: "Editor", userData: data[req.session.userEmail], error_messages: req.flash("error") });
+        return res.render("userHome", {
+            title: "Editor",
+            userData: data[req.session.userEmail],
+            error_messages: req.flash("error"),
+        });
     }
 });
 

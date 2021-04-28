@@ -26,7 +26,7 @@
 -   Markdown shortcuts (with rendering)
 -   Define Key words / Highlighted words
 -   Key word auto-detect
--   Image manipulation in editor
+-   Image manipulation in editor (Kindof Done)
 -   Drawing tool
 -   Speech to text
 -   Transcribe images

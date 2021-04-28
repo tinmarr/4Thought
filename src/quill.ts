@@ -1,5 +1,4 @@
 import Quill from "quill";
-import QuillBetterTable from "quill-better-table";
 import * as Emoji from "quill-emoji";
 
 /// <reference path="./documentManager.ts"/>
@@ -11,7 +10,6 @@ const quill: Quill = new Quill("#editor", {
         toolbar: { container: "#toolbar", handlers: { emoji: () => {} } },
         formula: true,
         "emoji-toolbar": true,
-        "emoji-textarea": true,
         "emoji-shortname": true,
     },
     placeholder: "start typing...",

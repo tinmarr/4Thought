@@ -1,8 +1,19 @@
 import Quill from "quill";
+import QuillBetterTable from "quill-better-table";
+import * as Emoji from "quill-emoji";
+
 /// <reference path="./documentManager.ts"/>
 
+Quill.register("modules/emoji", Emoji);
+
 const quill: Quill = new Quill("#editor", {
-    modules: { toolbar: "#toolbar", formula: true },
+    modules: {
+        toolbar: { container: "#toolbar", handlers: { emoji: () => {} } },
+        formula: true,
+        "emoji-toolbar": true,
+        "emoji-textarea": true,
+        "emoji-shortname": true,
+    },
     placeholder: "start typing...",
     theme: "snow",
 });

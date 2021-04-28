@@ -15,6 +15,8 @@ app.use([
     express.static(path.join(__dirname, "../node_modules/mathquill4quill/build")),
     express.static(path.join(__dirname, "../node_modules/mathquill/build")),
     express.static(path.join(__dirname, "../node_modules/katex/dist")),
+    express.static(path.join(__dirname, "../node_modules/quill-better-table/dist")),
+    express.static(path.join(__dirname, "../node_modules/quill-emoji/dist")),
     express.static(path.join(__dirname, "../dist/src")),
     express.static(path.join(__dirname, "../css")),
     session({ keys: [process.env.SECRET || "thisisasecret"], maxAge: 24 * 60 * 60 * 1000 }),

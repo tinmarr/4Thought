@@ -3,11 +3,11 @@ extends layout
 block layout-content 
     div.w-95.mx-auto.mt-4
         a.btn.float-end.p-0(href="./logout")
-            svg.bi.text-secondary(width="1.5rem", height="1.5rem")
+            svg.bi.text-secondary.icon-15rem
                 use(xlink:href="bootstrap-icons.svg#box-arrow-right")
         h1.p-0.m-0 #{userData.name}'s notes
         a.btn.p-0.my-3.rounded-circle.border.border-2.border-primary.text-primary.text-center(href="./document")
-            svg.bi.text-primary.align-middle(width="2rem" height="2rem")
+            svg.bi.text-primary.align-middle.icon-20rem
                 use(xlink:href="bootstrap-icons.svg#plus")
         .sortable.user-select-none#sortable
             each document in Object.keys(userData.documents)
@@ -20,10 +20,10 @@ block layout-content
                         .flex-grow-1
                         .m-0.p-0.d-flex-inline
                             a.btn.p-0.my-1.mx-2(href=redirect) 
-                                svg.bi.text-secondary(width="1.5rem", height="1.5rem")
+                                svg.bi.text-secondary.icon-15rem
                                     use(xlink:href="bootstrap-icons.svg#pencil-square")
                             a.btn.p-0.my-1.mx-2(onclick="deleteDoc(" + document + ")", id="delete" + document)
-                                svg.bi.text-danger(width="1.5rem", height="1.5rem")
+                                svg.bi.text-danger.icon-15rem
                                     use(xlink:href="bootstrap-icons.svg#trash")
         if Object.keys(userData.documents).length != 0
             .my-3.invisible#noneLeft

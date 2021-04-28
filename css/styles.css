@@ -22,3 +22,23 @@
 .drag {
     cursor: grab;
 }
+
+.icon-05rem {
+    width: 0.5rem;
+    height: 0.5rem;
+}
+
+.icon-10rem {
+    width: 1rem;
+    height: 1rem;
+}
+
+.icon-15rem {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.icon-20rem {
+    width: 2rem;
+    height: 2rem;
+}

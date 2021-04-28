@@ -12,6 +12,7 @@ const sortable = new Sortable(document.getElementById("sortable") as HTMLElement
     draggable: ".drag",
     dataIdAttr: "id",
     direction: "vertical",
+    ghostClass: 'transparent'
 });
 
 // $(".sortable").on("mouseup", () => {

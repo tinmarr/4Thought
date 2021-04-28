@@ -1,16 +1,19 @@
 import Quill from "quill";
 /// <reference path="./documentManager.ts"/>
 
-let identifier: string;
-
 const quill: Quill = new Quill("#editor", {
     modules: { toolbar: "#toolbar" },
     placeholder: "start typing...",
     theme: "snow",
 });
 
+const identifier: string = document.currentScript?.getAttribute("note-id")!;
+const data = JSON.parse(document.currentScript?.getAttribute("doc-data")!);
+
+quill.setContents(data.delta);
+
 window.onload = () => {
-    identifier = document.getElementById("identifier")!.innerText;
+    if (data.name != null && data.name != "untitled note") (<HTMLInputElement>document.getElementById("notename")).value = data.name;
 
     const syncBtn = document.getElementById("sync-btn")!;
     syncBtn.onclick = function () {

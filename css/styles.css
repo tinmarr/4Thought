@@ -11,7 +11,7 @@
 }
 
 .rotating {
-    animation: rotation 1.5s ease-in-out;
+    animation: rotation 1s ease-in-out;
 }
 
 @keyframes rotation {

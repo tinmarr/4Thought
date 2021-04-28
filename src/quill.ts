@@ -21,7 +21,7 @@ window.onload = () => {
             syncBtn.classList.add("rotating");
             setTimeout(() => {
                 syncBtn.classList.remove("rotating");
-            }, 1500);
+            }, 1000);
         }
         
         const noteName = (<HTMLInputElement>document.getElementById("notename")).value || "untitled note";

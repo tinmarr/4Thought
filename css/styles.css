@@ -6,10 +6,6 @@
     width: 95%;
 }
 
-.transparent {
-    opacity: 0;
-}
-
 .rotating {
     animation: rotation 1s ease-in-out;
 }

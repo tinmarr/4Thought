@@ -12,7 +12,7 @@ const sortable = new Sortable(document.getElementById("sortable") as HTMLElement
     draggable: ".drag",
     dataIdAttr: "id",
     direction: "vertical",
-    ghostClass: 'transparent',
+    ghostClass: "invisible",
     onSort: (ev: Sortable.SortableEvent) => {
         let array = sortable.toArray();
         send("/update-order", { order: array }, (res: any) => {

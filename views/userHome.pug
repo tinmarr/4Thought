@@ -6,10 +6,10 @@ block layout-content
             a.btn.btn-secondary.position-absolute.top-50.end-0.translate-middle-y(href="./logout") logout
             h1 #{userData.name}'s notes
         a.btn.btn-primary(href="./document") new notepad
-        .sortable
+        .sortable.user-select-none#sortable
             each document in Object.keys(userData.documents)
                 .w-75.drag(id="doc"+document)
-                    hr(id="bar"+document)
+                    hr
                     .my-3.d-flex.align-middle(id=document)
                         .m-0.py-2.d-inline
                             | #{userData.documents[document].name}
@@ -26,7 +26,7 @@ block layout-content
             .my-3#noneLeft
                 hr.w-75
                 | No Documents Yet!
-    script(src="./dragManager.js")
+    script(src="./dragManager.bundle.js")
     script(src="./documentManager.js") 
     script
         | numOfDocs = !{Object.keys(userData.documents).length}

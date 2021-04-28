@@ -1,26 +1,22 @@
-/// <reference types="jquery" />
 /// <reference path="./documentManager.ts" />
 
-$(".sortable")
-    .sortable({
-        revert: true,
-        appendTo: $(".sortable"),
-        cancel: "a",
-        delay: 500,
-        opacity: 0.5,
-        scroll: false,
-        zIndex: 5,
-    })
-    .disableSelection();
+import Sortable from "sortablejs";
 
-$(".drag").draggable({
-    connectToSortable: ".sortable",
-    revert: "invalid",
+const sortable = new Sortable(document.getElementById("sortable") as HTMLElement, {
+    group: {
+        name: "documents",
+        pull: true,
+    },
+    sort: true,
+    animation: 150,
+    draggable: ".drag",
+    dataIdAttr: "id",
+    direction: "vertical",
 });
 
-$(".sortable").on("mouseup", () => {
-    let array = $(".sortable").sortable("toArray");
-    send("/update-order", { order: array }, (res: any) => {
-        console.log(res);
-    });
-});
+// $(".sortable").on("mouseup", () => {
+//     let array = $(".sortable").sortable("toArray");
+//     send("/update-order", { order: array }, (res: any) => {
+//         console.log(res);
+//     });
+// });

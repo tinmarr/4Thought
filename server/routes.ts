@@ -5,8 +5,11 @@ import { save, User } from "./dbHandler";
 
 export const router = express.Router();
 
+// Get Data
 let rawData = fs.readFileSync("./data.json");
 export let data = JSON.parse(rawData.toString());
+
+// Auto Save DB
 setInterval(() => {
     save(data);
 }, 30 * 1000);
@@ -20,10 +23,13 @@ function exitHandler(options: string, exitCode: any) {
     process.on(eventType, exitHandler.bind(null, eventType));
 });
 
+// Routes
+// Index
 router.get("/", (req, res) => {
     res.render("index", { title: "Home", error_messages: req.flash("error") });
 });
 
+// Login Manager
 router.get("/user", (req, res) => {
     res.render("authPage", { title: "Login", newUser: req.query.new == "true", error_messages: req.flash("error") });
 });
@@ -61,11 +67,13 @@ router.post("/user", (req, res, next) => {
     }
 });
 
+// Logout Manager
 router.get("/logout", (req, res) => {
     if (req.session?.userEmail != null) req.session.userEmail = null;
     return res.redirect("/");
 });
 
+// Document Saver
 router.post("/save", (req, res) => {
     let user: string = req.session?.userEmail;
     data[user].documents[req.body.id] = {
@@ -76,11 +84,13 @@ router.post("/save", (req, res) => {
     return res.json("synced");
 });
 
+// Update order of documents in dashboard
 router.post("/update-order", (req, res) => {
     let user: string = req.session?.userEmail;
     return res.json("Did it! (but not really)");
 });
 
+// User Dashboard
 router.get("/home", (req, res) => {
     if (req.session?.userEmail == null) {
         res.redirect("/user?new=false");
@@ -89,6 +99,7 @@ router.get("/home", (req, res) => {
     }
 });
 
+// Actual Editor
 router.get("/document", (req, res) => {
     let id: string;
     let user: string = req.session?.userEmail;

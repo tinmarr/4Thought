@@ -14,4 +14,13 @@ module.exports = [
             path: pth,
         },
     },
+    {
+        mode: mode,
+        watch: watch,
+        entry: "./dist/src/dragManager.js",
+        output: {
+            filename: "dragManager.bundle.js",
+            path: pth,
+        },
+    },
 ];

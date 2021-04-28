@@ -15,11 +15,8 @@ let numOfDocs: number;
 function deleteDoc(id: string): void {
     send("/document", { id: id }, (res: any) => {
         console.log(res);
-        $("#" + id).fadeOut(400, () => {
-            document.getElementById(id)?.remove();
-        });
-        $("#bar" + id).fadeOut(400, () => {
-            document.getElementById("bar" + id)?.remove();
+        $("#doc" + id).fadeOut(400, () => {
+            document.getElementById("doc" + id)?.remove();
             numOfDocs--;
             if (numOfDocs == 0) {
                 document.getElementById("noneLeft")?.classList.remove("invisible");

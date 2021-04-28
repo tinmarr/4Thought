@@ -1,4 +1,5 @@
 import Quill from "quill";
+import QuillMarkdown from "quilljs-markdown";
 /// <reference path="./documentManager.ts"/>
 
 const quill: Quill = new Quill("#editor", {
@@ -6,6 +7,7 @@ const quill: Quill = new Quill("#editor", {
     placeholder: "start typing...",
     theme: "snow",
 });
+const markdownShortcuts = new QuillMarkdown(quill, {});
 
 declare function mathquill4quill(): any;
 var enableMathQuillFormulaAuthoring = mathquill4quill();

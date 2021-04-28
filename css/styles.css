@@ -19,7 +19,7 @@
     }
 }
 
-.drag {
+.handle {
     cursor: grab;
 }
 
@@ -41,4 +41,9 @@
 .icon-20rem {
     width: 2rem;
     height: 2rem;
+}
+
+.icon-longrem {
+    width: 2rem;
+    height: 1rem;
 }

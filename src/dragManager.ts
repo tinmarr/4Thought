@@ -13,6 +13,7 @@ const sortable = new Sortable(document.getElementById("sortable") as HTMLElement
     dataIdAttr: "id",
     direction: "vertical",
     ghostClass: "invisible",
+    handle: ".handle",
     onSort: (ev: Sortable.SortableEvent) => {
         let array = sortable.toArray();
         send("/update-order", { order: array }, (res: any) => {

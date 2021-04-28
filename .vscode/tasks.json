@@ -41,7 +41,7 @@
         {
             "label": "Start Webpack Bundling",
             "type": "shell",
-            "command": "npm run devBuild",
+            "command": "npm install && npm run devBuild",
             "presentation": {
                 "group": "startTypescript",
                 "echo": true,

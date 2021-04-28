@@ -16,7 +16,7 @@ const data = JSON.parse(document.currentScript?.getAttribute("doc-data")!);
 quill.setContents(data.delta);
 
 window.onload = () => {
-    if (data.name != null && data.name != "untitled note") (<HTMLInputElement>document.getElementById("notename")).value = data.name;
+    if (data.name != null && data.name != "untitled note") (document.getElementById("notename") as HTMLInputElement).value = data.name;
 
     const syncBtn = document.getElementById("sync-btn")!;
     syncBtn.onclick = function () {

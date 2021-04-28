@@ -16,7 +16,7 @@ const saveLoop = setInterval(() => {
 
 function exitHandler(options: string, exitCode: any) {
     clearInterval(saveLoop);
-    if (options == "exit") save(data)
+    if (options == "exit") save(data);
     else process.exit();
 }
 
@@ -126,4 +126,9 @@ router.post("/document", (req, res) => {
     let user: string = req.session?.userEmail;
     delete data[user].documents[req.body.id];
     return res.json("deleted");
+});
+
+// Settings Page
+router.get("/settings", (req, res) => {
+    return res.render("userSettings", { title: "Settings", error_messages: req.flash("error") });
 });

@@ -32,3 +32,5 @@ block layout-content
             button.btn.btn-primary(type="submit") Log In
             br
             a(href="./user?new=true") Need a new account?
+        .m-0.p-0.text-danger#alerts
+        script(src="./loginManager.js", new-user=newUser.toString(), defer)

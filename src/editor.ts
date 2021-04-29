@@ -59,7 +59,18 @@ syncBtn.onclick = function () {
         }, 1000);
     }
 
-    const noteName = (<HTMLInputElement>document.getElementById("notename")).value || "untitled note";
+    let noteName: string;
+    if ((<HTMLInputElement>document.getElementById("notename")).value == "") {
+        if ((<HTMLElement>document.getElementsByClassName("ql-editor")[0]).innerText != "\n") {
+            let list: string[] = (<HTMLElement>document.getElementsByClassName("ql-editor")[0]).innerText.split(" ");
+            noteName = list.length > 5 ? list.splice(0, 5).join(" ") : list.join(" ");
+        } else {
+            noteName = "Untitled Note";
+        }
+    } else {
+        noteName = (<HTMLInputElement>document.getElementById("notename")).value;
+    }
+
     let data = {
         id: identifier,
         name: noteName,

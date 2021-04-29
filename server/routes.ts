@@ -100,11 +100,15 @@ router.get("/home", (req, res) => {
     if (req.session?.userEmail == null) {
         res.redirect("/user?new=false");
     } else {
-        return res.render("userHome", {
-            title: "Editor",
-            userData: data[req.session.userEmail],
-            error_messages: req.flash("error"),
-        });
+        if (data[req.session.userEmail] == null) {
+            return res.redirect("/logout");
+        } else {
+            return res.render("userHome", {
+                title: "Editor",
+                userData: data[req.session.userEmail],
+                error_messages: req.flash("error"),
+            });
+        }
     }
 });
 

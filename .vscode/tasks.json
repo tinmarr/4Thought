@@ -13,7 +13,7 @@
         {
             "label": "Start Server",
             "type": "shell",
-            "command": "nodemon dist/app.js",
+            "command": "npm install && nodemon dist/app.js",
             "presentation": {
                 "group": "startTypescript",
                 "echo": true,
@@ -41,7 +41,7 @@
         {
             "label": "Start Webpack Bundling",
             "type": "shell",
-            "command": "npm install && npm run devBuild",
+            "command": "npm run devBuild",
             "presentation": {
                 "group": "startTypescript",
                 "echo": true,

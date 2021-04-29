@@ -2,7 +2,7 @@ extends layout
 
 block layout-content
     .mx-auto.w-95.mt-4.position-relative
-        input.w-75.h1.border-0.outline-0#notename(placeholder="name your note", spellcheck="false")
+        input.w-75.h1.border-0.outline-0#notename(placeholder="name your note", spellcheck="false", type="text")
         a.btn.float-end(href="./home")
             svg.text-secondary.icon-20rem
                 use(xlink:href="bootstrap-icons.svg#x")
@@ -29,19 +29,18 @@ block layout-content
                 button.ql-list(value="bullet")
             span.ql-formats 
                 button.ql-image
+                button.ql-video
                 button.ql-formula
             span.ql-formats 
                 button.ql-blockquote 
                 button.ql-code-block
-            span.ql-formats 
-                button#add-texting-shortcuts
+            span.ql-formats
+                button.text-shortcuts#add-texting-shortcuts(data-bs-toggle="popover")
                     svg(width="18" height="18" viewBox="0 0 24 24")
-                        path.ql-fill(d="M9 12l-4.463 4.969-4.537-4.969h3c0-4.97 4.03-9 9-9 2.395 0 4.565.942 6.179 2.468l-2.004 2.231c-1.081-1.05-2.553-1.699-4.175-1.699-3.309 0-6 2.691-6 6h3zm10.463-4.969l-4.463 4.969h3c0 3.309-2.691 6-6 6-1.623 0-3.094-.65-4.175-1.699l-2.004 2.231c1.613 1.526 3.784 2.468 6.179 2.468 4.97 0 9-4.03 9-9h3l-4.537-4.969z")
-            span.ql-formats    
-                div#texting-toggle(class="form-check form-switch")
-                    input(name = "input-texting-toggle", class="form-check-input", type="checkbox", id="flexSwitchCheckDefault", checked = false)
-                    label(class="form-check-label", for="flexSwitchCheckDefault", Default = "switch checkbox input")
-
+                        use(xlink:href="bootstrap-icons.svg#book")
+                    span.invisible#text-shortcuts-popover
+                        span.form-check.form-switch.align-middle.align-text-bottom.position-relative.end-50.start-50.translate-middle-x.m-0#texting-toggle
+                            input.form-check-input(type="checkbox", checked = false)
             span.ql-formats.float-end
                 button#sync-btn
                     svg(width="18" height="18" viewBox="0 0 24 24")

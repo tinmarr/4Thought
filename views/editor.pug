@@ -39,8 +39,11 @@ block layout-content
                     svg(width="18" height="18" viewBox="0 0 24 24")
                         use(xlink:href="bootstrap-icons.svg#book")
                     span.invisible#text-shortcuts-popover
-                        span.form-check.form-switch.align-middle.align-text-bottom.position-relative.end-50.start-50.translate-middle-x.m-0#texting-toggle
-                            input.form-check-input(type="checkbox", checked = false)
+                        input#in(type="text", class="form-control", placeholder="IN")
+                        input.my-2#out(type="text", class="form-control", placeholder="OUT")
+                        input(type="checkbox" class="btn-check" id="btn-check-2-outlined" checked autocomplete="off")
+                        label(class="btn btn-outline-secondary" for="btn-check-2-outlined")
+                        a.mx-2.d-inline(class="btn btn-outline-secondary", type="button", id="button-addon2") Button
             span.ql-formats.float-end
                 button#sync-btn
                     svg(width="18" height="18" viewBox="0 0 24 24")

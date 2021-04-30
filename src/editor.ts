@@ -31,24 +31,24 @@ quill.setContents(data.delta);
 
 if (data.name != null && data.name != "untitled note") (document.getElementById("notename") as HTMLInputElement).value = data.name;
 
-const textingBtn = document.getElementById("add-texting-shortcuts")!;
-let textshortcuts: object = {};
-textingBtn.onclick = function () {
-    // pull up a place to add shortcuts
-    // var range = quill.getSelection();
-    // if (range) {
-    //     quill.insertText(range.index, "┼");
-    // }
-    console.log("yet to be implemented. Should create popup where you can add shortcuts");
-    const shortucts = "nothing"; // added texting shortcuts || {}
-};
-const textingToggle = document.getElementById("texting-toggle")!;
-let textingToggleState: boolean = false;
-textingToggle.onchange = function () {
-    const inpt = document.getElementsByName("input-texting-toggle")[0]! as HTMLInputElement;
-    textingToggleState = inpt.checked;
-    console.log(`toggled to ${textingToggleState.valueOf()}`);
-};
+// const textingBtn = document.getElementById("add-texting-shortcuts")!;
+// let textshortcuts: object = {};
+// textingBtn.onclick = function () {
+//     // pull up a place to add shortcuts
+//     // var range = quill.getSelection();
+//     // if (range) {
+//     //     quill.insertText(range.index, "┼");
+//     // }
+//     console.log("yet to be implemented. Should create popup where you can add shortcuts");
+//     const shortucts = "nothing"; // added texting shortcuts || {}
+// };
+// const textingToggle = document.getElementById("texting-toggle")!;
+// let textingToggleState: boolean = false;
+// textingToggle.onchange = function () {
+//     const inpt = document.getElementsByName("input-texting-toggle")[0]! as HTMLInputElement;
+//     textingToggleState = inpt.checked;
+//     console.log(`toggled to ${textingToggleState.valueOf()}`);
+// };
 
 const syncBtn = document.getElementById("sync-btn")!;
 syncBtn.onclick = function () {
@@ -75,7 +75,7 @@ syncBtn.onclick = function () {
         id: identifier,
         name: noteName,
         delta: quill.getContents(),
-        txtshortcuts: textshortcuts,
+        // txtshortcuts: textshortcuts,
     };
     send("/save", data, (res: any) => {
         console.log(res);

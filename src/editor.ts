@@ -94,6 +94,13 @@ window.quill = quill;
 let popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]#add-texting-shortcuts'));
 let popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
     let content = document.getElementById("text-shortcuts-popover")?.innerHTML;
-    let options = { container: "body", sanitize: false, html: true, placement: "bottom", content: content };
+    let options = {
+        container: "body",
+        sanitize: false,
+        html: true,
+        placement: "bottom",
+        content: content,
+        trigger: "click",
+    };
     return new window.bootstrap.Popover(popoverTriggerEl, options);
 });

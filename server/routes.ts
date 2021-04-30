@@ -134,5 +134,5 @@ router.post("/document", (req, res) => {
 
 // Settings Page
 router.get("/settings", (req, res) => {
-    return res.render("userSettings", { title: "Settings", error_messages: req.flash("error") });
+    return res.render("userSettings", { title: "Settings", userData: data[req.session?.userEmail], error_messages: req.flash("error") });
 });

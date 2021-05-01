@@ -13,7 +13,7 @@ function send(loc: string, content: object, handler: Function): void {
 let numOfDocs: number;
 
 function deleteDoc(id: string): void {
-    send("/document", { id: id }, (res: any) => {
+    send("/delete-doc", { id: id }, (res: any) => {
         console.log(res);
         $("#doc" + id).fadeOut(400, () => {
             document.getElementById("doc" + id)?.remove();

@@ -36,7 +36,6 @@
         "webpack-cli": "^4.6.0"
     },
     "dependencies": {
-        "@fortawesome/fontawesome-free": "^5.15.3",
         "bootstrap": "^5.0.0-beta3",
         "cookie-parser": "^1.4.5",
         "cookie-session": "^1.4.0",

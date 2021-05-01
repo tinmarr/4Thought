@@ -52,11 +52,11 @@ textingToggle.onchange = function () {
 
 const syncBtn = document.getElementById("sync-btn")!;
 syncBtn.onclick = function () {
-    if (!syncBtn.classList.contains("rotating")) {
-        syncBtn.classList.add("rotating");
+    if (!syncBtn.children[0].classList.contains("fa-spin")) {
+        syncBtn.children[0].classList.add("fa-spin");
         setTimeout(() => {
-            syncBtn.classList.remove("rotating");
-        }, 1000);
+            syncBtn.children[0].classList.remove("fa-spin");
+        }, 2000);
     }
 
     let noteName: string;

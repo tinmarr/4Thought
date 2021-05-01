@@ -3,33 +3,27 @@ extends layout
 block layout-content 
     div.w-95.mx-auto.mt-4
         a.btn.float-end.p-0(href="./logout")
-            svg.bi.text-secondary.icon-15rem
-                use(xlink:href="bootstrap-icons.svg#box-arrow-right")
+            i.far.fa-sign-out.text-secondary.fa-2x
         a.btn.float-end.p-0.mx-3(href="./settings")
-            svg.bi.text-secondary.icon-15rem 
-                use(xlink:href="bootstrap-icons.svg#gear")
+            i.far.fa-cog.text-secondary.fa-2x
         h1.p-0.m-0.text-secondary #{userData.name}'s notes
-        a.btn.p-0.my-3.rounded-circle.border.border-2.border-primary.text-primary.text-center(href="./document")
-            svg.bi.text-primary.align-middle.icon-20rem
-                use(xlink:href="bootstrap-icons.svg#plus")
+        a.btn.my-3.p-0.rounded-circle.border.border-2.border-primary.text-primary.text-center(href="./document")
+            i.far.fa-plus.fa-lg.m-2.align-middle.text-center
         .sortable.user-select-none#sortable
             each document in Object.keys(userData.documents)
                 .w-75.drag(id="doc"+document)
                     hr.p-0.m-0
                     .my-3.d-flex.align-middle(id=document)
                         .m-0.py-2.d-inline
-                            svg.bi.icon-longrem.me-3.align-text-top.handle(preserveAspectRatio="none", viewbox="0 0 32 32")
-                                use(xlink:href="bootstrap-icons.svg#list")
+                            i.fas.fa-bars.me-3.ms-1.handle(style="transform: scale(1.25,1);")
                             | #{userData.documents[document].name}
                             - let redirect = "./document?id=" + document
                         .flex-grow-1
                         .m-0.p-0.d-flex-inline
                             a.btn.p-0.my-1.mx-2(href=redirect) 
-                                svg.bi.text-secondary.icon-15rem
-                                    use(xlink:href="bootstrap-icons.svg#pencil-square")
+                                i.far.fa-edit.text-secondary.fa-lg
                             a.btn.p-0.my-1.mx-2(onclick="deleteDoc(" + document + ")", id="delete" + document)
-                                svg.bi.text-danger.icon-15rem
-                                    use(xlink:href="bootstrap-icons.svg#trash")
+                                i.far.fa-trash-alt.text-danger.fa-lg
         if Object.keys(userData.documents).length != 0
             .my-3.invisible#noneLeft
                 hr.w-75

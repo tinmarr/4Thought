@@ -1,6 +1,5 @@
 import Quill from "quill";
 import QuillMarkdown from "quilljs-markdown";
-import { html2pdf } from "html2pdf.js";
 /// <reference path="./documentManager.ts"/>
 
 const quill: Quill = new Quill("#editor", {
@@ -86,8 +85,9 @@ syncBtn.onclick = () => {
 const downloadButton = document.getElementById("downloadPDF")!;
 downloadButton.onclick = () => {
     let content: string = document.getElementsByClassName("ql-editor")[0]?.innerHTML!;
-    let worker = html2pdf()
-        .set({ margin: 1 })
+    let worker = window
+        .html2pdf()
+        .set({ margin: 15 })
         .from(content)
         .save(noteName + ".pdf");
 };
@@ -96,6 +96,7 @@ declare global {
     interface Window {
         quill: Quill;
         bootstrap: any;
+        html2pdf: any;
     }
 }
 

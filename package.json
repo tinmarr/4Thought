@@ -40,7 +40,6 @@
         "cookie-session": "^1.4.0",
         "express": "^5.0.0-alpha.8",
         "express-flash": "0.0.2",
-        "html2pdf.js": "^0.9.3",
         "katex": "^0.13.3",
         "mathquill": "^0.10.1-a",
         "mathquill4quill": "^2.2.0",

@@ -12,7 +12,7 @@ export let data = JSON.parse(rawData.toString());
 // Auto Save DB
 const saveLoop = setInterval(() => {
     save(data);
-}, 10 * 1000);
+}, 60 * 1000); // DO NOT MAKE THE SAVE INTERVAL MORE FREQUENT THAN A MINUTE
 
 function exitHandler(options: string, exitCode: any) {
     clearInterval(saveLoop);
@@ -126,7 +126,7 @@ router.get("/document", (req, res) => {
     return res.render("editor", { title: "Editor", error_messages: req.flash("error"), documentData: documentData, identifier: id });
 });
 
-router.post("/document", (req, res) => {
+router.post("/delete-doc", (req, res) => {
     let user: string = req.session?.userEmail;
     delete data[user].documents[req.body.id];
     return res.json("deleted");

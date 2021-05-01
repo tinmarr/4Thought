@@ -9,6 +9,10 @@
 
 ## Todo
 
+#### General
+
+-   Security overhaul
+
 #### User Interface
 
 -   Redesigned homepage

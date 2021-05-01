@@ -18,6 +18,7 @@ app.use([
     express.static(path.join(__dirname, "../node_modules/mathquill/build")),
     express.static(path.join(__dirname, "../node_modules/katex/dist")),
     express.static(path.join(__dirname, "../node_modules/@fortawesome/fontawesome-free/js")),
+    express.static(path.join(__dirname, "../node_modules/jspdf/dist")),
     session({ keys: [process.env.SECRET || "thisisasecret"], maxAge: 24 * 60 * 60 * 1000 }),
     express.json(),
     express.urlencoded({ extended: true }),

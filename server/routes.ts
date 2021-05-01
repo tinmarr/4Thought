@@ -2,8 +2,10 @@ import express from "express";
 import fs from "fs";
 
 import { save, User } from "./dbHandler";
+import { Queue } from "./queue";
 
 export const router = express.Router();
+export const queue = new Queue();
 
 // Get Data
 let rawData = fs.readFileSync("./data.json");
@@ -11,7 +13,7 @@ export let data = JSON.parse(rawData.toString());
 
 // Auto Save DB
 const saveLoop = setInterval(() => {
-    save(data);
+    queue.add(() => { save(data) });
 }, 60 * 1000); // DO NOT MAKE THE SAVE INTERVAL MORE FREQUENT THAN A MINUTE
 
 function exitHandler(options: string, exitCode: any) {
@@ -35,37 +37,39 @@ router.get("/user", (req, res) => {
     res.render("authPage", { title: "Login", newUser: req.query.new == "true", error_messages: req.flash("error") });
 });
 
-router.post("/user", (req, res, next) => {
-    let email: string = req.body.email;
-    let password: string = req.body.password;
-    let name: string | null = null;
-    let user: User | null = data[email];
-    if (user != null) {
-        if (req.body.newUser == "on") {
-            req.flash("error", "User already exists");
+router.post("/user", (req, res) => {
+    queue.add(() => {
+        let email: string = req.body.email;
+        let password: string = req.body.password;
+        let name: string | null = null;
+        let user: User | null = data[email];
+        if (user != null) {
+            if (req.body.newUser == "on") {
+                req.flash("error", "User already exists");
+                return res.redirect(req.url);
+            }
+
+            if (user.password == password) {
+                if (req.session != null) req.session.userEmail = email;
+                return res.redirect("/home");
+            }
+
+            req.flash("error", "Incorrect username or password");
+            return res.redirect(req.url);
+        } else {
+            if (req.body.newUser == "on") {
+                name = req.body.name;
+                data[email] = {
+                    name: name,
+                    password: password,
+                    documents: {},
+                };
+                return res.redirect("/home");
+            }
+            req.flash("error", "Incorrect username or password");
             return res.redirect(req.url);
         }
-
-        if (user.password == password) {
-            if (req.session != null) req.session.userEmail = email;
-            return res.redirect("/home");
-        }
-
-        req.flash("error", "Incorrect username or password");
-        return res.redirect(req.url);
-    } else {
-        if (req.body.newUser == "on") {
-            name = req.body.name;
-            data[email] = {
-                name: name,
-                password: password,
-                documents: {},
-            };
-            return res.redirect("/home");
-        }
-        req.flash("error", "Incorrect username or password");
-        return res.redirect(req.url);
-    }
+    });
 });
 
 // Logout Manager
@@ -76,23 +80,27 @@ router.get("/logout", (req, res) => {
 
 // Document Saver
 router.post("/save", (req, res) => {
-    let user: string = req.session?.userEmail;
-    data[user].documents[req.body.id] = {
-        name: req.body.name,
-        delta: req.body.delta,
-    };
-    return res.json("synced");
+    queue.add(() => {
+        let user: string = req.session?.userEmail;
+        data[user].documents[req.body.id] = {
+            name: req.body.name,
+            delta: req.body.delta,
+        };
+        return res.json("synced");
+    });
 });
 
 // Update order of documents in dashboard
 router.post("/update-order", (req, res) => {
-    let user: string = req.session?.userEmail;
-    let sortedDocuments: object[] = [];
-    for (let i = 0; i < req.body.order.length; i++) {
-        sortedDocuments[i] = data[user].documents[req.body.order[i].substring(3)];
-    }
-    data[user].documents = { ...sortedDocuments };
-    return res.json("updated order");
+    queue.add(() => {
+        let user: string = req.session?.userEmail;
+        let sortedDocuments: object[] = [];
+        for (let i = 0; i < req.body.order.length; i++) {
+            sortedDocuments[i] = data[user].documents[req.body.order[i].substring(3)];
+        }
+        data[user].documents = { ...sortedDocuments };
+        return res.json("updated order");
+    });
 });
 
 // User Dashboard
@@ -127,9 +135,11 @@ router.get("/document", (req, res) => {
 });
 
 router.post("/delete-doc", (req, res) => {
-    let user: string = req.session?.userEmail;
-    delete data[user].documents[req.body.id];
-    return res.json("deleted");
+    queue.add(() => {
+        let user: string = req.session?.userEmail;
+        delete data[user].documents[req.body.id];
+        return res.json("deleted");
+    });
 });
 
 // Settings Page

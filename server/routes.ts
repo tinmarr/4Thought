@@ -3,17 +3,27 @@ import fs from "fs";
 
 import { save, User } from "./dbHandler";
 import { Queue } from "./queue";
+import { Encrypter } from "./encrypter";
 
 export const router = express.Router();
 export const queue = new Queue();
 
+const crypt = new Encrypter();
+
 // Get Data
 let rawData = fs.readFileSync("./data.json");
-export let data = JSON.parse(rawData.toString());
+export let data;
+try {
+    data = JSON.parse(rawData.toString());
+} catch (err) {
+    data = {};
+}
 
 // Auto Save DB
 const saveLoop = setInterval(() => {
-    queue.add(() => { save(data) });
+    queue.add(() => {
+        save(data);
+    });
 }, 60 * 1000); // DO NOT MAKE THE SAVE INTERVAL MORE FREQUENT THAN A MINUTE
 
 function exitHandler(options: string, exitCode: any) {
@@ -42,14 +52,14 @@ router.post("/user", (req, res) => {
         let email: string = req.body.email;
         let password: string = req.body.password;
         let name: string | null = null;
-        let user: User | null = data[email];
+        let user: { password: { iv: string; encryptedData: string } } = data[email];
         if (user != null) {
             if (req.body.newUser == "on") {
                 req.flash("error", "User already exists");
                 return res.redirect(req.url);
             }
 
-            if (user.password == password) {
+            if (crypt.decrypt(user.password) == password) {
                 if (req.session != null) req.session.userEmail = email;
                 return res.redirect("/home");
             }
@@ -61,7 +71,7 @@ router.post("/user", (req, res) => {
                 name = req.body.name;
                 data[email] = {
                     name: name,
-                    password: password,
+                    password: crypt.encryptText(password),
                     documents: {},
                 };
                 return res.redirect("/home");

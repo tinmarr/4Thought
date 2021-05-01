@@ -37,8 +37,10 @@ block layout-content
                 button.text-shortcuts.p-0#add-texting-shortcuts(data-bs-toggle="popover")
                     i.fas.fa-book-open.fa-sm
                     span.invisible#text-shortcuts-popover
-                        div.form-check.form-switch#texting-toggle
-                            input.form-check-input(type="checkbox", checked = false)
+                        input#in(type="text", class="form-control", placeholder="IN")
+                        input.my-2#out(type="text", class="form-control", placeholder="OUT")
+                        a(class="btn btn-outline-primary" role="button" type="button" data-bs-toggle="button") Toggle 
+                        a.mx-2.d-inline(class="btn btn-outline-secondary", type="button", id="button-addon2") Button
                 button.p-0#downloadPDF 
                     i.fas.fa-arrow-to-bottom.fa-sm
             span.ql-formats.float-end

@@ -63,7 +63,16 @@ if ((<HTMLInputElement>document.getElementById("notename")).value == "") {
 }
 
 const syncBtn = document.getElementById("sync-btn")!;
-syncBtn.onclick = () => {
+syncBtn.onclick = save;
+
+const closeBtn: HTMLLinkElement = <HTMLLinkElement>document.getElementById("close")!;
+closeBtn.onclick = (e) => {
+    e.preventDefault();
+    save();
+    window.location.href = closeBtn.href;
+};
+
+function save(): void {
     if (!syncBtn.children[0].classList.contains("rotating")) {
         syncBtn.children[0].classList.add("rotating");
         setTimeout(() => {
@@ -80,7 +89,7 @@ syncBtn.onclick = () => {
     send("/save", data, (res: any) => {
         console.log(res);
     });
-};
+}
 
 const downloadButton = document.getElementById("downloadPDF")!;
 downloadButton.onclick = () => {

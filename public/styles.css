@@ -9,3 +9,26 @@
 .handle {
     cursor: grab;
 }
+
+.rotating {
+    animation: rotation 1s ease-in-out;
+}
+
+@keyframes rotation {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(359deg);
+    }
+}
+
+.fas::before {
+    position: relative;
+    top: 1px;
+}
+
+.fas p {
+    font-family: system-ui;
+    font-weight: 500;
+}

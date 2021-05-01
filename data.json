@@ -1,1 +1,1 @@
-{"a@a.com":{"name":"LOL","password":"a","documents":{"0":{"name":"Hello how are you doing","delta":{"ops":[{"insert":"Hello how are you doing joe?\n"}]}},"1":{"name":"Untitled Note","delta":{"ops":[{"insert":"\n"}]}}}}}
+{"a@a.com":{"name":"LOL","password":"a","documents":{"0":{"name":"Untitled Note","delta":{"ops":[{"insert":"\n"}]}},"1":{"name":"Hello how are you doing","delta":{"ops":[{"insert":"\n"}]}},"2":{"name":"kekw owo","delta":{"ops":[{"insert":"kekw owo\n"}]}}}}}

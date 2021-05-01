@@ -853,10 +853,10 @@
     font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
     padding: 8px;
 }
-.ql-toolbar.ql-snow .ql-formats:not(.right-fixed) {
+.ql-toolbar.ql-snow .ql-formats:not(.float-end) {
     margin-right: 15px;
 }
-.ql-toolbar.ql-snow .ql-formats.right-fixed {
+.ql-toolbar.ql-snow .ql-formats.float-end {
     margin-left: 15px;
 }
 /*

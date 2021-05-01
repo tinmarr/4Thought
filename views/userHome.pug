@@ -7,8 +7,9 @@ block layout-content
         a.btn.float-end.p-0.mx-3(href="./settings")
             i.far.fa-cog.text-secondary.fa-2x
         h1.p-0.m-0.text-secondary #{userData.name}'s notes
-        a.btn.my-3.p-0.rounded-circle.border.border-2.border-primary.text-primary.text-center(href="./document")
-            i.far.fa-plus.fa-lg.m-2.align-middle.text-center
+        a.btn.my-3.p-1.rounded-square.border-2.border-primary.text-primary(href="./document")
+            i.fas.fa-plus.fa-lg.m-2.align-middle
+                p.ps-2.d-inline new note
         .sortable.user-select-none#sortable
             each document in Object.keys(userData.documents)
                 .w-75.drag(id="doc"+document)

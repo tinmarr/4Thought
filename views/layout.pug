@@ -33,9 +33,9 @@ html(lang="en")
     body
         if error_messages 
             each message in error_messages 
-                div.alert.alert-warning.alert-dismissible.fade.show.m-0(role="alert")
+                .alert.alert-warning.alert-dismissible.fade.show.m-0(role="alert")
                     strong Oh Noes! 
                     |  #{message}
                     btn.btn-close(data-bs-dismiss="alert")
-        div.position-relative#root
+        .position-relative#root
             block layout-content 

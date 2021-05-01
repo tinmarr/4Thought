@@ -52,11 +52,11 @@ if (data.name != null && data.name != "untitled note") (document.getElementById(
 
 const syncBtn = document.getElementById("sync-btn")!;
 syncBtn.onclick = function () {
-    if (!syncBtn.children[0].classList.contains("fa-spin")) {
-        syncBtn.children[0].classList.add("fa-spin");
+    if (!syncBtn.children[0].classList.contains("rotating")) {
+        syncBtn.children[0].classList.add("rotating");
         setTimeout(() => {
-            syncBtn.children[0].classList.remove("fa-spin");
-        }, 2000);
+            syncBtn.children[0].classList.remove("rotating");
+        }, 1000);
     }
 
     let noteName: string;

@@ -23,7 +23,6 @@
 
 #### Editor Features
 
--   Export to PDF
 -   Personal Dictionary for shorthand typing
 -   Wikepedia scraping for revelent info
 -   Define Key words / Highlighted words

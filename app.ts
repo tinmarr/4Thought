@@ -11,13 +11,13 @@ const d = new Date();
 
 app.use([
     express.static(path.join(__dirname, "../node_modules/quill/dist")),
-    express.static(path.join(__dirname, "../node_modules/bootstrap-icons")),
     express.static(path.join(__dirname, "../node_modules/quilljs-markdown/dist/quilljs-markdown-common-style.css")),
     express.static(path.join(__dirname, "../dist/src")),
-    express.static(path.join(__dirname, "../css")),
+    express.static(path.join(__dirname, "../public")),
     express.static(path.join(__dirname, "../node_modules/mathquill4quill/build")),
     express.static(path.join(__dirname, "../node_modules/mathquill/build")),
     express.static(path.join(__dirname, "../node_modules/katex/dist")),
+    express.static(path.join(__dirname, "../node_modules/@fortawesome/fontawesome-free/js")),
     session({ keys: [process.env.SECRET || "thisisasecret"], maxAge: 24 * 60 * 60 * 1000 }),
     express.json(),
     express.urlencoded({ extended: true }),

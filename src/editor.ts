@@ -1,5 +1,6 @@
 import Quill from "quill";
 import QuillMarkdown from "quilljs-markdown";
+import { html2pdf } from "html2pdf.js";
 /// <reference path="./documentManager.ts"/>
 
 const quill: Quill = new Quill("#editor", {
@@ -50,25 +51,25 @@ if (data.name != null && data.name != "untitled note") (document.getElementById(
 //     console.log(`toggled to ${textingToggleState.valueOf()}`);
 // };
 
+let noteName: string;
+if ((<HTMLInputElement>document.getElementById("notename")).value == "") {
+    if ((<HTMLElement>document.getElementsByClassName("ql-editor")[0]).innerText != "\n") {
+        let list: string[] = (<HTMLElement>document.getElementsByClassName("ql-editor")[0]).innerText.split(" ");
+        noteName = list.length > 5 ? list.splice(0, 5).join(" ") : list.join(" ");
+    } else {
+        noteName = "Untitled Note";
+    }
+} else {
+    noteName = (<HTMLInputElement>document.getElementById("notename")).value;
+}
+
 const syncBtn = document.getElementById("sync-btn")!;
-syncBtn.onclick = function () {
+syncBtn.onclick = () => {
     if (!syncBtn.children[0].classList.contains("rotating")) {
         syncBtn.children[0].classList.add("rotating");
         setTimeout(() => {
             syncBtn.children[0].classList.remove("rotating");
         }, 1000);
-    }
-
-    let noteName: string;
-    if ((<HTMLInputElement>document.getElementById("notename")).value == "") {
-        if ((<HTMLElement>document.getElementsByClassName("ql-editor")[0]).innerText != "\n") {
-            let list: string[] = (<HTMLElement>document.getElementsByClassName("ql-editor")[0]).innerText.split(" ");
-            noteName = list.length > 5 ? list.splice(0, 5).join(" ") : list.join(" ");
-        } else {
-            noteName = "Untitled Note";
-        }
-    } else {
-        noteName = (<HTMLInputElement>document.getElementById("notename")).value;
     }
 
     let data = {
@@ -80,6 +81,15 @@ syncBtn.onclick = function () {
     send("/save", data, (res: any) => {
         console.log(res);
     });
+};
+
+const downloadButton = document.getElementById("downloadPDF")!;
+downloadButton.onclick = () => {
+    let content: string = document.getElementsByClassName("ql-editor")[0]?.innerHTML!;
+    let worker = html2pdf()
+        .set({ margin: 1 })
+        .from(content)
+        .save(noteName + ".pdf");
 };
 
 declare global {

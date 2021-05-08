@@ -49,18 +49,7 @@ if (data.name != null && data.name != "untitled note") (document.getElementById(
 //     textingToggleState = inpt.checked;
 //     console.log(`toggled to ${textingToggleState.valueOf()}`);
 // };
-
-let noteName: string;
-if ((<HTMLInputElement>document.getElementById("notename")).value == "") {
-    if ((<HTMLElement>document.getElementsByClassName("ql-editor")[0]).innerText != "\n") {
-        let list: string[] = (<HTMLElement>document.getElementsByClassName("ql-editor")[0]).innerText.split(" ");
-        noteName = list.length > 5 ? list.splice(0, 5).join(" ") : list.join(" ");
-    } else {
-        noteName = "Untitled Note";
-    }
-} else {
-    noteName = (<HTMLInputElement>document.getElementById("notename")).value;
-}
+let noteName: string = (<HTMLInputElement>document.getElementById("notename")).value;
 
 const syncBtn = document.getElementById("sync-btn")!;
 syncBtn.onclick = save;
@@ -73,6 +62,8 @@ closeBtn.onclick = (e) => {
 };
 
 function save(): void {
+    nameNote();
+
     if (!syncBtn.children[0].classList.contains("rotating")) {
         syncBtn.children[0].classList.add("rotating");
         setTimeout(() => {
@@ -91,8 +82,22 @@ function save(): void {
     });
 }
 
+function nameNote(): void {
+    if ((<HTMLInputElement>document.getElementById("notename")).value == "") {
+        if ((<HTMLElement>document.getElementsByClassName("ql-editor")[0]).innerText != "\n") {
+            let list: string[] = (<HTMLElement>document.getElementsByClassName("ql-editor")[0]).innerText.split(" ");
+            noteName = list.length > 5 ? list.splice(0, 5).join(" ") : list.join(" ");
+        } else {
+            noteName = "Untitled Note";
+        }
+    } else {
+        noteName = (<HTMLInputElement>document.getElementById("notename")).value;
+    }
+}
+
 const downloadButton = document.getElementById("downloadPDF")!;
 downloadButton.onclick = () => {
+    nameNote();
     let content: string = document.getElementsByClassName("ql-editor")[0]?.innerHTML!;
     let worker = window
         .html2pdf()

@@ -106,16 +106,6 @@ downloadButton.onclick = () => {
         .save(noteName + ".pdf");
 };
 
-declare global {
-    interface Window {
-        quill: Quill;
-        bootstrap: any;
-        html2pdf: any;
-    }
-}
-
-window.quill = quill;
-
 let popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]#add-texting-shortcuts'));
 let popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
     let content = document.getElementById("text-shortcuts-popover")?.innerHTML;
@@ -133,3 +123,41 @@ let popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
 window.onbeforeunload = (e: BeforeUnloadEvent) => {
     save();
 };
+
+function searchWikipedia(keyWord: string): any {
+    let url = "https://en.wikipedia.org/w/api.php";
+    let params = {
+        action: "query",
+        list: "search",
+        srsearch: keyWord,
+        format: "json",
+    };
+    url += "?origin=*";
+    Object.keys(params).forEach((key) => {
+        url += "&" + key + "=" + params[key];
+    });
+    fetch(url)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (response) {
+            if (response.query.search[0].title === keyWord) {
+                console.log(response.query.search[0].snippet);
+            }
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+}
+
+declare global {
+    interface Window {
+        quill: Quill;
+        bootstrap: any;
+        html2pdf: any;
+        searchWikipedia: any;
+    }
+}
+
+window.quill = quill;
+window.searchWikipedia = searchWikipedia;

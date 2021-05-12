@@ -5,47 +5,50 @@ block layout-content
         input.w-75.h1.border-0.outline-0#notename(placeholder="name your note", spellcheck="false", type="text")
         a.btn.float-end#close(href="./home")
             i.far.fa-times.fa-2x.text-secondary
-    .shadow-lg.rounded.bg-body.my-2.w-95.mx-auto
-        #toolbar
-            span.ql-formats
-                select.ql-header
-            span.ql-formats
-                select.ql-align
-            span.ql-formats
-                button.ql-bold
-                button.ql-italic
-                button.ql-underline
-                button.ql-strike 
-                button.ql-link 
-            span.ql-formats 
-                select.ql-color
-                select.ql-background
-            span.ql-formats
-                button.ql-script(value="sub")
-                button.ql-script(value="super") 
-            span.ql-formats 
-                button.ql-list(value="ordered")
-                button.ql-list(value="bullet")
-            span.ql-formats 
-                button.ql-image
-                button.ql-video
-                button.ql-formula
-            span.ql-formats 
-                button.ql-blockquote 
-                button.ql-code-block
-            span.ql-formats
-                button.text-shortcuts.p-0#add-texting-shortcuts(data-bs-toggle="popover")
-                    i.fas.fa-book-open.fa-sm
-                    span.invisible#text-shortcuts-popover
-                        input#in(type="text", class="form-control", placeholder="IN")
-                        input.my-2#out(type="text", class="form-control", placeholder="OUT")
-                        a(class="btn btn-outline-primary" role="button" type="button" data-bs-toggle="button") Toggle 
-                        a.mx-2.d-inline(class="btn btn-outline-secondary", type="button", id="button-addon2") Button
-                button.p-0#downloadPDF 
-                    i.fas.fa-arrow-to-bottom.fa-sm
-            span.ql-formats.float-end
-                button.p-0#sync-btn
-                    i.fas.fa-sync-alt.fa-sm
-        #editor
+    .w-95.mx-auto.my-2.position-relative
+        .shadow-lg.rounded.bg-body.w-75
+            #toolbar
+                span.ql-formats
+                    select.ql-header
+                span.ql-formats
+                    select.ql-align
+                span.ql-formats
+                    button.ql-bold
+                    button.ql-italic
+                    button.ql-underline
+                    button.ql-strike 
+                    button.ql-link 
+                span.ql-formats 
+                    select.ql-color
+                    select.ql-background
+                span.ql-formats
+                    button.ql-script(value="sub")
+                    button.ql-script(value="super") 
+                span.ql-formats 
+                    button.ql-list(value="ordered")
+                    button.ql-list(value="bullet")
+                span.ql-formats 
+                    button.ql-image
+                    button.ql-video
+                    button.ql-formula
+                span.ql-formats 
+                    button.ql-blockquote 
+                    button.ql-code-block
+                span.ql-formats
+                    button.text-shortcuts.p-0#add-texting-shortcuts(data-bs-toggle="popover")
+                        i.fas.fa-book-open.fa-sm
+                        span.invisible#text-shortcuts-popover
+                            input#in(type="text", class="form-control", placeholder="IN")
+                            input.my-2#out(type="text", class="form-control", placeholder="OUT")
+                            a(class="btn btn-outline-primary" role="button" type="button" data-bs-toggle="button") Toggle 
+                            a.mx-2.d-inline(class="btn btn-outline-secondary", type="button", id="button-addon2") Button
+                    button.p-0#downloadPDF 
+                        i.fas.fa-arrow-to-bottom.fa-sm
+                span.ql-formats.float-end
+                    button.p-0#sync-btn
+                        i.fas.fa-sync-alt.fa-sm
+            #editor
+        .shadow-lg.rounded.bg-body.w-24.position-absolute.top-0.end-0.d-flex.justify-content-center
+            p.my-2 No Suggestions Yet
     script(src="./documentManager.js")
     script(src="./editor.bundle.js", note-id=identifier, doc-data=documentData, defer)

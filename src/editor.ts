@@ -18,8 +18,8 @@ enum Format {
     raw,
     stringWithNoN,
 }
-function getText(format: Format) {
-    let thing: HTMLDivElement = document.getElementsByClassName("ql-editor")[0];
+function getText(format: Format): any {
+    let thing: HTMLDivElement = <HTMLDivElement>document.getElementsByClassName("ql-editor")[0];
     let text: string = thing.innerText;
     if (format === Format.list) {
         console.log("is list");

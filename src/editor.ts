@@ -12,6 +12,25 @@ const quill: Quill = new Quill("#editor", {
 });
 new QuillMarkdown(quill, {});
 
+enum Format {
+    list,
+    raw,
+    stringWithNoN,
+}
+function getText(format: Format) {
+    let thing: HTMLDivElement = document.getElementsByClassName("ql-editor")[0];
+    let text: string = thing.innerText;
+    if (format === Format.list) {
+        console.log("is list");
+        return text.split("\n");
+    }
+    if (format === Format.stringWithNoN) {
+        console.log("is string");
+        return text.replace(/(\r\n|\n|\r)/gm, "");
+    }
+    return text;
+}
+
 declare function mathquill4quill(): any;
 let enableMathQuillFormulaAuthoring = mathquill4quill();
 enableMathQuillFormulaAuthoring(quill, {

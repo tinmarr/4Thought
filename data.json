@@ -1,1 +1,1 @@
-{"a@a.com":{"name":"wow","password":{"iv":"dd58b90914d1a4dcf98ce01c0cd114d5","encryptedData":"a4b3b3b3b21e40feb3744388de59bb97"},"documents":{"0":{"name":"cheese","delta":{"ops":[{"insert":"ajhfdakjlsdfaskdjfgaksgdf\nasdfjkhasdf\nasf\ndasjdlfa\nsd\nas\nfda\n"},{"insert":{"formula":"\\frac{1}{1}"}},{"insert":" \n"}]}}}}}
+{"a@a.com":{"name":"wow","password":{"iv":"dd58b90914d1a4dcf98ce01c0cd114d5","encryptedData":"a4b3b3b3b21e40feb3744388de59bb97"},"documents":{"0":{"name":"cheese","delta":{"ops":[{"insert":"lkjadsfdaf\ndfasfa\n"}]}}}}}

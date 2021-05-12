@@ -1,3 +1,4 @@
+import { response } from "express";
 import Quill from "quill";
 import QuillMarkdown from "quilljs-markdown";
 /// <reference path="./documentManager.ts"/>
@@ -141,8 +142,9 @@ function searchWikipedia(keyWord: string): any {
             return response.json();
         })
         .then(function (response) {
-            if (response.query.search[0].title === keyWord) {
-                console.log(response.query.search[0].snippet);
+            if ((<string>response.query.search[0].title).toLowerCase() == keyWord.toLowerCase()) {
+                let div: HTMLDivElement = <HTMLDivElement>document.getElementById("suggestions")!;
+                div.innerHTML += `<p><strong>${keyWord}</strong>: ${response.query.search[0].snippet}...</p>`;
             }
         })
         .catch(function (error) {

@@ -6,6 +6,10 @@
     width: 95%;
 }
 
+.w-24 {
+    width: 24%;
+}
+
 .handle {
     cursor: grab;
 }

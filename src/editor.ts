@@ -10,10 +10,10 @@ const quill: Quill = new Quill("#editor", {
     placeholder: "start typing...",
     theme: "snow",
 });
-const markdownShortcuts = new QuillMarkdown(quill, {});
+new QuillMarkdown(quill, {});
 
 declare function mathquill4quill(): any;
-var enableMathQuillFormulaAuthoring = mathquill4quill();
+let enableMathQuillFormulaAuthoring = mathquill4quill();
 enableMathQuillFormulaAuthoring(quill, {
     operators: [
         ["\\frac{x}{y}", "\\frac"],

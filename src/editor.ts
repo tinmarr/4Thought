@@ -129,3 +129,7 @@ let popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
     };
     return new window.bootstrap.Popover(popoverTriggerEl, options);
 });
+
+window.onbeforeunload = (e: BeforeUnloadEvent) => {
+    save();
+};

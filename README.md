@@ -9,17 +9,11 @@
 
 ## Todo
 
-#### General
-
--   Security overhaul
-
 #### User Interface
 
 -   Redesigned homepage
--   Persistent navbar
--   Logo and ~~favicon~~
--   Snippets div in the editor
 -   User settings page
+-   Widgets
 
 #### Editor Features
 

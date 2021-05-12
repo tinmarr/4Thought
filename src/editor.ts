@@ -18,7 +18,7 @@ enum Format {
     raw,
     stringWithNoN,
 }
-function getText(format: Format): any {
+function getText(format: Format): string[] | string {
     let thing: HTMLDivElement = <HTMLDivElement>document.getElementsByClassName("ql-editor")[0];
     let text: string = thing.innerText;
     if (format === Format.list) {
@@ -27,7 +27,7 @@ function getText(format: Format): any {
     }
     if (format === Format.stringWithNoN) {
         console.log("is string");
-        return text.replace(/(\r\n|\n|\r)/gm, "");
+        return text.replace(/(\r\n|\n|\r)/gm, " ");
     }
     return text;
 }
@@ -171,14 +171,28 @@ function searchWikipedia(keyWord: string): any {
         });
 }
 
+function getImportantWords(): void {
+    let text: string = getText(Format.stringWithNoN) as string;
+    let importantWords: string[] = [];
+    let parsedText: string[] = text
+        .replace(/([^a-zA-Z\s\-])|(\b(\w{1,5})\b)/gm, "")
+        .replace(/(\b\s\s+|\s\s+\b)/gm, " ")
+        .replace(/^\s|\s$|/gm, "")
+        .split(" ");
+    parsedText.forEach((word) => {});
+    console.log(parsedText);
+}
+
 declare global {
     interface Window {
         quill: Quill;
         bootstrap: any;
         html2pdf: any;
         searchWikipedia: any;
+        getImportantWords: any;
     }
 }
 
 window.quill = quill;
 window.searchWikipedia = searchWikipedia;
+window.getImportantWords = getImportantWords;

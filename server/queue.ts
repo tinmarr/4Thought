@@ -6,10 +6,10 @@ export class Queue {
     private next() {
         this.running = false;
 
-        const shift = this.queue.shift(); 
+        const shift = this.queue.shift();
         if(shift) {
             this.running = true;
-            shift(); 
+            shift();
         }
     }
 

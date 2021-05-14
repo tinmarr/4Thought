@@ -36,3 +36,8 @@
     font-family: system-ui;
     font-weight: 500;
 }
+
+.widgets {
+    position: absolute;
+    z-index: 9;
+}

@@ -51,24 +51,26 @@ quill.setContents(data.delta);
 
 if (data.name != null && data.name != "untitled note") (document.getElementById("notename") as HTMLInputElement).value = data.name;
 
-// const textingBtn = document.getElementById("add-texting-shortcuts")!;
-// let textshortcuts: object = {};
-// textingBtn.onclick = function () {
-//     // pull up a place to add shortcuts
-//     // var range = quill.getSelection();
-//     // if (range) {
-//     //     quill.insertText(range.index, "┼");
-//     // }
-//     console.log("yet to be implemented. Should create popup where you can add shortcuts");
-//     const shortucts = "nothing"; // added texting shortcuts || {}
-// };
-// const textingToggle = document.getElementById("texting-toggle")!;
-// let textingToggleState: boolean = false;
-// textingToggle.onchange = function () {
-//     const inpt = document.getElementsByName("input-texting-toggle")[0]! as HTMLInputElement;
-//     textingToggleState = inpt.checked;
-//     console.log(`toggled to ${textingToggleState.valueOf()}`);
-// };
+const textingBtn = document.getElementById("add-texting-shortcuts")!;
+let textshortcuts: object = {};
+textingBtn.onclick = function () {
+    // // get whats in the in
+    // let stuffin: string = /*<HTMLTextAreaElement>*/ document.querySelector("div.popover-body > #in").value;
+    // // get whats in the out
+    // let stuffout: string = /*<HTMLTextAreaElement>*/ document.querySelector("div.popover-body > #out").value;
+    // // create new textshortcuts[in] = out
+    // textshortcuts[stuffin] = stuffout;
+    console.log("yet to be implemented. Should create popup where you can add shortcuts");
+    console.log(textshortcuts);
+};
+const textingToggle = document.getElementById("txtModeToggle")!;
+let textingToggleState: boolean = false;
+textingToggle.onchange = function () {
+    const inpt = document.getElementsByName("input-texting-toggle")[0]! as HTMLInputElement;
+    textingToggleState = inpt.checked;
+    console.log(`toggled to ${textingToggleState.valueOf()}`);
+};
+
 let noteName: string = (<HTMLInputElement>document.getElementById("notename")).value;
 
 const syncBtn = document.getElementById("sync-btn")!;

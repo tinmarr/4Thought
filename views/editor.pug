@@ -42,14 +42,14 @@ block layout-content
                             input.my-2#out(type="text", class="form-control", placeholder="OUT")
                             a(class="btn btn-outline-primary" role="button" type="button" data-bs-toggle="button" id="txtModeToggle") Txt Mode 
                             a(class="btn btn-outline-secondary", type="button", id="SubmitNewDefinition") Submit definition  
-                            //- .mx-2.d-inline
                     button.p-0#downloadPDF 
                         i.fas.fa-arrow-to-bottom.fa-sm
                 span.ql-formats.float-end
                     button.p-0#sync-btn
                         i.fas.fa-sync-alt.fa-sm
             #editor
-        .shadow-lg.rounded.bg-body.w-24.position-absolute.end-0.d-flex.flex-column.justify-content-center.p-2.widget(style="top: 0px;")#suggestions
+        .shadow-lg.rounded.bg-body.w-24.position-absolute.end-0.d-flex.flex-column.justify-content-center.p-2.widgets(style="top: 0px;")#suggestions
             p No Suggestions Yet
     script(src="./documentManager.js")
+    script(src="./widgets.js")
     script(src="./editor.bundle.js", note-id=identifier, doc-data=documentData, defer)

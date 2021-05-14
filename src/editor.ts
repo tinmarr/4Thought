@@ -239,9 +239,11 @@ declare global {
         html2pdf: any;
         searchWikipedia: any;
         getImportantWords: any;
+        dragElement: any;
     }
 }
 
 window.quill = quill;
 window.searchWikipedia = searchWikipedia;
 window.getImportantWords = getImportantWords;
+window.dragElement = dragElement;

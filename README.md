@@ -13,17 +13,23 @@
 
 -   Redesigned homepage
 -   User settings page
--   Widgets
+-   Widgets (Sidebar done)
 
 #### Editor Features
 
+##### Hard things
+-   Drawing tool
+-   Key word auto-detect
+-   Images/Drawings that float on top of editor
+
+##### Easier things
 -   Personal Dictionary for shorthand typing
 -   Wikepedia scraping for revelent info
 -   Define Key words / Highlighted words
--   Key word auto-detect
--   Image manipulation in editor (Kinda Done)
--   Drawing tool
--   Speech to text
--   Transcribe images
 -   Note templates
 -   Shorthand conversion
+
+#### Bonus Features
+-   Speech to text
+-   Transcribe images
+

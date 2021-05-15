@@ -51,6 +51,13 @@ quill.setContents(data.delta);
 
 if (data.name != null && data.name != "untitled note") (document.getElementById("notename") as HTMLInputElement).value = data.name;
 
+try {
+    let widgets = data.widgets;
+    widgets = widgets.foreach((widget: string) => {
+        Widget.loadData(widget);
+    });
+} catch (err) {}
+
 const textingBtn = document.getElementById("add-texting-shortcuts")!;
 let textshortcuts: object = {};
 textingBtn.onclick = function () {
@@ -93,10 +100,15 @@ function save(): void {
         }, 1000);
     }
 
+    let stringedWidgets: string[] = Widget.activeWidgets.map((widg: Widget) => {
+        return widg.toString();
+    });
+
     let data = {
         id: identifier,
         name: noteName,
         delta: quill.getContents(),
+        widgets: stringedWidgets,
         // txtshortcuts: textshortcuts,
     };
     send("/save", data, (res: any) => {
@@ -170,7 +182,7 @@ function searchWikipedia(keyWord: string): any {
         .then(function (response) {
             let div: HTMLDivElement = <HTMLDivElement>document.getElementById("suggestions")!;
             new Widget(
-                `wiki${keyWord}${Math.random()}`,
+                `wiki${keyWord}`,
                 keyWord,
                 `${response.query.search[0].snippet}<a target='_blank' href='https://en.wikipedia.org/wiki/${response.query.search[0].title}'>...</a>`,
                 div
@@ -243,6 +255,7 @@ declare global {
         quill: Quill;
         bootstrap: any;
         html2pdf: any;
+        data: any;
         searchWikipedia: any;
         getImportantWords: any;
         dragElement: any;
@@ -253,3 +266,4 @@ window.quill = quill;
 window.searchWikipedia = searchWikipedia;
 window.getImportantWords = getImportantWords;
 window.dragElement = dragElement;
+window.data = data;

@@ -18,6 +18,7 @@ class Widget {
         let headerDiv: HTMLDivElement = document.createElement("div");
         headerDiv.innerHTML = head;
         headerDiv.classList.add("widgetHeader");
+        headerDiv.id = this.element.id + "header";
 
         let contentDiv: HTMLDivElement = document.createElement("div");
         contentDiv.innerHTML = content;

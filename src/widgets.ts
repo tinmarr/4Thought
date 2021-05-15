@@ -22,8 +22,16 @@ class Widget {
         contentDiv.innerHTML = content;
         contentDiv.classList.add("widgetContent");
 
+        let button: HTMLButtonElement = document.createElement("button");
+        button.innerHTML = "POP";
+        button.onmousedown = () => {
+            console.log("click!");
+            this.generalPop();
+        };
+
         this.element.appendChild(headerDiv);
         this.element.appendChild(contentDiv);
+        this.element.appendChild(button);
 
         this.parent.appendChild(this.element);
     }
@@ -35,6 +43,15 @@ class Widget {
         this.parent.removeChild(this.element);
         document.body.appendChild(this.element);
         window.dragElement(this.element);
+        this.poppedOut = true;
+    }
+
+    generalPop() {
+        if (this.poppedOut) {
+            this.popIn();
+            return;
+        }
+        this.popOut();
     }
 
     popIn() {
@@ -44,6 +61,7 @@ class Widget {
         this.element.classList.remove("widgets");
         this.coords.top = this.element.style.top;
         this.coords.left = this.element.style.left;
+        this.poppedOut = false;
     }
 
     getElement(): HTMLDivElement {

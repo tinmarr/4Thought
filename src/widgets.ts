@@ -16,8 +16,8 @@ class Widget {
         }
 
         let headerDiv: HTMLDivElement = document.createElement("div");
-        headerDiv.innerHTML = head;
-        headerDiv.classList.add("widgetHeader");
+        headerDiv.innerHTML = head + "<hr class='mb-2 mt-1'>";
+        headerDiv.classList.add("widgetHeader", "h5", "p-0", "m-0");
         headerDiv.id = this.element.id + "header";
 
         let contentDiv: HTMLDivElement = document.createElement("div");
@@ -25,7 +25,7 @@ class Widget {
         contentDiv.classList.add("widgetContent");
 
         let button: HTMLAnchorElement = document.createElement("a");
-        button.classList.add("float-end");
+        button.classList.add("float-end", "m-0");
         button.innerHTML = "<i class='btn fal fa-inbox-out fa-sm p-0 m-0'></i>";
 
         button.onmousedown = () => {

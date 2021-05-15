@@ -13,7 +13,6 @@
 
 -   Redesigned homepage
 -   User settings page
--   Widgets (Sidebar done)
 
 #### Editor Features
 

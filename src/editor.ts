@@ -128,6 +128,11 @@ downloadButton.onclick = () => {
         .save(noteName + ".pdf");
 };
 
+const wikiLookup = document.getElementById("search")!;
+wikiLookup.onclick = () => {
+    searchWikipedia(quill.getText(quill.getSelection()?.index, quill.getSelection()?.length));
+};
+
 let popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]#add-texting-shortcuts'));
 let popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
     let content = document.getElementById("text-shortcuts-popover")?.innerHTML;
@@ -163,10 +168,13 @@ function searchWikipedia(keyWord: string): any {
             return response.json();
         })
         .then(function (response) {
-            if ((<string>response.query.search[0].title).toLowerCase() == keyWord.toLowerCase()) {
-                let div: HTMLDivElement = <HTMLDivElement>document.getElementById("suggestions")!;
-                div.innerHTML += `<p><strong>${keyWord}</strong>: ${response.query.search[0].snippet}...</p>`;
-            }
+            let div: HTMLDivElement = <HTMLDivElement>document.getElementById("suggestions")!;
+            new Widget(
+                `wiki${keyWord}${Math.random()}`,
+                keyWord,
+                `${response.query.search[0].snippet}<a target='_blank' href='https://en.wikipedia.org/wiki/${response.query.search[0].title}'>...</a>`,
+                div
+            );
         })
         .catch(function (error) {
             console.log(error);

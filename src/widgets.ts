@@ -8,7 +8,7 @@ class Widget {
     constructor(id: string, head: string = "", content: string = "", parent: HTMLElement = document.body) {
         this.element = document.createElement("div");
         this.element.id = id;
-        this.element.classList.add("shadow-lg", "rounded", "bg-body", "p-2");
+        this.element.classList.add("shadow-lg", "rounded", "bg-body", "p-2", "mb-1");
         this.poppedOut = parent == document.body;
         this.parent = parent;
         if (this.poppedOut) {
@@ -24,19 +24,37 @@ class Widget {
         contentDiv.innerHTML = content;
         contentDiv.classList.add("widgetContent");
 
-        let button: HTMLAnchorElement = document.createElement("a");
-        button.classList.add("float-end", "m-0");
-        button.innerHTML = "<i class='btn fal fa-inbox-out fa-sm p-0 m-0'></i>";
+        let popButton: HTMLAnchorElement = document.createElement("a");
+        popButton.classList.add("float-end", "m-0", "mx-1");
+        popButton.innerHTML = "<i class='btn fal fa-inbox-out fa-sm p-0 m-0'></i>";
 
-        button.onmousedown = () => {
-            button.innerHTML = this.generalPop();
+        popButton.onmousedown = () => {
+            popButton.innerHTML = this.generalPop();
         };
 
-        this.element.appendChild(button);
+        let dismissButton: HTMLAnchorElement = document.createElement("a");
+        dismissButton.classList.add("float-end", "m-0", "mx-1");
+        dismissButton.innerHTML = "<i class='btn fal fa-times fa-sm p-0 m-0'></i>";
+
+        dismissButton.onmousedown = () => {
+            this.delete();
+            if (this.parent.id == "suggestions" && this.parent.childElementCount - 1 == 0) {
+                document.getElementById("noSugs")?.classList.remove("d-none");
+            } else {
+                document.getElementById("noSugs")?.classList.add("d-none");
+            }
+        };
+
+        this.element.appendChild(dismissButton);
+        this.element.appendChild(popButton);
         this.element.appendChild(headerDiv);
         this.element.appendChild(contentDiv);
 
         this.parent.appendChild(this.element);
+
+        if (this.parent.id == "suggestions") {
+            document.getElementById("noSugs")?.classList.add("d-none");
+        }
 
         this.dims.height = this.element.offsetHeight;
         this.dims.width = this.element.offsetWidth;
@@ -46,6 +64,8 @@ class Widget {
     }
 
     popOut() {
+        this.dims.height = this.element.offsetHeight;
+        this.dims.width = this.element.offsetWidth;
         this.element.style.top = this.coords.top;
         this.element.style.left = this.coords.left;
         this.element.classList.add("widgets");
@@ -55,6 +75,9 @@ class Widget {
         this.element.style.width = this.dims.width + "px";
         this.element.style.height = this.dims.height + "px";
         this.poppedOut = true;
+        if (this.parent.id == "suggestions" && this.parent.childElementCount - 1 == 0) {
+            document.getElementById("noSugs")?.classList.remove("d-none");
+        }
     }
 
     generalPop(): string {
@@ -73,10 +96,19 @@ class Widget {
         this.element.classList.remove("widgets");
         this.coords.top = this.element.style.top;
         this.coords.left = this.element.style.left;
+        this.element.style.removeProperty("height");
+        this.element.style.removeProperty("width");
         this.poppedOut = false;
+        if (this.parent.id == "suggestions") {
+            document.getElementById("noSugs")?.classList.add("d-none");
+        }
     }
 
     getElement(): HTMLDivElement {
         return this.element;
+    }
+
+    delete() {
+        this.element.remove();
     }
 }

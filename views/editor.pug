@@ -42,14 +42,16 @@ block layout-content
                             input.my-2#out(type="text", class="form-control", placeholder="OUT")
                             a(class="btn btn-outline-primary" role="button" type="button" data-bs-toggle="button" id="txtModeToggle") Txt Mode 
                             a(class="btn btn-outline-secondary", type="button", id="SubmitNewDefinition") Submit definition  
+                    button.p-0.fw-bold#search
+                        i.fab.fa-wikipedia-w
                     button.p-0#downloadPDF 
                         i.fas.fa-arrow-to-bottom.fa-sm
                 span.ql-formats.float-end
                     button.p-0#sync-btn
                         i.fas.fa-sync-alt.fa-sm
             #editor
-        .shadow-lg.rounded.bg-body.w-24.position-absolute.end-0.d-flex.flex-column.justify-content-center.p-2.widgets(style="top: 0px;")#suggestions
-            p No Suggestions Yet
+        .shadow-lg.rounded.bg-body.w-24.position-absolute.end-0.d-flex.flex-column.justify-content-center.pb-1.p-2.widgets(style="top: 0px;")#suggestions
+            p.text-center#noSugs No Suggestions Here!
     script(src="./documentManager.js")
     script(src="./widgets.js")
     script(src="./dictionary.js")

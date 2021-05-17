@@ -1,3 +1,7 @@
+html, body {
+    height: 100vh;
+}
+
 .outline-0 {
     outline: none;
 }
@@ -6,8 +10,12 @@
     width: 95%;
 }
 
-.w-24 {
-    width: 24%;
+.minw-5 {
+    min-width: 5%;
+}
+
+.minw-25 {
+    min-width: 25%;
 }
 
 .handle {

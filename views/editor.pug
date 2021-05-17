@@ -1,57 +1,59 @@
 extends layout 
 
 block layout-content
-    .mx-auto.w-95.mt-4.position-relative
-        input.w-75.h1.border-0.outline-0#notename(placeholder="name your note", spellcheck="false", type="text")
-        a.btn.float-end#close(href="./home")
-            i.far.fa-times.fa-2x.text-secondary
-    .w-95.mx-auto.my-2.position-relative
-        .shadow-lg.rounded.bg-body.w-75
-            #toolbar
-                span.ql-formats
-                    select.ql-header
-                span.ql-formats
-                    select.ql-align
-                span.ql-formats
-                    button.ql-bold
-                    button.ql-italic
-                    button.ql-underline
-                    button.ql-strike 
-                    button.ql-link 
-                span.ql-formats 
-                    select.ql-color
-                    select.ql-background
-                span.ql-formats
-                    button.ql-script(value="sub")
-                    button.ql-script(value="super") 
-                span.ql-formats 
-                    button.ql-list(value="ordered")
-                    button.ql-list(value="bullet")
-                span.ql-formats 
-                    button.ql-image
-                    button.ql-video
-                    button.ql-formula
-                span.ql-formats 
-                    button.ql-blockquote 
-                    button.ql-code-block
-                span.ql-formats
-                    button.text-shortcuts.p-0#add-texting-shortcuts(data-bs-toggle="popover")
-                        i.fas.fa-book-open.fa-sm
-                        span.invisible#text-shortcuts-popover
-                            input#in(type="text", class="form-control", placeholder="IN")
-                            input.my-2#out(type="text", class="form-control", placeholder="OUT")
-                            a(class="btn btn-outline-primary" role="button" type="button" data-bs-toggle="button" id="txtModeToggle") Txt Mode 
-                            a(class="btn btn-outline-secondary", type="button", id="SubmitNewDefinition") Submit definition  
-                    button.p-0.fw-bold#search
-                        i.fab.fa-wikipedia-w
-                    button.p-0#downloadPDF 
-                        i.fas.fa-arrow-to-bottom.fa-sm
-                span.ql-formats.float-end
-                    button.p-0#sync-btn
-                        i.fas.fa-sync-alt.fa-sm
-            #editor
-        .shadow-lg.rounded.bg-body.w-24.position-absolute.end-0.d-flex.flex-column.justify-content-center.pb-1.p-2.widgets(style="top: 0px;")#suggestions
-            p.text-center#noSugs No Suggestions Here!
+    .d-flex.h-100.flex-column
+        .mx-4.mt-4.position-relative
+            input.w-75.h1.border-0.outline-0#notename(placeholder="name your note", spellcheck="false", type="text")
+            a.btn.float-end#close(href="./home")
+                i.far.fa-times.fa-2x.text-secondary
+        .mx-4.mt-2.pb-4.d-flex.flex-row.flex-grow-1
+            .shadow-lg.rounded.bg-body.me-3.flex-grow-1.d-flex.flex-column
+                #toolbar
+                    span.ql-formats
+                        select.ql-header
+                    span.ql-formats
+                        select.ql-align
+                    span.ql-formats
+                        button.ql-bold
+                        button.ql-italic
+                        button.ql-underline
+                        button.ql-strike 
+                        button.ql-link 
+                    span.ql-formats 
+                        select.ql-color
+                        select.ql-background
+                    span.ql-formats
+                        button.ql-script(value="sub")
+                        button.ql-script(value="super") 
+                    span.ql-formats 
+                        button.ql-list(value="ordered")
+                        button.ql-list(value="bullet")
+                    span.ql-formats 
+                        button.ql-image
+                        button.ql-video
+                        button.ql-formula
+                    span.ql-formats 
+                        button.ql-blockquote 
+                        button.ql-code-block
+                    span.ql-formats
+                        button.text-shortcuts.p-0#add-texting-shortcuts(data-bs-toggle="popover")
+                            i.fas.fa-book-open.fa-sm
+                            span.invisible#text-shortcuts-popover
+                                input#in(type="text", class="form-control", placeholder="IN")
+                                input.my-2#out(type="text", class="form-control", placeholder="OUT")
+                                a(class="btn btn-outline-primary" role="button" type="button" data-bs-toggle="button" id="txtModeToggle") Txt Mode 
+                                a(class="btn btn-outline-secondary", type="button", id="SubmitNewDefinition") Submit definition  
+                        button.p-0#downloadPDF 
+                            i.fas.fa-arrow-to-bottom.fa-sm
+                    span.ql-formats.float-end
+                        button.p-0#sync-btn
+                            i.fas.fa-sync-alt.fa-sm
+                .flex-grow-1#editor
+            .shadow-lg.rounded.bg-body.minw-25.d-flex.flex-column.pb-1.p-2.me-3#suggestions
+                p.text-center.pt-2#noSugs No Widgets Imported
+            .shadow-lg.rounded.bg-body.minw-5.d-flex.flex-column.pb-1.p-2
+                button.p-0.fw-bold#search
+                    i.fab.fa-wikipedia-w
     script(src="./documentManager.js")
     script(src="./widgets.js")
     script(src="./dictionary.js")

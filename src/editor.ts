@@ -14,8 +14,7 @@ new QuillMarkdown(quill, {});
 
 let lastSavedOn: Date = new Date();
 
-document.addEventListener('keypress', handleKeyPress);
-
+document.addEventListener('keydown', handleKeyPress);
 function handleKeyPress(e) {
     if((e.ctrlKey || e.metaKey) && e.code == 'KeyS') {
         e.preventDefault();

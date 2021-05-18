@@ -22,6 +22,10 @@ class Widget {
         headerDiv.classList.add("widgetHeader", "h5", "p-0", "m-0");
         headerDiv.id = this.element.id + "header";
 
+        headerDiv.ondblclick = () => {
+            this.collapseToggle();
+        };
+
         // Content Element
         let contentDiv: HTMLDivElement = document.createElement("div");
         contentDiv.innerHTML = content;
@@ -44,6 +48,19 @@ class Widget {
         dismissButton.onmousedown = () => {
             this.delete();
             this.updateSuggestions();
+        };
+
+        // Collapsed Element
+        let collapsed: HTMLDivElement = document.createElement("div");
+        collapsed.classList.add("shadow-lg", "rounded", "bg-body", "p-2", "mb-2", "d-none", "position-absolute");
+        collapsed.style.height = "50px";
+        collapsed.style.width = "50px";
+        collapsed.innerHTML = "-";
+        collapsed.id = this.element.id + "collapsed";
+        document.body.appendChild(collapsed);
+
+        collapsed.ondblclick = () => {
+            this.collapseToggle();
         };
 
         // Invisible Resize Area in Bottom Right
@@ -88,6 +105,9 @@ class Widget {
 
         // Check to see if the sidebar needs to be hidden
         this.updateSuggestions();
+
+        // Make nice
+        this.correctOverflow();
     }
 
     // Correct Widget Overflow
@@ -113,6 +133,34 @@ class Widget {
         } else {
             return;
         }
+    }
+
+    // Toggle Collapse
+    collapseToggle() {
+        if (this.element.classList.contains("d-none")) {
+            this.uncollapse();
+        } else {
+            this.collapse();
+        }
+    }
+
+    // Collapse to a small form factor
+    collapse() {
+        this.element.classList.add("d-none");
+        let collapseTile = document.getElementById(this.element.id + "collapsed")!;
+        collapseTile.classList.remove("d-none");
+        collapseTile.style.top = this.coords.top;
+        collapseTile.style.left = this.coords.left;
+        this.element.parentElement?.appendChild(collapseTile);
+        Widget.dragElement(collapseTile);
+    }
+
+    // Uncollapse
+    uncollapse() {
+        let collapseTile = document.getElementById(this.element.id + "collapsed")!;
+        collapseTile.classList.add("d-none");
+        this.setCoords({ top: collapseTile.style.top, left: collapseTile.style.left });
+        this.element.classList.remove("d-none");
     }
 
     // Does the sidebar need to be hidden
@@ -186,8 +234,8 @@ class Widget {
     }
 
     // Set the position of the widget
-    setCoords(coords: object) {
-        this.coords = coords as { top: string; left: string };
+    setCoords(coords: { top: string; left: string }) {
+        this.coords = coords;
         this.element.style.top = this.coords.top;
         this.element.style.left = this.coords.left;
     }

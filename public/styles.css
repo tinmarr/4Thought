@@ -1,13 +1,31 @@
+html, body {
+    height: 100vh;
+}
+
+.tooltip-left {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 250px;
+    padding: 10px;
+    background: #fff;
+    color: #000;
+    border-radius: 8px;
+    text-align: left;
+    z-index: 999;
+    font-size: 14px;
+}
+
+#save-time {
+    color: #777;
+}
+
+#suggestions {
+    min-width: 40px;
+}
+
 .outline-0 {
     outline: none;
-}
-
-.w-95 {
-    width: 95%;
-}
-
-.w-24 {
-    width: 24%;
 }
 
 .handle {
@@ -35,4 +53,13 @@
 .fas p {
     font-family: system-ui;
     font-weight: 500;
+}
+
+.widgets {
+    position: absolute;
+    z-index: 9;
+}
+
+.widgets > .widgetHeader {
+    cursor: move;
 }

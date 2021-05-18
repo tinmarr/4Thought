@@ -13,16 +13,16 @@
 
 -   Redesigned homepage
 -   User settings page
--   Widgets (Sidebar done)
 
 #### Editor Features
 
 ##### Hard things
 -   Drawing tool
 -   Key word auto-detect
--   Images/Drawings that float on top of editor
+-   Images/Drawings that float on top of editor <- assigned to Tomer
 
 ##### Easier things
+
 -   Personal Dictionary for shorthand typing
 -   Wikepedia scraping for revelent info
 -   Define Key words / Highlighted words
@@ -30,6 +30,6 @@
 -   Shorthand conversion
 
 #### Bonus Features
+
 -   Speech to text
 -   Transcribe images
-

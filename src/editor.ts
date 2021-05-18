@@ -13,6 +13,8 @@ const quill: Quill = new Quill("#editor", {
 });
 new QuillMarkdown(quill, {});
 
+let lastSavedOn: Date;
+
 enum Format {
     list,
     raw,
@@ -51,6 +53,13 @@ quill.setContents(data.delta);
 
 if (data.name != null && data.name != "untitled note") (document.getElementById("notename") as HTMLInputElement).value = data.name;
 
+try {
+    let widgets = data.widgets;
+    widgets = widgets.foreach((widget: string) => {
+        Widget.loadData(widget);
+    });
+} catch (err) {}
+
 const textingBtn = document.getElementById("add-texting-shortcuts")!;
 let textshortcuts: object = {};
 textingBtn.onclick = function () {
@@ -73,6 +82,21 @@ textingToggle.onchange = function () {
 
 let noteName: string = (<HTMLInputElement>document.getElementById("notename")).value;
 
+const infoBtn = document.getElementById("info-btn")!, infoTTip = document.getElementById("infottip")!;
+let infoToggle = true;
+infoBtn.onclick = function () {
+    if (lastSavedOn) {
+        if (lastSavedOn.toDateString() != (new Date()).toDateString())
+            document.getElementById("save-time")!.innerHTML = "last saved on " + lastSavedOn.toDateString();
+        else
+            document.getElementById("save-time")!.innerHTML = "last saved on " + lastSavedOn.toTimeString();
+    }
+    
+    if (infoToggle) infoTTip.classList.remove("d-none");
+    else infoTTip.classList.add("d-none");
+    infoToggle = !infoToggle;
+}
+
 const syncBtn = document.getElementById("sync-btn")!;
 syncBtn.onclick = save;
 
@@ -84,6 +108,8 @@ closeBtn.onclick = (e) => {
 };
 
 function save(): void {
+    lastSavedOn = new Date();
+
     nameNote();
 
     if (!syncBtn.children[0].classList.contains("rotating")) {
@@ -93,10 +119,15 @@ function save(): void {
         }, 1000);
     }
 
+    let stringedWidgets: string[] = Widget.activeWidgets.map((widg: Widget) => {
+        return widg.toString();
+    });
+
     let data = {
         id: identifier,
         name: noteName,
         delta: quill.getContents(),
+        widgets: stringedWidgets,
         // txtshortcuts: textshortcuts,
     };
     send("/save", data, (res: any) => {
@@ -128,6 +159,16 @@ downloadButton.onclick = () => {
         .save(noteName + ".pdf");
 };
 
+const wikiLookup = document.getElementById("searchWiki")!;
+wikiLookup.onclick = () => {
+    searchWikipedia(quill.getText(quill.getSelection()?.index, quill.getSelection()?.length));
+};
+
+const dicLookup = document.getElementById("searchDic")!;
+dicLookup.onclick = () => {
+    searchDictionary(quill.getText(quill.getSelection()?.index, quill.getSelection()?.length));
+};
+
 let popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]#add-texting-shortcuts'));
 let popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
     let content = document.getElementById("text-shortcuts-popover")?.innerHTML;
@@ -146,7 +187,9 @@ window.onbeforeunload = (e: BeforeUnloadEvent) => {
     save();
 };
 
-function searchWikipedia(keyWord: string): any {
+let div: HTMLDivElement = <HTMLDivElement>document.getElementById("widgets")!;
+
+function searchWikipedia(keyWord: string) {
     let url = "https://en.wikipedia.org/w/api.php";
     let params = {
         action: "query",
@@ -163,17 +206,38 @@ function searchWikipedia(keyWord: string): any {
             return response.json();
         })
         .then(function (response) {
-            if ((<string>response.query.search[0].title).toLowerCase() == keyWord.toLowerCase()) {
-                let div: HTMLDivElement = <HTMLDivElement>document.getElementById("suggestions")!;
-                div.innerHTML += `<p><strong>${keyWord}</strong>: ${response.query.search[0].snippet}...</p>`;
-            }
+            new Widget(
+                `wiki${keyWord}`,
+                keyWord,
+                `${response.query.search[0].snippet}<a target='_blank' href='https://en.wikipedia.org/wiki/${response.query.search[0].title}'>...</a>`,
+                div
+            );
         })
         .catch(function (error) {
             console.log(error);
         });
 }
 
-function getImportantWords(): string {
+enum Lang {
+    english,
+    french,
+    spanish,
+}
+
+function searchDictionary(word: string, language: Lang = Lang.english) {
+    let url = "https://api.dictionaryapi.dev/api/v2/entries";
+    let languageCode = language == Lang.english ? "en_US" : Lang.french == language ? "fr" : Lang.spanish == language ? "es" : "";
+
+    fetch(`${url}/${languageCode}/${word}`)
+        .then((response) => {
+            return response.json();
+        })
+        .then((response) => {
+            new Widget(`dict${word}`, `${word} (${response[0].meanings[0].partOfSpeech})`, response[0].meanings[0].definitions[0].definition, div);
+        });
+}
+
+function getImportantWords(): void {
     let text: string = getText(Format.stringWithNoN) as string;
     let importantWords: string[] = [];
     let parsedText: string = text
@@ -221,11 +285,13 @@ declare global {
         quill: Quill;
         bootstrap: any;
         html2pdf: any;
-        searchWikipedia: any;
+        data: any;
+        seachDictionary: any;
         getImportantWords: any;
     }
 }
 
 window.quill = quill;
-window.searchWikipedia = searchWikipedia;
+window.seachDictionary = searchDictionary;
 window.getImportantWords = getImportantWords;
+window.data = data;

@@ -1,55 +1,60 @@
 extends layout 
 
 block layout-content
-    .mx-auto.w-95.mt-4.position-relative
-        input.w-75.h1.border-0.outline-0#notename(placeholder="name your note", spellcheck="false", type="text")
-        a.btn.float-end#close(href="./home")
-            i.far.fa-times.fa-2x.text-secondary
-    .w-95.mx-auto.my-2.position-relative
-        .shadow-lg.rounded.bg-body.w-75
-            #toolbar
-                span.ql-formats
-                    select.ql-header
-                span.ql-formats
-                    select.ql-align
-                span.ql-formats
-                    button.ql-bold
-                    button.ql-italic
-                    button.ql-underline
-                    button.ql-strike 
-                    button.ql-link 
-                span.ql-formats 
-                    select.ql-color
-                    select.ql-background
-                span.ql-formats
-                    button.ql-script(value="sub")
-                    button.ql-script(value="super") 
-                span.ql-formats 
-                    button.ql-list(value="ordered")
-                    button.ql-list(value="bullet")
-                span.ql-formats 
-                    button.ql-image
-                    button.ql-video
-                    button.ql-formula
-                span.ql-formats 
-                    button.ql-blockquote 
-                    button.ql-code-block
-                span.ql-formats
-                    button.text-shortcuts.p-0#add-texting-shortcuts(data-bs-toggle="popover")
-                        i.fas.fa-book-open.fa-sm
-                        span.invisible#text-shortcuts-popover
-                            input#in(type="text", class="form-control", placeholder="IN")
-                            input.my-2#out(type="text", class="form-control", placeholder="OUT")
-                            a(class="btn btn-outline-primary" role="button" type="button" data-bs-toggle="button" id="txtModeToggle") Txt Mode 
-                            a(class="btn btn-outline-secondary", type="button", id="SubmitNewDefinition") Submit definition  
-                            //- .mx-2.d-inline
-                    button.p-0#downloadPDF 
-                        i.fas.fa-arrow-to-bottom.fa-sm
-                span.ql-formats.float-end
-                    button.p-0#sync-btn
-                        i.fas.fa-sync-alt.fa-sm
-            #editor
-        .shadow-lg.rounded.bg-body.w-24.position-absolute.top-0.end-0.d-flex.flex-column.justify-content-center.p-2#suggestions
-            p No Suggestions Yet
+    .d-flex.h-100.flex-column
+        .mx-4.mt-4.position-relative
+            input.w-75.h1.border-0.outline-0#notename(placeholder="name your note", spellcheck="false", type="text")
+            a.btn.float-end#close(href="./home")
+                i.far.fa-times.fa-2x.text-secondary
+        .mx-4.mt-2.pb-4.d-flex.flex-row.flex-grow-1
+            .shadow-lg.rounded.bg-body.me-2.flex-grow-1.d-flex.flex-column
+                #toolbar
+                    span.ql-formats
+                        select.ql-align
+                        select.ql-header
+                        button.ql-clean
+                    span.ql-formats
+                        button.ql-bold
+                        button.ql-italic
+                        button.ql-underline
+                    span.ql-formats 
+                        select.ql-color
+                        select.ql-background
+                    span.ql-formats
+                        button.ql-script(value="sub")
+                        button.ql-script(value="super") 
+                    span.ql-formats 
+                        button.ql-image
+                        button.ql-video
+                        button.ql-formula
+                        button.ql-link
+                    span.ql-formats
+                        button.text-shortcuts.p-0#add-texting-shortcuts(data-bs-toggle="popover")
+                            i.fas.fa-book-open
+                            span.invisible#text-shortcuts-popover
+                                input#in(type="text", class="form-control", placeholder="IN")
+                                input.my-2#out(type="text", class="form-control", placeholder="OUT")
+                                a(class="btn btn-outline-primary", role="button", type="button", data-bs-toggle="button", id="txtModeToggle") Txt Mode 
+                                a(class="btn btn-outline-secondary", type="button", id="SubmitNewDefinition") Submit definition  
+                    span.ql-formats.float-end
+                        button.position-relative.p-0#info-btn
+                            i.fas.fa-info-circle
+                            span.tooltip-left.d-none.shadow-lg#infottip
+                                p Looking for a formatting tool? 4Thought uses Markdown syntax to streamline the typing process; you can also use common keyboard shortcuts.
+                                hr
+                                span#save-time save to see last save date.
+                        button.p-0#downloadPDF 
+                            i.fas.fa-arrow-to-bottom
+                        button.p-0#sync-btn
+                            i.fas.fa-sync-alt
+                .flex-grow-1#editor
+            .shadow-lg.rounded.bg-body.d-flex.d-none.flex-column.p-2.me-2#widgets
+            .shadow-lg.rounded.bg-body.d-flex.flex-column.py-2#suggestions
+                button.btn.p-0.m-1.fw-bold#searchWiki
+                    i.fab.fa-wikipedia-w.fa-lg
+                button.btn.p-0.m-1.fw-bold#searchDic
+                    i.fal.fa-atlas.fa-lg
     script(src="./documentManager.js")
+    script(src="./widgets.js")
+    script(src="./dictionary.js")
     script(src="./editor.bundle.js", note-id=identifier, doc-data=documentData, defer)

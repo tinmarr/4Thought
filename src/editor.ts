@@ -14,6 +14,15 @@ new QuillMarkdown(quill, {});
 
 let lastSavedOn: Date = new Date();
 
+document.addEventListener('keypress', handleKeyPress);
+
+function handleKeyPress(e) {
+    if((e.ctrlKey || e.metaKey) && e.code == 'KeyS') {
+        e.preventDefault();
+        save();
+    }
+}
+
 enum Format {
     list,
     raw,
@@ -180,8 +189,6 @@ let popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
 window.onbeforeunload = (e: BeforeUnloadEvent) => {
     save();
 };
-
-let div: HTMLDivElement = <HTMLDivElement>document.getElementById("widgets")!;
 
 function searchWikipedia(keyWord: string) {
     let url = "https://en.wikipedia.org/w/api.php";

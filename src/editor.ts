@@ -13,7 +13,7 @@ const quill: Quill = new Quill("#editor", {
 });
 new QuillMarkdown(quill, {});
 
-let lastSavedOn: Date;
+let lastSavedOn: Date = new Date();
 
 enum Format {
     list,
@@ -86,12 +86,8 @@ const infoBtn = document.getElementById("info-btn")!,
     infoTTip = document.getElementById("infottip")!;
 let infoToggle = true;
 infoBtn.onclick = function () {
-    if (lastSavedOn) {
-        if (lastSavedOn.toDateString() != new Date().toDateString())
-            document.getElementById("save-time")!.innerHTML = "last saved on " + lastSavedOn.toDateString();
-        else document.getElementById("save-time")!.innerHTML = "last saved on " + lastSavedOn.toTimeString();
-    }
-
+    updateSaveTime();
+    
     if (infoToggle) infoTTip.classList.remove("d-none");
     else infoTTip.classList.add("d-none");
     infoToggle = !infoToggle;
@@ -107,8 +103,16 @@ closeBtn.onclick = (e) => {
     window.location.href = closeBtn.href;
 };
 
+function updateSaveTime(): void {
+    if (lastSavedOn.toDateString() != (new Date()).toDateString())
+        document.getElementById("save-time")!.innerHTML = "last saved on " + lastSavedOn.toDateString();
+    else
+        document.getElementById("save-time")!.innerHTML = "last saved on " + lastSavedOn.toTimeString();
+}
+
 function save(): void {
     lastSavedOn = new Date();
+    updateSaveTime();
 
     nameNote();
 

@@ -2,7 +2,7 @@ class Widget {
     static activeWidgets: Widget[] = [];
     element: HTMLDivElement;
     coords: { top: string; left: string } = { top: "0px", left: "0px" };
-    dims: { height: number; width: number } = { height: 0, width: 0 };
+    dims: { height: string; width: string } = { height: "0px", width: "0px" };
     poppedOut: boolean;
     parent: HTMLElement;
 
@@ -19,13 +19,6 @@ class Widget {
         headerDiv.innerHTML = head + "<hr class='mb-2 mt-1'>";
         headerDiv.classList.add("widgetHeader", "h5", "p-0", "m-0");
         headerDiv.id = this.element.id + "header";
-
-        headerDiv.onmouseup = () => {
-            if (this.element.classList.contains("widgets")) {
-                this.coords.top = this.element.style.top != "" ? this.element.style.top : this.coords.top;
-                this.coords.left = this.element.style.left != "" ? this.element.style.left : this.coords.left;
-            }
-        };
 
         let contentDiv: HTMLDivElement = document.createElement("div");
         contentDiv.innerHTML = content;
@@ -48,6 +41,15 @@ class Widget {
             this.updateSuggestions();
         };
 
+        this.element.onmouseup = () => {
+            if (this.element.classList.contains("widgets")) {
+                this.coords.top = this.element.style.top != "" ? this.element.style.top : this.coords.top;
+                this.coords.left = this.element.style.left != "" ? this.element.style.left : this.coords.left;
+                this.dims.height = this.element.style.height != "" ? this.element.style.height : this.dims.height;
+                this.dims.width = this.element.style.width != "" ? this.element.style.width : this.dims.width;
+            }
+        };
+
         this.element.appendChild(dismissButton);
         this.element.appendChild(popButton);
         this.element.appendChild(headerDiv);
@@ -57,8 +59,8 @@ class Widget {
 
         this.updateSuggestions();
 
-        this.dims.height = this.element.offsetHeight;
-        this.dims.width = this.element.offsetWidth;
+        this.dims.height = `${this.element.offsetHeight}px`;
+        this.dims.width = `${this.element.offsetWidth}px`;
 
         this.coords.top = `${this.element.offsetTop - 5}px`;
         this.coords.left = `${this.element.offsetLeft - 5}px`;
@@ -75,18 +77,17 @@ class Widget {
     }
 
     popOut() {
-        this.dims.height = this.element.offsetHeight;
-        this.dims.width = this.element.offsetWidth;
         this.element.style.top = this.coords.top;
         this.element.style.left = this.coords.left;
+        this.element.style.width = this.dims.width;
+        this.element.style.height = this.dims.height;
         this.element.classList.add("widgets");
         if (this.element.parentElement == this.parent) {
             this.parent.removeChild(this.element);
             document.body.appendChild(this.element);
         }
         Widget.dragElement(this.element);
-        this.element.style.width = this.dims.width + "px";
-        this.element.style.height = this.dims.height + "px";
+        Widget.resizeElement(this.element, 10);
         this.poppedOut = true;
         this.updateSuggestions();
     }
@@ -100,8 +101,8 @@ class Widget {
         this.element.classList.remove("widgets");
         this.coords.top = this.element.style.top;
         this.coords.left = this.element.style.left;
-        this.element.style.removeProperty("height");
-        this.element.style.removeProperty("width");
+        this.dims.height = this.element.style.height;
+        this.dims.width = this.element.style.width;
         this.poppedOut = false;
         this.updateSuggestions();
     }
@@ -177,8 +178,48 @@ class Widget {
         }
     }
 
+    static resizeElement(elmnt: HTMLElement, borderSize: number) {
+        let pos1 = 0,
+            pos2 = 0,
+            pos3 = 0,
+            pos4 = 0;
+        elmnt.onmousedown = dragMouseDown;
+
+        function dragMouseDown(e) {
+            e = e || window.event;
+            e.preventDefault();
+            // get the mouse cursor position at startup:
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            document.onmouseup = closeResizeElement;
+            // call a function whenever the cursor moves:
+            if (e.offsetX > elmnt.offsetWidth - borderSize && e.offsetY > elmnt.offsetHeight - borderSize) {
+                document.onmousemove = elementResize;
+            }
+        }
+
+        function elementResize(e) {
+            e = e || window.event;
+            e.preventDefault();
+            // calculate the new cursor position:
+            pos1 = pos3 - e.clientX;
+            pos2 = pos4 - e.clientY;
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            // set the element's new position:
+            elmnt.style.width = elmnt.offsetWidth - pos1 + "px";
+            elmnt.style.height = elmnt.offsetHeight - pos2 + "px";
+        }
+
+        function closeResizeElement() {
+            /* stop moving when mouse button is released:*/
+            document.onmouseup = null;
+            document.onmousemove = null;
+        }
+    }
+
     static dragElement(elmnt: HTMLElement) {
-        var pos1 = 0,
+        let pos1 = 0,
             pos2 = 0,
             pos3 = 0,
             pos4 = 0;

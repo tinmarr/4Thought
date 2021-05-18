@@ -53,12 +53,13 @@ enableMathQuillFormulaAuthoring(quill, {
 
 const identifier: string = document.currentScript?.getAttribute("note-id")!;
 const data = JSON.parse(document.currentScript?.getAttribute("doc-data")!);
+const docWidgets = JSON.parse(document.currentScript?.getAttribute("doc-widgets")!);
 
 quill.setContents(data.delta);
 
 if (data.name != null && data.name != "untitled note") (document.getElementById("notename") as HTMLInputElement).value = data.name;
 
-for (let widget of data.widgets) Widget.generate(widget);
+for (let widget of docWidgets) Widget.generate(widget);
 
 const textingBtn = document.getElementById("add-texting-shortcuts")!;
 let textshortcuts: object = {};

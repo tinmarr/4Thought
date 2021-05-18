@@ -136,7 +136,7 @@ router.get("/document", (req, res) => {
     let id: string;
     let user: string = req.session?.userEmail;
     let documentData: object = { ops: [] };
-    let widgets: string[] = [];
+    let widgets: object[] = [];
     if (req.query.id == null) {
         id = Object.keys(data[user].documents).length.toString();
     } else {

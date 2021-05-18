@@ -9,21 +9,25 @@ class Widget {
     constructor(id: string = "myguy", head: string = "", content: string = "", parent: HTMLElement = document.body) {
         Widget.activeWidgets.push(this);
 
+        // Main Element
         this.element = document.createElement("div");
         this.element.id = Widget.chooseValidID(id);
         this.element.classList.add("shadow-lg", "rounded", "bg-body", "p-2", "mb-2");
         this.poppedOut = parent == document.body;
         this.parent = parent;
 
+        // Header Element
         let headerDiv: HTMLDivElement = document.createElement("div");
         headerDiv.innerHTML = head + "<hr class='mb-2 mt-1'>";
         headerDiv.classList.add("widgetHeader", "h5", "p-0", "m-0");
         headerDiv.id = this.element.id + "header";
 
+        // Content Element
         let contentDiv: HTMLDivElement = document.createElement("div");
         contentDiv.innerHTML = content;
         contentDiv.classList.add("widgetContent");
 
+        // Pop Out Button Element
         let popButton: HTMLAnchorElement = document.createElement("a");
         popButton.classList.add("float-end", "m-0", "mx-1");
         popButton.innerHTML = "<i class='btn fal fa-inbox-out fa-sm p-0 m-0'></i>";
@@ -32,6 +36,7 @@ class Widget {
             popButton.innerHTML = this.generalPop();
         };
 
+        // Close Button Element
         let dismissButton: HTMLAnchorElement = document.createElement("a");
         dismissButton.classList.add("float-end", "m-0", "mx-1");
         dismissButton.innerHTML = "<i class='btn fal fa-times fa-sm p-0 m-0'></i>";
@@ -41,6 +46,7 @@ class Widget {
             this.updateSuggestions();
         };
 
+        // Invisible Resize Area in Bottom Right
         let hoverSquare: HTMLDivElement = document.createElement("div");
         hoverSquare.classList.add("position-absolute", "end-0", "bottom-0");
         hoverSquare.style.cursor = "nwse-resize";
@@ -48,6 +54,7 @@ class Widget {
         hoverSquare.style.height = "10px";
         hoverSquare.id = this.element.id + "resize";
 
+        // Update Position and Size to Variables
         this.element.onmouseup = () => {
             if (this.element.classList.contains("widgets")) {
                 this.coords.top = this.element.style.top != "" ? this.element.style.top : this.coords.top;
@@ -57,25 +64,31 @@ class Widget {
             }
         };
 
+        // Make the widget
         this.element.appendChild(dismissButton);
         this.element.appendChild(popButton);
         this.element.appendChild(headerDiv);
         this.element.appendChild(contentDiv);
         this.element.appendChild(hoverSquare);
 
+        // Put it in the document
         this.parent.appendChild(this.element);
 
-        this.updateSuggestions();
-
+        // Set Initial Position and Size
         this.dims.height = `${this.element.offsetHeight}px`;
         this.dims.width = `${this.element.offsetWidth}px`;
 
         this.coords.top = `${this.element.offsetTop - 5}px`;
         this.coords.left = `${this.element.offsetLeft - 5}px`;
 
+        // Pop out if needed
         if (this.poppedOut) this.popOut();
+
+        // Check to see if the sidebar needs to be hidden
+        this.updateSuggestions();
     }
 
+    // Does the sidebar need to be hidden
     updateSuggestions() {
         if (this.parent.id == "widgets" && this.parent.childElementCount == 0) {
             this.parent.classList.add("d-none");
@@ -84,6 +97,7 @@ class Widget {
         }
     }
 
+    // Move out and make draggable
     popOut() {
         this.element.style.top = this.coords.top;
         this.element.style.left = this.coords.left;
@@ -100,6 +114,7 @@ class Widget {
         this.updateSuggestions();
     }
 
+    // Move back to sidebar and make not draggable
     popIn() {
         if (this.element.parentElement == document.body && this.parent != document.body) {
             document.body.removeChild(this.element);
@@ -115,6 +130,7 @@ class Widget {
         this.updateSuggestions();
     }
 
+    // Position toggle
     generalPop(): string {
         if (this.poppedOut) {
             this.popIn();
@@ -124,6 +140,7 @@ class Widget {
         return "<i class='btn fal fa-inbox-in fa-sm p-0 m-0'></i>";
     }
 
+    // Update based on class parameter
     updatePop(): string {
         if (!this.poppedOut) {
             this.popIn();
@@ -133,10 +150,7 @@ class Widget {
         return "<i class='btn fal fa-inbox-in fa-sm p-0 m-0'></i>";
     }
 
-    getElement(): HTMLDivElement {
-        return this.element;
-    }
-
+    // Delete the widget
     delete() {
         this.element.remove();
         Widget.activeWidgets = Widget.activeWidgets.filter((obj) => {
@@ -144,15 +158,14 @@ class Widget {
         });
     }
 
+    // Set the position of the widget
     setCoords(coords: object) {
         this.coords = coords as { top: string; left: string };
-    }
-
-    updatePos() {
         this.element.style.top = this.coords.top;
         this.element.style.left = this.coords.left;
     }
 
+    // Export
     toString(): string {
         let widgetData = {
             id: this.element.id,
@@ -166,6 +179,7 @@ class Widget {
         return JSON.stringify(widgetData);
     }
 
+    // Import
     static loadData(widgetData: string): Widget {
         let parsedData = JSON.parse(widgetData);
         let widg = new Widget(parsedData.id, parsedData.header, parsedData.content, document.getElementById(parsedData.parentId)!);
@@ -173,10 +187,10 @@ class Widget {
         widg.poppedOut = parsedData.poppedOut;
         widg.updatePop();
         widg.setCoords(parsedData.coords);
-        widg.updatePos();
         return widg;
     }
 
+    // Unique ID Crap
     static chooseValidID(base: string, charToAdd: string = "-") {
         charToAdd = charToAdd.replace(/[\.\#\>]/g, "-");
         if (document.getElementById(base) != null) {
@@ -186,6 +200,7 @@ class Widget {
         }
     }
 
+    // Element Resizing
     static resizeElement(elmnt: HTMLElement, borderSize: number) {
         let pos1 = 0,
             pos2 = 0,
@@ -230,6 +245,7 @@ class Widget {
         }
     }
 
+    // Element Moving
     static dragElement(elmnt: HTMLElement) {
         let pos1 = 0,
             pos2 = 0,

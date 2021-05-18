@@ -1,5 +1,10 @@
 html, body {
     height: 100vh;
+    background: #EEF2F7;
+}
+
+#notename {
+    background: #EEF2F7;
 }
 
 .widget {

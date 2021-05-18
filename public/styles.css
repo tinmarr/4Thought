@@ -1,10 +1,13 @@
 html, body {
     height: 100vh;
+}
+
+html, body, #notename {
     background: #EEF2F7;
 }
 
-#notename, #widgets {
-    background: #EEF2F7;
+#widgets {
+    background: #EEF6F7;
 }
 
 .widget {

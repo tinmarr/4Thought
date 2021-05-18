@@ -2,20 +2,12 @@ html, body {
     height: 100vh;
 }
 
+#suggestions {
+    min-width: 40px;
+}
+
 .outline-0 {
     outline: none;
-}
-
-.w-95 {
-    width: 95%;
-}
-
-.minw-5 {
-    min-width: 5%;
-}
-
-.minw-25 {
-    min-width: 25%;
 }
 
 .handle {

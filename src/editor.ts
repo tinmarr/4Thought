@@ -180,7 +180,7 @@ function searchWikipedia(keyWord: string): any {
             return response.json();
         })
         .then(function (response) {
-            let div: HTMLDivElement = <HTMLDivElement>document.getElementById("suggestions")!;
+            let div: HTMLDivElement = <HTMLDivElement>document.getElementById("widgets")!;
             new Widget(
                 `wiki${keyWord}`,
                 keyWord,

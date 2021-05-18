@@ -11,7 +11,7 @@ class Widget {
 
         this.element = document.createElement("div");
         this.element.id = Widget.chooseValidID(id);
-        this.element.classList.add("shadow-lg", "rounded", "bg-body", "p-2", "mb-1");
+        this.element.classList.add("shadow-lg", "rounded", "bg-body", "p-2", "mb-2");
         this.poppedOut = parent == document.body;
         this.parent = parent;
 
@@ -67,7 +67,7 @@ class Widget {
     }
 
     updateSuggestions() {
-        if (this.parent.id == "suggestions" && this.parent.childElementCount == 0) {
+        if (this.parent.id == "widgets" && this.parent.childElementCount == 0) {
             this.parent.classList.add("d-none");
             this.parent.classList.remove("d-flex");
         } else {

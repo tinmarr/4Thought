@@ -91,20 +91,23 @@ class Widget {
     }
 
     // Correct Widget Overflow
-    correctOverflow() {
+    correctOverflow(): void {
         let curOverf = this.element.style.overflow;
 
         if (!curOverf || curOverf === "visible") this.element.style.overflow = "hidden";
 
-        let isOverflowing = this.element.clientWidth < this.element.scrollWidth || this.element.clientHeight < this.element.scrollHeight;
+        let isOverflowing = { x: this.element.clientWidth < this.element.scrollWidth, y: this.element.clientHeight < this.element.scrollHeight };
 
         this.element.style.overflow = curOverf;
 
-        if (isOverflowing) {
-            this.element.style.height = `${this.element.offsetHeight + 20}px`;
-            this.dims.height = `${this.element.offsetHeight + 20}px`;
+        if (isOverflowing.x) {
             this.element.style.width = `${this.element.offsetWidth + 10}px`;
             this.dims.width = `${this.element.offsetWidth + 10}px`;
+
+            return this.correctOverflow();
+        } else if (isOverflowing.y) {
+            this.element.style.height = `${this.element.offsetHeight + 10}px`;
+            this.dims.height = `${this.element.offsetHeight + 10}px`;
 
             return this.correctOverflow();
         } else {

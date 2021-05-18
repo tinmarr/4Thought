@@ -10,15 +10,13 @@ block layout-content
             .shadow-lg.rounded.bg-body.me-2.flex-grow-1.d-flex.flex-column
                 #toolbar
                     span.ql-formats
-                        select.ql-header
-                    span.ql-formats
                         select.ql-align
+                        select.ql-header
+                        button.ql-clean
                     span.ql-formats
                         button.ql-bold
                         button.ql-italic
                         button.ql-underline
-                        button.ql-strike 
-                        button.ql-link 
                     span.ql-formats 
                         select.ql-color
                         select.ql-background
@@ -26,28 +24,25 @@ block layout-content
                         button.ql-script(value="sub")
                         button.ql-script(value="super") 
                     span.ql-formats 
-                        button.ql-list(value="ordered")
-                        button.ql-list(value="bullet")
-                    span.ql-formats 
                         button.ql-image
                         button.ql-video
                         button.ql-formula
-                    span.ql-formats 
-                        button.ql-blockquote 
-                        button.ql-code-block
+                        button.ql-link
                     span.ql-formats
                         button.text-shortcuts.p-0#add-texting-shortcuts(data-bs-toggle="popover")
-                            i.fas.fa-book-open.fa-sm
+                            i.fas.fa-book-open
                             span.invisible#text-shortcuts-popover
                                 input#in(type="text", class="form-control", placeholder="IN")
                                 input.my-2#out(type="text", class="form-control", placeholder="OUT")
                                 a(class="btn btn-outline-primary" role="button" type="button" data-bs-toggle="button" id="txtModeToggle") Txt Mode 
                                 a(class="btn btn-outline-secondary", type="button", id="SubmitNewDefinition") Submit definition  
-                        button.p-0#downloadPDF 
-                            i.fas.fa-arrow-to-bottom.fa-sm
                     span.ql-formats.float-end
+                        button.p-0
+                            i.fas.fa-info-circle
+                        button.p-0#downloadPDF 
+                            i.fas.fa-arrow-to-bottom
                         button.p-0#sync-btn
-                            i.fas.fa-sync-alt.fa-sm
+                            i.fas.fa-sync-alt
                 .flex-grow-1#editor
             .shadow-lg.rounded.bg-body.d-flex.d-none.flex-column.p-2.me-2#widgets
             .shadow-lg.rounded.bg-body.d-flex.flex-column.py-2#suggestions

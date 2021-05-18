@@ -82,20 +82,20 @@ textingToggle.onchange = function () {
 
 let noteName: string = (<HTMLInputElement>document.getElementById("notename")).value;
 
-const infoBtn = document.getElementById("info-btn")!, infoTTip = document.getElementById("infottip")!;
+const infoBtn = document.getElementById("info-btn")!,
+    infoTTip = document.getElementById("infottip")!;
 let infoToggle = true;
 infoBtn.onclick = function () {
     if (lastSavedOn) {
-        if (lastSavedOn.toDateString() != (new Date()).toDateString())
+        if (lastSavedOn.toDateString() != new Date().toDateString())
             document.getElementById("save-time")!.innerHTML = "last saved on " + lastSavedOn.toDateString();
-        else
-            document.getElementById("save-time")!.innerHTML = "last saved on " + lastSavedOn.toTimeString();
+        else document.getElementById("save-time")!.innerHTML = "last saved on " + lastSavedOn.toTimeString();
     }
-    
+
     if (infoToggle) infoTTip.classList.remove("d-none");
     else infoTTip.classList.add("d-none");
     infoToggle = !infoToggle;
-}
+};
 
 const syncBtn = document.getElementById("sync-btn")!;
 syncBtn.onclick = save;
@@ -237,7 +237,7 @@ function searchDictionary(word: string, language: Lang = Lang.english) {
         });
 }
 
-function getImportantWords(): void {
+function getImportantWords(): string {
     let text: string = getText(Format.stringWithNoN) as string;
     let importantWords: string[] = [];
     let parsedText: string = text

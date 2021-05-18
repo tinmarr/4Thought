@@ -17,11 +17,7 @@ class ReWidget {
 
         const closeBtn = document.createElement("a");
         closeBtn.innerHTML = "<i class='btn fal fa-times p-0 m-0' />";
-        closeBtn.onclick = () => {
-            this.delete();
-            ReWidget.updateList();
-            console.log("yeet");
-        }
+        closeBtn.onclick = () => { this.delete() };
 
         buttonsDiv.appendChild(closeBtn);
 
@@ -41,7 +37,13 @@ class ReWidget {
         else widgetsDiv.classList.remove("d-none");
     }
 
-    delete() {}
+    delete() {
+        this.element.remove();
+        ReWidget.widgets = ReWidget.widgets.filter((obj) => {
+            return this != obj;
+        });
+        ReWidget.updateList();
+    }
 }
 
 class Widget {

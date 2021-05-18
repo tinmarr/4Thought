@@ -140,9 +140,14 @@ downloadButton.onclick = () => {
         .save(noteName + ".pdf");
 };
 
-const wikiLookup = document.getElementById("search")!;
+const wikiLookup = document.getElementById("searchWiki")!;
 wikiLookup.onclick = () => {
     searchWikipedia(quill.getText(quill.getSelection()?.index, quill.getSelection()?.length));
+};
+
+const dicLookup = document.getElementById("searchDic")!;
+dicLookup.onclick = () => {
+    searchDictionary(quill.getText(quill.getSelection()?.index, quill.getSelection()?.length));
 };
 
 let popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]#add-texting-shortcuts'));
@@ -163,7 +168,9 @@ window.onbeforeunload = (e: BeforeUnloadEvent) => {
     save();
 };
 
-function searchWikipedia(keyWord: string): any {
+let div: HTMLDivElement = <HTMLDivElement>document.getElementById("widgets")!;
+
+function searchWikipedia(keyWord: string) {
     let url = "https://en.wikipedia.org/w/api.php";
     let params = {
         action: "query",
@@ -180,7 +187,6 @@ function searchWikipedia(keyWord: string): any {
             return response.json();
         })
         .then(function (response) {
-            let div: HTMLDivElement = <HTMLDivElement>document.getElementById("widgets")!;
             new Widget(
                 `wiki${keyWord}`,
                 keyWord,
@@ -190,6 +196,25 @@ function searchWikipedia(keyWord: string): any {
         })
         .catch(function (error) {
             console.log(error);
+        });
+}
+
+enum Lang {
+    english,
+    french,
+    spanish,
+}
+
+function searchDictionary(word: string, language: Lang = Lang.english) {
+    let url = "https://api.dictionaryapi.dev/api/v2/entries";
+    let languageCode = language == Lang.english ? "en_US" : Lang.french == language ? "fr" : Lang.spanish == language ? "es" : "";
+
+    fetch(`${url}/${languageCode}/${word}`)
+        .then((response) => {
+            return response.json();
+        })
+        .then((response) => {
+            new Widget(`dict${word}`, `${word} (${response[0].meanings[0].partOfSpeech})`, response[0].meanings[0].definitions[0].definition, div);
         });
 }
 
@@ -205,65 +230,18 @@ function getImportantWords(): void {
     console.log(parsedText);
 }
 
-// DRAG WIDGETS
-function dragElement(elmnt) {
-    var pos1 = 0,
-        pos2 = 0,
-        pos3 = 0,
-        pos4 = 0;
-    if (document.getElementById(elmnt.id + "header")) {
-        /* if present, the header is where you move the DIV from:*/
-        document.getElementById(elmnt.id + "header")!.onmousedown = dragMouseDown;
-    } else {
-        /* otherwise, move the DIV from anywhere inside the DIV:*/
-        elmnt.onmousedown = dragMouseDown;
-    }
-
-    function dragMouseDown(e) {
-        e = e || window.event;
-        e.preventDefault();
-        // get the mouse cursor position at startup:
-        pos3 = e.clientX;
-        pos4 = e.clientY;
-        document.onmouseup = closeDragElement;
-        // call a function whenever the cursor moves:
-        document.onmousemove = elementDrag;
-    }
-
-    function elementDrag(e) {
-        e = e || window.event;
-        e.preventDefault();
-        // calculate the new cursor position:
-        pos1 = pos3 - e.clientX;
-        pos2 = pos4 - e.clientY;
-        pos3 = e.clientX;
-        pos4 = e.clientY;
-        // set the element's new position:
-        elmnt.style.top = elmnt.offsetTop - pos2 + "px";
-        elmnt.style.left = elmnt.offsetLeft - pos1 + "px";
-    }
-
-    function closeDragElement() {
-        /* stop moving when mouse button is released:*/
-        document.onmouseup = null;
-        document.onmousemove = null;
-    }
-}
-
 declare global {
     interface Window {
         quill: Quill;
         bootstrap: any;
         html2pdf: any;
         data: any;
-        searchWikipedia: any;
+        seachDictionary: any;
         getImportantWords: any;
-        dragElement: any;
     }
 }
 
 window.quill = quill;
-window.searchWikipedia = searchWikipedia;
+window.seachDictionary = searchDictionary;
 window.getImportantWords = getImportantWords;
-window.dragElement = dragElement;
 window.data = data;

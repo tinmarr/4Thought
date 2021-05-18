@@ -136,13 +136,15 @@ router.get("/document", (req, res) => {
     let id: string;
     let user: string = req.session?.userEmail;
     let documentData: object = { ops: [] };
+    let widgets: string[] = [];
     if (req.query.id == null) {
         id = Object.keys(data[user].documents).length.toString();
     } else {
         id = req.query.id as string;
         documentData = data[user].documents[id];
+        widgets = data[user].documents[id].widgets;
     }
-    return res.render("editor", { title: "Editor", error_messages: req.flash("error"), documentData: documentData, identifier: id });
+    return res.render("editor", { title: "Editor", error_messages: req.flash("error"), documentData: documentData, widgets: widgets, identifier: id });
 });
 
 router.post("/delete-doc", (req, res) => {

@@ -2,6 +2,10 @@ html, body {
     height: 100vh;
 }
 
+.widget {
+    width: 300px;
+}
+
 .tooltip-left {
     position: absolute;
     top: 100%;
@@ -54,13 +58,4 @@ html, body {
 .fas p {
     font-family: system-ui;
     font-weight: 500;
-}
-
-.widgets {
-    position: absolute;
-    z-index: 9;
-}
-
-.widgets > .widgetHeader {
-    cursor: move;
 }

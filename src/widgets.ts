@@ -1,34 +1,48 @@
-class ReWidget {
-    static widgets: ReWidget[] = [];
+class Widget {
+    static widgets: Widget[] = [];
     static idMin = 0;
     element: HTMLDivElement;
+    content: string;
 
     constructor(content: string) {
+        this.content = content;
         this.element = document.createElement("div");
-        this.element.id = "widget" + ReWidget.idMin;
-        this.element.classList.add("shadow-lg", "rounded", "bg-body", "p-2", "mb-2", "position-relative");
+        this.element.id = "widget" + Widget.idMin;
+        this.element.classList.add("widget", "shadow-lg", "rounded", "bg-body", "mb-2", "position-relative");
         
         const contentDiv = document.createElement("div");
         contentDiv.innerHTML = content;
-        contentDiv.classList.add("widgetContent");
+        contentDiv.classList.add("widgetContent", "p-2", "rounded");
 
         const buttonsDiv = document.createElement("div");
-        buttonsDiv.classList.add("position-absolute", "top-0", "end-0", "mx-2");
+        buttonsDiv.classList.add("position-absolute", "top-0", "end-0", "px-2", "mx-2", "my-1", "rounded", "bg-white");
+
+        const collapseBtn = document.createElement("a");
+        collapseBtn.innerHTML = "<i class='btn far fa-angle-down p-0 me-2' />";
 
         const closeBtn = document.createElement("a");
         closeBtn.innerHTML = "<i class='btn fal fa-times p-0 m-0' />";
         closeBtn.onclick = () => { this.delete() };
 
+        buttonsDiv.appendChild(collapseBtn);
         buttonsDiv.appendChild(closeBtn);
 
         this.element.appendChild(contentDiv);
         this.element.appendChild(buttonsDiv);
 
         document.getElementById("widgets")!.appendChild(this.element);
-        ReWidget.idMin++;
-        ReWidget.widgets.push(this);
+        Widget.idMin++;
+        Widget.widgets.push(this);
 
-        ReWidget.updateList();
+        Widget.updateList();
+    }
+
+    delete() {
+        this.element.remove();
+        Widget.widgets = Widget.widgets.filter((obj) => {
+            return this != obj;
+        });
+        Widget.updateList();
     }
 
     static updateList() {
@@ -36,16 +50,9 @@ class ReWidget {
         if (widgetsDiv.childElementCount == 0) widgetsDiv.classList.add("d-none");
         else widgetsDiv.classList.remove("d-none");
     }
-
-    delete() {
-        this.element.remove();
-        ReWidget.widgets = ReWidget.widgets.filter((obj) => {
-            return this != obj;
-        });
-        ReWidget.updateList();
-    }
 }
 
+/*
 class Widget {
     static activeWidgets: Widget[] = [];
     element: HTMLDivElement;
@@ -330,10 +337,10 @@ class Widget {
             pos3 = 0,
             pos4 = 0;
         if (document.getElementById(elmnt.id + "resize")) {
-            /* if present, the header is where you move the DIV from:*/
+            // if present, the header is where you move the DIV from:
             document.getElementById(elmnt.id + "resize")!.onmousedown = dragMouseDown;
         } else {
-            /* otherwise, move the DIV from anywhere inside the DIV:*/
+            // otherwise, move the DIV from anywhere inside the DIV:
             elmnt.onmousedown = dragMouseDown;
         }
 
@@ -362,7 +369,7 @@ class Widget {
         }
 
         function closeResizeElement() {
-            /* stop moving when mouse button is released:*/
+            // stop moving when mouse button is released:
             document.onmouseup = null;
             document.onmousemove = null;
         }
@@ -375,10 +382,10 @@ class Widget {
             pos3 = 0,
             pos4 = 0;
         if (document.getElementById(elmnt.id + "header")) {
-            /* if present, the header is where you move the DIV from:*/
+            // if present, the header is where you move the DIV from:
             document.getElementById(elmnt.id + "header")!.onmousedown = dragMouseDown;
         } else {
-            /* otherwise, move the DIV from anywhere inside the DIV:*/
+            // otherwise, move the DIV from anywhere inside the DIV:
             elmnt.onmousedown = dragMouseDown;
         }
 
@@ -407,9 +414,10 @@ class Widget {
         }
 
         function closeDragElement() {
-            /* stop moving when mouse button is released:*/
+            // stop moving when mouse button is released:
             document.onmouseup = null;
             document.onmousemove = null;
         }
     }
 }
+*/

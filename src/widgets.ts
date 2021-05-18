@@ -69,10 +69,8 @@ class Widget {
     updateSuggestions() {
         if (this.parent.id == "widgets" && this.parent.childElementCount == 0) {
             this.parent.classList.add("d-none");
-            this.parent.classList.remove("d-flex");
         } else {
             this.parent.classList.remove("d-none");
-            this.parent.classList.add("d-flex");
         }
     }
 

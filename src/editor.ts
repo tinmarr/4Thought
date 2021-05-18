@@ -1,4 +1,3 @@
-import { response } from "express";
 import Quill from "quill";
 import QuillMarkdown from "quilljs-markdown";
 /// <reference path="./documentManager.ts"/>
@@ -51,7 +50,7 @@ quill.setContents(data.delta);
 
 if (data.name != null && data.name != "untitled note") (document.getElementById("notename") as HTMLInputElement).value = data.name;
 
-for (let widget of data.widgets) new Widget(widget);
+for (let widget of data.widgets) Widget.generate(widget);
 
 const textingBtn = document.getElementById("add-texting-shortcuts")!;
 let textshortcuts: object = {};
@@ -116,20 +115,18 @@ function save(): void {
         }, 1000);
     }
 
-    let stringedWidgets: string[] = Widget.widgets.map((widg: Widget) => {
-        return widg.content;
+    let widgetList: object[] = Widget.widgets.map((widg: Widget) => {
+        return widg.toObj();
     });
 
     let data = {
         id: identifier,
         name: noteName,
         delta: quill.getContents(),
-        widgets: stringedWidgets,
+        widgets: widgetList,
         // txtshortcuts: textshortcuts,
     };
-    send("/save", data, (res: any) => {
-        console.log(res);
-    });
+    sendNoCB("/save", data);
 }
 
 function nameNote(): void {
@@ -199,12 +196,13 @@ function searchWikipedia(keyWord: string) {
         url += "&" + key + "=" + params[key];
     });
     fetch(url)
-        .then(function (response) {
+        .then((response) => {
             return response.json();
         })
-        .then(function (response) {
+        .then((response) => {
             new Widget(
-                `<h5 class='p-0 m-0'>${keyWord}</h5><hr class='mb-2 mt-1'>${response.query.search[0].snippet}<a target='_blank' href='https://en.wikipedia.org/wiki/${response.query.search[0].title}'>...</a>`
+                `<h5 class='p-0 m-0'>${keyWord}</h5><hr class='mb-2 mt-1'>${response.query.search[0].snippet}<a target='_blank' href='https://en.wikipedia.org/wiki/${response.query.search[0].title}'>...</a>`,
+                ["fab", "fa-wikipedia-w"]
             );
         });
 }
@@ -225,7 +223,8 @@ function searchDictionary(word: string, language: Lang = Lang.english) {
         })
         .then((response) => {
             new Widget(
-                `<h5 class='p-0 m-0'>${word} (${response[0].meanings[0].partOfSpeech})</h5><hr class='mb-2 mt-1'>${response[0].meanings[0].definitions[0].definition}`
+                `<h5 class='p-0 m-0'>${word} (${response[0].meanings[0].partOfSpeech})</h5><hr class='mb-2 mt-1'>${response[0].meanings[0].definitions[0].definition}`,
+                ["fal", "fa-atlas"]
             );
         });
 }

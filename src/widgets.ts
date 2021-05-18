@@ -3,9 +3,10 @@ class Widget {
     static idMin = 0;
     element: HTMLDivElement;
     content: string;
+    icon: string[];
 
-    constructor(content: string) {
-        this.content = content;
+    constructor(content: string, icon: string[]) {
+        this.content = content; this.icon = icon;
         this.element = document.createElement("div");
         this.element.id = "widget" + Widget.idMin;
         this.element.classList.add("widget", "shadow-lg", "rounded", "bg-body", "mb-2", "position-relative");
@@ -22,7 +23,7 @@ class Widget {
 
         const closeBtn = document.createElement("a");
         closeBtn.innerHTML = "<i class='btn fal fa-times p-0 m-0' />";
-        closeBtn.onclick = () => { this.delete() };
+        closeBtn.onclick = () => { this.delete(); Widget.updateList(); };
 
         buttonsDiv.appendChild(collapseBtn);
         buttonsDiv.appendChild(closeBtn);
@@ -37,18 +38,25 @@ class Widget {
         Widget.updateList();
     }
 
+    toObj(): object {
+        return { content: this.content, icon: this.icon };
+    }
+
     delete() {
         this.element.remove();
         Widget.widgets = Widget.widgets.filter((obj) => {
             return this != obj;
         });
-        Widget.updateList();
     }
 
     static updateList() {
         const widgetsDiv = document.getElementById("widgets")!;
         if (widgetsDiv.childElementCount == 0) widgetsDiv.classList.add("d-none");
         else widgetsDiv.classList.remove("d-none");
+    }
+
+    static generate(fromObj) {
+        new Widget(fromObj.content, fromObj.icon);
     }
 }
 

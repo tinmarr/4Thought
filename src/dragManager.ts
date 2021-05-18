@@ -17,8 +17,6 @@ const sortable = new Sortable(document.getElementById("sortable") as HTMLElement
     onSort: (ev: Sortable.SortableEvent) => {
         let array = sortable.toArray();
         
-        send("/update-order", { order: array }, (res: any) => {
-            console.log(res);
-        });
+        sendNoCB("/update-order", { order: array });
     },
 });

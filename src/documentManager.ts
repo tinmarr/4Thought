@@ -10,11 +10,18 @@ function send(loc: string, content: object, handler: Function): void {
     });
 }
 
+function sendNoCB(loc: string, content: object): void {
+    fetch(loc, {
+        method: "POST",
+        headers: { "Content-type": "application/json" },
+        body: JSON.stringify(content),
+    });
+}
+
 let numOfDocs: number;
 
 function deleteDoc(id: string): void {
     send("/delete-doc", { id: id }, (res: any) => {
-        console.log(res);
         $("#doc" + id).fadeOut(400, () => {
             document.getElementById("doc" + id)?.remove();
             numOfDocs--;

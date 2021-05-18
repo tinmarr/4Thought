@@ -207,7 +207,7 @@ function searchWikipedia(keyWord: string) {
         })
         .then((response) => {
             new Widget(
-                `<h5 class='p-0 m-0'>${keyWord}</h5><hr class='mb-2 mt-1'>${response.query.search[0].snippet}<a target='_blank' href='https://en.wikipedia.org/wiki/${response.query.search[0].title}'>...</a>`,
+                `<h5 class='p-0 m-0 noselect'>${keyWord}</h5><hr class='mb-2 mt-1'>${response.query.search[0].snippet}<a target='_blank' href='https://en.wikipedia.org/wiki/${response.query.search[0].title}'>...</a>`,
                 ["fab", "fa-wikipedia-w"]
             );
         });
@@ -229,7 +229,7 @@ function searchDictionary(word: string, language: Lang = Lang.english) {
         })
         .then((response) => {
             new Widget(
-                `<h5 class='p-0 m-0'>${word} (${response[0].meanings[0].partOfSpeech})</h5><hr class='mb-2 mt-1'>${response[0].meanings[0].definitions[0].definition}`,
+                `<h5 class='p-0 m-0 noselect'>${word} (${response[0].meanings[0].partOfSpeech})</h5><hr class='mb-2 mt-1'>${response[0].meanings[0].definitions[0].definition}`,
                 ["fal", "fa-atlas"]
             );
         });

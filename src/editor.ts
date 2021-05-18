@@ -240,13 +240,44 @@ function searchDictionary(word: string, language: Lang = Lang.english) {
 function getImportantWords(): void {
     let text: string = getText(Format.stringWithNoN) as string;
     let importantWords: string[] = [];
-    let parsedText: string[] = text
-        .replace(/([^a-zA-Z\s\-])|(\b(\w{1,5})\b)/gm, "")
+    let parsedText: string = text
+        .replace(/([^a-zA-Z\s])/gm, "")
         .replace(/(\b\s\s+|\s\s+\b)/gm, " ")
-        .replace(/^\s|\s$|/gm, "")
-        .split(" ");
-    parsedText.forEach((word) => {});
-    console.log(parsedText);
+        .replace(/^\s|\s$|/gm, "");
+    // .split(" ");
+    return parsedText;
+    // let wordInfo: { [word: string]: { freq: number; length: number; noun: boolean } } = {};
+    // parsedText.forEach((word) => {
+    //     if (word.length < 6 && word == word.toLowerCase()) {
+    //         parsedText.splice(parsedText.indexOf(word, 1));
+    //     } else {
+    //         if (wordInfo[word] == null || wordInfo[word] == undefined) {
+    //             wordInfo[word] = {
+    //                 freq: 1,
+    //                 length: word.length,
+    //                 noun: word != word.toLowerCase(),
+    //             };
+    //         } else {
+    //             wordInfo[word].freq++;
+    //         }
+    //     }
+    // });
+
+    // let averages = { freq: 0, length: 0 };
+    // Object.values(wordInfo).forEach((info) => {
+    //     averages.freq += info.freq;
+    //     averages.length += info.length;
+    // });
+    // averages.freq /= Object.values(wordInfo).length;
+    // averages.length /= Object.values(wordInfo).length;
+
+    // parsedText.forEach((word) => {
+    //     if (!wordInfo[word].noun && (wordInfo[word].freq > averages.freq || wordInfo[word].length > averages.length)) {
+    //         parsedText.splice(parsedText.indexOf(word), 1);
+    //     }
+    // });
+    // console.log(wordInfo);
+    // return parsedText;
 }
 
 declare global {

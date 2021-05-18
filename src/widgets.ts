@@ -2,7 +2,7 @@ class Widget {
     static activeWidgets: Widget[] = [];
     element: HTMLDivElement;
     coords: { top: string; left: string } = { top: "0px", left: "0px" };
-    dims: { height: string; width: string } = { height: "0px", width: "0px" };
+    dims: { height: string; width: string } = { height: "100px", width: `${innerWidth * 0.25}px` };
     poppedOut: boolean;
     parent: HTMLElement;
 
@@ -61,6 +61,8 @@ class Widget {
                 this.coords.left = this.element.style.left != "" ? this.element.style.left : this.coords.left;
                 this.dims.height = this.element.style.height != "" ? this.element.style.height : this.dims.height;
                 this.dims.width = this.element.style.width != "" ? this.element.style.width : this.dims.width;
+
+                this.correctOverflow();
             }
         };
 
@@ -75,17 +77,39 @@ class Widget {
         this.parent.appendChild(this.element);
 
         // Set Initial Position and Size
-        this.dims.height = `${this.element.offsetHeight}px`;
-        this.dims.width = `${this.element.offsetWidth}px`;
-
         this.coords.top = `${this.element.offsetTop - 5}px`;
         this.coords.left = `${this.element.offsetLeft - 5}px`;
+
+        this.element.style.height = this.dims.height;
+        this.element.style.width = this.dims.width;
 
         // Pop out if needed
         if (this.poppedOut) this.popOut();
 
         // Check to see if the sidebar needs to be hidden
         this.updateSuggestions();
+    }
+
+    // Correct Widget Overflow
+    correctOverflow() {
+        let curOverf = this.element.style.overflow;
+
+        if (!curOverf || curOverf === "visible") this.element.style.overflow = "hidden";
+
+        let isOverflowing = this.element.clientWidth < this.element.scrollWidth || this.element.clientHeight < this.element.scrollHeight;
+
+        this.element.style.overflow = curOverf;
+
+        if (isOverflowing) {
+            this.element.style.height = `${this.element.offsetHeight + 20}px`;
+            this.dims.height = `${this.element.offsetHeight + 20}px`;
+            this.element.style.width = `${this.element.offsetWidth + 10}px`;
+            this.dims.width = `${this.element.offsetWidth + 10}px`;
+
+            return this.correctOverflow();
+        } else {
+            return;
+        }
     }
 
     // Does the sidebar need to be hidden

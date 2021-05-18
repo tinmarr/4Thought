@@ -66,8 +66,8 @@ class Widget {
         this.dims.height = this.element.offsetHeight;
         this.dims.width = this.element.offsetWidth;
 
-        this.coords.top = `${this.parent.offsetTop + this.element.offsetTop}px`;
-        this.coords.left = `${this.parent.offsetLeft + this.element.offsetLeft}px`;
+        this.coords.top = `${this.element.offsetTop - 5}px`;
+        this.coords.left = `${this.element.offsetLeft - 5}px`;
 
         if (this.poppedOut) this.popOut();
     }

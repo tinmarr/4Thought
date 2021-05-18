@@ -7,7 +7,7 @@ block layout-content
             a.btn.float-end#close(href="./home")
                 i.far.fa-times.fa-2x.text-secondary
         .mx-4.mt-2.pb-4.d-flex.flex-row.flex-grow-1
-            .shadow-lg.rounded.bg-body.me-2.flex-grow-1.d-flex.flex-column
+            .shadow-lg.rounded.bg-body.me-2.flex-grow-1.d-flex.flex-column.position-relative
                 #toolbar
                     span.ql-formats
                         select.ql-align
@@ -48,8 +48,8 @@ block layout-content
                         button.p-0#sync-btn
                             i.fas.fa-sync-alt
                 .flex-grow-1#editor
-            .shadow-lg.rounded.bg-body.d-flex.d-none.flex-column.p-2.me-2#widgets
-            .shadow-lg.rounded.bg-body.d-flex.flex-column.py-2#suggestions
+            .shadow-lg.rounded.d-flex.d-none.flex-column.p-2.me-2.position-relative#widgets
+            .shadow-lg.rounded.bg-body.d-flex.flex-column.py-2.position-relative#suggestions
                 button.btn.p-0.m-1.fw-bold#searchWiki
                     i.fab.fa-wikipedia-w.fa-lg
                 button.btn.p-0.m-1.fw-bold#searchDic

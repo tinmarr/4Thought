@@ -3,16 +3,12 @@ html, body {
     background: #EEF2F7;
 }
 
-#notename {
+#notename, #widgets {
     background: #EEF2F7;
 }
 
 .widget {
     width: 300px;
-}
-
-.widgetContent {
-    background: #f1f2f6;
 }
 
 .noselect {

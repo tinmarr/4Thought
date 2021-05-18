@@ -45,11 +45,7 @@ class Widget {
 
         dismissButton.onmousedown = () => {
             this.delete();
-            if (this.parent.id == "suggestions" && this.parent.childElementCount - 1 == 0) {
-                document.getElementById("noSugs")?.classList.remove("d-none");
-            } else {
-                document.getElementById("noSugs")?.classList.add("d-none");
-            }
+            this.updateSuggestions();
         };
 
         this.element.appendChild(dismissButton);
@@ -59,9 +55,7 @@ class Widget {
 
         this.parent.appendChild(this.element);
 
-        if (this.parent.id == "suggestions") {
-            document.getElementById("noSugs")?.classList.add("d-none");
-        }
+        this.updateSuggestions();
 
         this.dims.height = this.element.offsetHeight;
         this.dims.width = this.element.offsetWidth;
@@ -70,6 +64,16 @@ class Widget {
         this.coords.left = `${this.element.offsetLeft - 5}px`;
 
         if (this.poppedOut) this.popOut();
+    }
+
+    updateSuggestions() {
+        if (this.parent.id == "suggestions" && this.parent.childElementCount == 0) {
+            this.parent.classList.add("d-none");
+            this.parent.classList.remove("d-flex");
+        } else {
+            this.parent.classList.remove("d-none");
+            this.parent.classList.add("d-flex");
+        }
     }
 
     popOut() {
@@ -86,9 +90,7 @@ class Widget {
         this.element.style.width = this.dims.width + "px";
         this.element.style.height = this.dims.height + "px";
         this.poppedOut = true;
-        if (this.parent.id == "suggestions" && this.parent.childElementCount - 1 == 0) {
-            document.getElementById("noSugs")?.classList.remove("d-none");
-        }
+        this.updateSuggestions();
     }
 
     popIn() {
@@ -103,9 +105,7 @@ class Widget {
         this.element.style.removeProperty("height");
         this.element.style.removeProperty("width");
         this.poppedOut = false;
-        if (this.parent.id == "suggestions") {
-            document.getElementById("noSugs")?.classList.add("d-none");
-        }
+        this.updateSuggestions();
     }
 
     generalPop(): string {

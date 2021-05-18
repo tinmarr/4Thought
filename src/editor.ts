@@ -210,11 +210,8 @@ function searchWikipedia(keyWord: string) {
             return response.json();
         })
         .then(function (response) {
-            new Widget(
-                `wiki${keyWord}`,
-                keyWord,
-                `${response.query.search[0].snippet}<a target='_blank' href='https://en.wikipedia.org/wiki/${response.query.search[0].title}'>...</a>`,
-                div
+            new ReWidget(
+                `<h5 class='p-0 m-0'>${keyWord}</h5><hr class='mb-2 mt-1'>${response.query.search[0].snippet}<a target='_blank' href='https://en.wikipedia.org/wiki/${response.query.search[0].title}'>...</a>`
             );
         })
         .catch(function (error) {

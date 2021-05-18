@@ -1,3 +1,49 @@
+class ReWidget {
+    static widgets: ReWidget[] = [];
+    static idMin = 0;
+    element: HTMLDivElement;
+
+    constructor(content: string) {
+        this.element = document.createElement("div");
+        this.element.id = "widget" + ReWidget.idMin;
+        this.element.classList.add("shadow-lg", "rounded", "bg-body", "p-2", "mb-2", "position-relative");
+        
+        const contentDiv = document.createElement("div");
+        contentDiv.innerHTML = content;
+        contentDiv.classList.add("widgetContent");
+
+        const buttonsDiv = document.createElement("div");
+        buttonsDiv.classList.add("position-absolute", "top-0", "end-0", "mx-2");
+
+        const closeBtn = document.createElement("a");
+        closeBtn.innerHTML = "<i class='btn fal fa-times p-0 m-0' />";
+        closeBtn.onclick = () => {
+            this.delete();
+            ReWidget.updateList();
+            console.log("yeet");
+        }
+
+        buttonsDiv.appendChild(closeBtn);
+
+        this.element.appendChild(contentDiv);
+        this.element.appendChild(buttonsDiv);
+
+        document.getElementById("widgets")!.appendChild(this.element);
+        ReWidget.idMin++;
+        ReWidget.widgets.push(this);
+
+        ReWidget.updateList();
+    }
+
+    static updateList() {
+        const widgetsDiv = document.getElementById("widgets")!;
+        if (widgetsDiv.childElementCount == 0) widgetsDiv.classList.add("d-none");
+        else widgetsDiv.classList.remove("d-none");
+    }
+
+    delete() {}
+}
+
 class Widget {
     static activeWidgets: Widget[] = [];
     element: HTMLDivElement;

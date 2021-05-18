@@ -41,6 +41,13 @@ class Widget {
             this.updateSuggestions();
         };
 
+        let hoverSquare: HTMLDivElement = document.createElement("div");
+        hoverSquare.classList.add("position-absolute", "end-0", "bottom-0");
+        hoverSquare.style.cursor = "nwse-resize";
+        hoverSquare.style.width = "10px";
+        hoverSquare.style.height = "10px";
+        hoverSquare.id = this.element.id + "resize";
+
         this.element.onmouseup = () => {
             if (this.element.classList.contains("widgets")) {
                 this.coords.top = this.element.style.top != "" ? this.element.style.top : this.coords.top;
@@ -54,6 +61,7 @@ class Widget {
         this.element.appendChild(popButton);
         this.element.appendChild(headerDiv);
         this.element.appendChild(contentDiv);
+        this.element.appendChild(hoverSquare);
 
         this.parent.appendChild(this.element);
 
@@ -183,7 +191,13 @@ class Widget {
             pos2 = 0,
             pos3 = 0,
             pos4 = 0;
-        elmnt.onmousedown = dragMouseDown;
+        if (document.getElementById(elmnt.id + "resize")) {
+            /* if present, the header is where you move the DIV from:*/
+            document.getElementById(elmnt.id + "resize")!.onmousedown = dragMouseDown;
+        } else {
+            /* otherwise, move the DIV from anywhere inside the DIV:*/
+            elmnt.onmousedown = dragMouseDown;
+        }
 
         function dragMouseDown(e) {
             e = e || window.event;
@@ -193,9 +207,7 @@ class Widget {
             pos4 = e.clientY;
             document.onmouseup = closeResizeElement;
             // call a function whenever the cursor moves:
-            if (e.offsetX > elmnt.offsetWidth - borderSize && e.offsetY > elmnt.offsetHeight - borderSize) {
-                document.onmousemove = elementResize;
-            }
+            document.onmousemove = elementResize;
         }
 
         function elementResize(e) {

@@ -13,6 +13,8 @@ const quill: Quill = new Quill("#editor", {
 });
 new QuillMarkdown(quill, {});
 
+let lastSavedOn: Date;
+
 enum Format {
     list,
     raw,
@@ -80,6 +82,21 @@ textingToggle.onchange = function () {
 
 let noteName: string = (<HTMLInputElement>document.getElementById("notename")).value;
 
+const infoBtn = document.getElementById("info-btn")!, infoTTip = document.getElementById("infottip")!;
+let infoToggle = true;
+infoBtn.onclick = function () {
+    if (lastSavedOn) {
+        if (lastSavedOn.toDateString() != (new Date()).toDateString())
+            document.getElementById("save-time")!.innerHTML = "last saved on " + lastSavedOn.toDateString();
+        else
+            document.getElementById("save-time")!.innerHTML = "last saved on " + lastSavedOn.toTimeString();
+    }
+    
+    if (infoToggle) infoTTip.classList.remove("d-none");
+    else infoTTip.classList.add("d-none");
+    infoToggle = !infoToggle;
+}
+
 const syncBtn = document.getElementById("sync-btn")!;
 syncBtn.onclick = save;
 
@@ -91,6 +108,8 @@ closeBtn.onclick = (e) => {
 };
 
 function save(): void {
+    lastSavedOn = new Date();
+
     nameNote();
 
     if (!syncBtn.children[0].classList.contains("rotating")) {

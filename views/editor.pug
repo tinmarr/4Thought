@@ -34,11 +34,15 @@ block layout-content
                             span.invisible#text-shortcuts-popover
                                 input#in(type="text", class="form-control", placeholder="IN")
                                 input.my-2#out(type="text", class="form-control", placeholder="OUT")
-                                a(class="btn btn-outline-primary" role="button" type="button" data-bs-toggle="button" id="txtModeToggle") Txt Mode 
+                                a(class="btn btn-outline-primary", role="button", type="button", data-bs-toggle="button", id="txtModeToggle") Txt Mode 
                                 a(class="btn btn-outline-secondary", type="button", id="SubmitNewDefinition") Submit definition  
                     span.ql-formats.float-end
-                        button.p-0
+                        button.position-relative.p-0#info-btn
                             i.fas.fa-info-circle
+                            span.tooltip-left.d-none.shadow-lg#infottip
+                                p Looking for a formatting tool? 4Thought uses Markdown syntax to streamline the typing process; you can also use common keyboard shortcuts.
+                                hr
+                                span#save-time save to see last save date.
                         button.p-0#downloadPDF 
                             i.fas.fa-arrow-to-bottom
                         button.p-0#sync-btn

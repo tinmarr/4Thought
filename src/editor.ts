@@ -1,7 +1,5 @@
 import Quill from "quill";
 import QuillMarkdown from "quilljs-markdown";
-import { DefWidget, CommentWidget } from "./WidgetTypes";
-/// <reference path="./documentManager.ts"/>
 
 const quill: Quill = new Quill("#editor", {
     modules: {
@@ -112,9 +110,6 @@ function updateSaveTime(): void {
 }
 
 function save(): void {
-    document.body.dispatchEvent(new Event("savingDocument"));
-    console.log("event dispatched");
-
     lastSavedOn = new Date();
     updateSaveTime();
 
@@ -139,7 +134,6 @@ function save(): void {
         // txtshortcuts: textshortcuts,
     };
     sendNoCB("/save", data);
-    console.log("saved");
 }
 
 function nameNote(): void {
@@ -301,19 +295,7 @@ function alert(text: string) {
 
 declare global {
     interface Window {
-        quill: Quill;
         bootstrap: any;
         html2pdf: any;
-        data: any;
-        getImportantWords: any;
-        DefWidget: typeof DefWidget;
-        CommentWidget: typeof CommentWidget;
     }
 }
-
-window.quill = quill;
-window.getImportantWords = getImportantWords;
-window.data = data;
-window.alert = alert;
-window.DefWidget = DefWidget;
-window.CommentWidget = CommentWidget;

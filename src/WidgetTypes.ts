@@ -1,4 +1,4 @@
-export class DefWidget extends Widget {
+class DefWidget extends Widget {
     word: string;
     def: string;
 
@@ -12,7 +12,7 @@ export class DefWidget extends Widget {
     }
 }
 
-export class YoutubeWidget extends Widget {
+class YoutubeWidget extends Widget {
     url: string;
 
     constructor(term: string, icon: string) {
@@ -21,14 +21,9 @@ export class YoutubeWidget extends Widget {
     }
 }
 
-export class CommentWidget extends Widget {
+class CommentWidget extends Widget {
     constructor(icon: string) {
         let div = "<h5 class='p-0 m-0 noselect'>Note</h5> <div contenteditable='true' class='m-1 border border-0'></div>";
         super(div, icon);
-
-        document.addEventListener("savingDocument", (e) => {
-            console.log("event recieved");
-            super.content = super.element.querySelector("div.widgetContent")?.innerHTML!;
-        });
     }
 }

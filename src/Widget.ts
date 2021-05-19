@@ -43,7 +43,8 @@ class Widget {
     }
 
     toObj(): object {
-        return { content: this.content, icon: this.icon, classType: this.constructor.name };
+        this.content = this.element.querySelector("div.widgetContent")!.innerHTML;
+        return { content: this.content, icon: this.icon };
     }
 
     delete() {
@@ -60,8 +61,6 @@ class Widget {
     }
 
     static generate(fromObj) {
-        let lookup = { Widget: Widget, DefWidget: window.DefWidget, CommentWidget: window.CommentWidget };
-        console.log(fromObj);
         new Widget(fromObj.content, fromObj.icon);
     }
 }

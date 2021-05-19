@@ -47,7 +47,6 @@
         "quill": "^1.3.7",
         "quill-blot-formatter": "^1.0.5",
         "quill-image-compress": "^1.2.15",
-        "quill-image-drop-module": "^1.0.3",
         "quill-magic-url": "^3.0.2",
         "quilljs-markdown": "^1.1.4",
         "sortablejs": "^1.13.0"

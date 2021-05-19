@@ -1,20 +1,26 @@
 import Quill from "quill";
 import QuillMarkdown from "quilljs-markdown";
-import BlotFormatter, { AlignAction, DeleteAction, ImageSpec } from "quill-blot-formatter";
+import BlotFormatter, { DeleteAction, ImageSpec } from "quill-blot-formatter";
 import ImageCompress from "quill-image-compress";
-import { ImageDrop } from "quill-image-drop-module";
 import MagicUrl from "quill-magic-url";
 
 Quill.register("modules/blotFormatter", BlotFormatter);
 Quill.register("modules/imageCompress", ImageCompress);
-Quill.register("modules/imageDrop", ImageDrop);
 Quill.register("modules/magicUrl", MagicUrl);
+
+class CustomImageSpec extends ImageSpec {
+    getActions() {
+        return [DeleteAction];
+    }
+}
 
 const quill: Quill = new Quill("#editor", {
     modules: {
         toolbar: "#toolbar",
         formula: true,
-        blotFormatter: {},
+        blotFormatter: {
+            specs: [CustomImageSpec],
+        },
         imageCompress: {
             quality: 0.5, // default
             maxWidth: 500, // default
@@ -22,7 +28,6 @@ const quill: Quill = new Quill("#editor", {
             imageType: "image/jpeg", // default
             debug: true, // default
         },
-        imageDrop: true,
         magicUrl: true,
     },
     placeholder: "start typing...",

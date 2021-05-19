@@ -1,6 +1,6 @@
 import Quill from "quill";
 import QuillMarkdown from "quilljs-markdown";
-import BlotFormatter, { DeleteAction, ImageSpec } from "quill-blot-formatter";
+import BlotFormatter, { ResizeAction, DeleteAction, ImageSpec } from "quill-blot-formatter";
 import ImageCompress from "quill-image-compress";
 import MagicUrl from "quill-magic-url";
 
@@ -10,7 +10,7 @@ Quill.register("modules/magicUrl", MagicUrl);
 
 class CustomImageSpec extends ImageSpec {
     getActions() {
-        return [DeleteAction];
+        return [ResizeAction, DeleteAction];
     }
 }
 

@@ -5,12 +5,13 @@ class Widget {
     content: string;
     icon: string[];
 
-    constructor(content: string, icon: string[]) {
-        this.content = content; this.icon = icon;
+    constructor(content: string, icon: string | string[]) {
+        this.content = content;
+        this.icon = typeof icon == "string" ? icon.split(" ") : icon;
         this.element = document.createElement("div");
         this.element.id = "widget" + Widget.idMin;
         this.element.classList.add("widget", "shadow-lg", "rounded", "bg-body", "mb-2", "position-relative");
-        
+
         const contentDiv = document.createElement("div");
         contentDiv.innerHTML = content;
         contentDiv.classList.add("widgetContent", "p-2", "rounded");
@@ -23,7 +24,10 @@ class Widget {
 
         const closeBtn = document.createElement("a");
         closeBtn.innerHTML = "<i class='btn fal fa-times p-0 m-0' />";
-        closeBtn.onclick = () => { this.delete(); Widget.updateList(); };
+        closeBtn.onclick = () => {
+            this.delete();
+            Widget.updateList();
+        };
 
         buttonsDiv.appendChild(collapseBtn);
         buttonsDiv.appendChild(closeBtn);

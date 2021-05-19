@@ -1,5 +1,6 @@
 import Quill from "quill";
 import QuillMarkdown from "quilljs-markdown";
+import { DefWidget } from "./WidgetTypes";
 /// <reference path="./documentManager.ts"/>
 
 const quill: Quill = new Quill("#editor", {
@@ -14,9 +15,9 @@ new QuillMarkdown(quill, {});
 
 let lastSavedOn: Date = new Date();
 
-document.addEventListener('keydown', handleKeyPress);
+document.addEventListener("keydown", handleKeyPress);
 function handleKeyPress(e) {
-    if((e.ctrlKey || e.metaKey) && e.code == 'KeyS') {
+    if ((e.ctrlKey || e.metaKey) && e.code == "KeyS") {
         e.preventDefault();
         save();
     }
@@ -88,7 +89,7 @@ const infoBtn = document.getElementById("info-btn")!,
 let infoToggle = true;
 infoBtn.onclick = function () {
     updateSaveTime();
-    
+
     if (infoToggle) infoTTip.classList.remove("d-none");
     else infoTTip.classList.add("d-none");
     infoToggle = !infoToggle;
@@ -105,10 +106,9 @@ closeBtn.onclick = (e) => {
 };
 
 function updateSaveTime(): void {
-    if (lastSavedOn.toDateString() != (new Date()).toDateString())
+    if (lastSavedOn.toDateString() != new Date().toDateString())
         document.getElementById("save-time")!.innerHTML = "last saved on " + lastSavedOn.toDateString();
-    else
-        document.getElementById("save-time")!.innerHTML = "last saved on " + lastSavedOn.toTimeString();
+    else document.getElementById("save-time")!.innerHTML = "last saved on " + lastSavedOn.toTimeString();
 }
 
 function save(): void {
@@ -207,10 +207,14 @@ function searchWikipedia(keyWord: string) {
             return response.json();
         })
         .then((response) => {
-            new Widget(
-                `<h5 class='p-0 m-0 noselect'>${keyWord}</h5><hr class='mb-2 mt-1'>${response.query.search[0].snippet}<a target='_blank' href='https://en.wikipedia.org/wiki/${response.query.search[0].title}'>...</a>`,
-                ["fab", "fa-wikipedia-w"]
+            new DefWidget(
+                keyWord,
+                `${response.query.search[0].snippet}<a target='_blank' href='https://en.wikipedia.org/wiki/${response.query.search[0].title}'>...</a>`,
+                "fab fa-wikipedia-w"
             );
+        })
+        .catch((err) => {
+            alert(`${keyWord.charAt(0).toUpperCase() + keyWord.slice(1)} is not in Wikipedia!`);
         });
 }
 
@@ -229,10 +233,10 @@ function searchDictionary(word: string, language: Lang = Lang.english) {
             return response.json();
         })
         .then((response) => {
-            new Widget(
-                `<h5 class='p-0 m-0 noselect'>${word} (${response[0].meanings[0].partOfSpeech})</h5><hr class='mb-2 mt-1'>${response[0].meanings[0].definitions[0].definition}`,
-                ["fal", "fa-atlas"]
-            );
+            new DefWidget(word, response[0].meanings[0].definitions[0].definition, "fal fa-atlas", response[0].meanings[0].partOfSpeech);
+        })
+        .catch((err) => {
+            alert(`${word.charAt(0).toUpperCase() + word.slice(1)} is not in our dictionary!`);
         });
 }
 
@@ -279,6 +283,15 @@ function getImportantWords(): string {
     // return parsedText;
 }
 
+function alert(text: string) {
+    let element = document.createElement("div");
+    element.classList.add("alert", "alert-warning", "alert-dismissible", "fade", "show", "m-0");
+    element.setAttribute("role", "alert");
+    element.innerHTML = `<strong>Oh Noes!</strong> ${text} <button class="btn-close" data-bs-dismiss="alert" />`;
+
+    document.body.insertBefore(element, document.body.firstChild);
+}
+
 declare global {
     interface Window {
         quill: Quill;
@@ -294,3 +307,4 @@ window.quill = quill;
 window.seachDictionary = searchDictionary;
 window.getImportantWords = getImportantWords;
 window.data = data;
+window.alert = alert;

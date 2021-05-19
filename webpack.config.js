@@ -2,7 +2,12 @@ const path = require("path");
 
 let mode = "production",
     watch = true,
-    pth = path.join(__dirname, "./dist/src");
+    pth = path.join(__dirname, "./dist/src"),
+    optimization = {
+        minimize: false,
+        moduleIds: "named",
+        mangleExports: false,
+    };
 
 module.exports = [
     {
@@ -13,6 +18,7 @@ module.exports = [
             filename: "editor.bundle.js",
             path: pth,
         },
+        optimization: optimization,
     },
     {
         mode: mode,
@@ -22,5 +28,6 @@ module.exports = [
             filename: "dragManager.bundle.js",
             path: pth,
         },
+        optimization: optimization,
     },
 ];

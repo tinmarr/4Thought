@@ -1,6 +1,6 @@
 import Quill from "quill";
 import QuillMarkdown from "quilljs-markdown";
-import { DefWidget } from "./WidgetTypes";
+import { DefWidget, CommentWidget } from "./WidgetTypes";
 /// <reference path="./documentManager.ts"/>
 
 const quill: Quill = new Quill("#editor", {
@@ -112,6 +112,9 @@ function updateSaveTime(): void {
 }
 
 function save(): void {
+    document.body.dispatchEvent(new Event("savingDocument"));
+    console.log("event dispatched");
+
     lastSavedOn = new Date();
     updateSaveTime();
 
@@ -136,6 +139,7 @@ function save(): void {
         // txtshortcuts: textshortcuts,
     };
     sendNoCB("/save", data);
+    console.log("saved");
 }
 
 function nameNote(): void {
@@ -169,7 +173,12 @@ wikiLookup.onclick = () => {
 
 const dicLookup = document.getElementById("searchDic")!;
 dicLookup.onclick = () => {
-    searchDictionary(quill.getText(quill.getSelection()?.index, quill.getSelection()?.length));
+    searchDictionary(quill.getText(quill.getSelection()?.index, quill.getSelection()?.length), "en_US");
+};
+
+const newComment = document.getElementById("newComment")!;
+newComment.onclick = () => {
+    new CommentWidget(newComment.children[0].classList.value);
 };
 
 let popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]#add-texting-shortcuts'));
@@ -210,7 +219,7 @@ function searchWikipedia(keyWord: string) {
             new DefWidget(
                 keyWord,
                 `${response.query.search[0].snippet}<a target='_blank' href='https://en.wikipedia.org/wiki/${response.query.search[0].title}'>...</a>`,
-                "fab fa-wikipedia-w"
+                wikiLookup.children[0].classList.value
             );
         })
         .catch((err) => {
@@ -218,22 +227,20 @@ function searchWikipedia(keyWord: string) {
         });
 }
 
-enum Lang {
-    english,
-    french,
-    spanish,
-}
-
-function searchDictionary(word: string, language: Lang = Lang.english) {
+function searchDictionary(word: string, language: "en_US" | "fr" | "es") {
     let url = "https://api.dictionaryapi.dev/api/v2/entries";
-    let languageCode = language == Lang.english ? "en_US" : Lang.french == language ? "fr" : Lang.spanish == language ? "es" : "";
 
-    fetch(`${url}/${languageCode}/${word}`)
+    fetch(`${url}/${language}/${word}`)
         .then((response) => {
             return response.json();
         })
         .then((response) => {
-            new DefWidget(word, response[0].meanings[0].definitions[0].definition, "fal fa-atlas", response[0].meanings[0].partOfSpeech);
+            new DefWidget(
+                word,
+                response[0].meanings[0].definitions[0].definition,
+                dicLookup.children[0].classList.value,
+                response[0].meanings[0].partOfSpeech
+            );
         })
         .catch((err) => {
             alert(`${word.charAt(0).toUpperCase() + word.slice(1)} is not in our dictionary!`);
@@ -298,13 +305,15 @@ declare global {
         bootstrap: any;
         html2pdf: any;
         data: any;
-        seachDictionary: any;
         getImportantWords: any;
+        DefWidget: typeof DefWidget;
+        CommentWidget: typeof CommentWidget;
     }
 }
 
 window.quill = quill;
-window.seachDictionary = searchDictionary;
 window.getImportantWords = getImportantWords;
 window.data = data;
 window.alert = alert;
+window.DefWidget = DefWidget;
+window.CommentWidget = CommentWidget;

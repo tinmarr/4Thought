@@ -43,7 +43,7 @@ class Widget {
     }
 
     toObj(): object {
-        return { content: this.content, icon: this.icon };
+        return { content: this.content, icon: this.icon, classType: this.constructor.name };
     }
 
     delete() {
@@ -60,6 +60,8 @@ class Widget {
     }
 
     static generate(fromObj) {
+        let lookup = { Widget: Widget, DefWidget: window.DefWidget, CommentWidget: window.CommentWidget };
+        console.log(fromObj);
         new Widget(fromObj.content, fromObj.icon);
     }
 }

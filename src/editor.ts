@@ -172,7 +172,7 @@ dicLookup.onclick = () => {
 
 const newComment = document.getElementById("newComment")!;
 newComment.onclick = () => {
-    new CommentWidget(newComment.children[0].classList.value);
+    new CommentWidget({ icon: newComment.children[0].classList.value });
 };
 
 let popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]#add-texting-shortcuts'));
@@ -210,14 +210,14 @@ function searchWikipedia(keyWord: string) {
             return response.json();
         })
         .then((response) => {
-            new DefWidget(
-                keyWord,
-                `${response.query.search[0].snippet}<a target='_blank' href='https://en.wikipedia.org/wiki/${response.query.search[0].title}'>...</a>`,
-                wikiLookup.children[0].classList.value
-            );
+            new DefWidget({
+                word: keyWord,
+                definition: `${response.query.search[0].snippet}<a target='_blank' href='https://en.wikipedia.org/wiki/${response.query.search[0].title}'>...</a>`,
+                icon: wikiLookup.children[0].classList.value,
+            });
         })
         .catch((err) => {
-            alert(`${keyWord.charAt(0).toUpperCase() + keyWord.slice(1)} is not in Wikipedia!`);
+            alert(`That selection is not in Wikipedia!`);
         });
 }
 
@@ -229,15 +229,15 @@ function searchDictionary(word: string, language: "en_US" | "fr" | "es") {
             return response.json();
         })
         .then((response) => {
-            new DefWidget(
-                word,
-                response[0].meanings[0].definitions[0].definition,
-                dicLookup.children[0].classList.value,
-                response[0].meanings[0].partOfSpeech
-            );
+            new DefWidget({
+                word: word,
+                definition: response[0].meanings[0].definitions[0].definition,
+                icon: dicLookup.children[0].classList.value,
+                partOfSpeech: response[0].meanings[0].partOfSpeech,
+            });
         })
         .catch((err) => {
-            alert(`${word.charAt(0).toUpperCase() + word.slice(1)} is not in our dictionary!`);
+            alert(`That word is not in our dictionary!`);
         });
 }
 

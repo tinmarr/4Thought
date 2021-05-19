@@ -45,12 +45,7 @@
                         { "insert": "\n" }
                     ]
                 },
-                "widgets": [
-                    {
-                        "content": "<h5 class='p-0 m-0 noselect'>Cheetos  </h5><hr class='mb-2 mt-1'>Charles Elmer Doolin invented <span class=\"searchmatch\">Cheetos</span> in 1948, and began national distribution in the U.S. The initial success of <span class=\"searchmatch\">Cheetos</span> was a contributing factor to<a target='_blank' href='https://en.wikipedia.org/wiki/Cheetos'>...</a>",
-                        "icon": ["fab", "fa-wikipedia-w", "fa-lg"]
-                    }
-                ]
+                "widgets": []
             },
             "1": {
                 "name": "cheese",

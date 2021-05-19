@@ -5,15 +5,15 @@ class Widget {
     content: string;
     icon: string[];
 
-    constructor(content: string, icon: string | string[]) {
-        this.content = content;
-        this.icon = typeof icon == "string" ? icon.split(" ") : icon;
+    constructor(config: { content: string; icon: string | string[] }) {
+        this.content = config.content;
+        this.icon = typeof config.icon == "string" ? config.icon.split(" ") : config.icon;
         this.element = document.createElement("div");
         this.element.id = "widget" + Widget.idMin;
         this.element.classList.add("widget", "shadow-lg", "rounded", "bg-body", "mb-2", "position-relative");
 
         const contentDiv = document.createElement("div");
-        contentDiv.innerHTML = content;
+        contentDiv.innerHTML = config.content;
         contentDiv.classList.add("widgetContent", "p-2", "rounded");
 
         const buttonsDiv = document.createElement("div");
@@ -44,7 +44,7 @@ class Widget {
 
     toObj(): object {
         this.content = this.element.querySelector("div.widgetContent")!.innerHTML;
-        return { content: this.content, icon: this.icon };
+        return { content: this.content, icon: this.icon, type: this.constructor.name };
     }
 
     delete() {
@@ -61,7 +61,8 @@ class Widget {
     }
 
     static generate(fromObj) {
-        new Widget(fromObj.content, fromObj.icon);
+        let lookup = { Widget: Widget, DefWidget: DefWidget, CommentWidget: CommentWidget };
+        new lookup[fromObj.type]({ content: fromObj.content, icon: fromObj.icon });
     }
 }
 

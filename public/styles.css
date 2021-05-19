@@ -2,12 +2,8 @@ html, body {
     height: 100vh;
 }
 
-html, body, #notename {
+html, body, #notename, #widgets {
     background: #EEF2F7;
-}
-
-#widgets {
-    background: #EEF6F7;
 }
 
 .widget {

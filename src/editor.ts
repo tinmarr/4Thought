@@ -1,4 +1,3 @@
-import { response } from "express";
 import Quill from "quill";
 import QuillMarkdown from "quilljs-markdown";
 /// <reference path="./documentManager.ts"/>
@@ -15,6 +14,14 @@ new QuillMarkdown(quill, {});
 
 let lastSavedOn: Date = new Date();
 
+document.addEventListener('keydown', handleKeyPress);
+function handleKeyPress(e) {
+    if((e.ctrlKey || e.metaKey) && e.code == 'KeyS') {
+        e.preventDefault();
+        save();
+    }
+}
+
 enum Format {
     list,
     raw,
@@ -24,11 +31,9 @@ function getText(format: Format): string[] | string {
     let thing: HTMLDivElement = <HTMLDivElement>document.getElementsByClassName("ql-editor")[0];
     let text: string = thing.innerText;
     if (format === Format.list) {
-        console.log("is list");
         return text.split("\n");
     }
     if (format === Format.stringWithNoN) {
-        console.log("is string");
         return text.replace(/(\r\n|\n|\r)/gm, " ");
     }
     return text;
@@ -48,17 +53,13 @@ enableMathQuillFormulaAuthoring(quill, {
 
 const identifier: string = document.currentScript?.getAttribute("note-id")!;
 const data = JSON.parse(document.currentScript?.getAttribute("doc-data")!);
+const docWidgets = JSON.parse(document.currentScript?.getAttribute("doc-widgets")!);
 
 quill.setContents(data.delta);
 
 if (data.name != null && data.name != "untitled note") (document.getElementById("notename") as HTMLInputElement).value = data.name;
 
-try {
-    let widgets = data.widgets;
-    widgets = widgets.foreach((widget: string) => {
-        Widget.loadData(widget);
-    });
-} catch (err) {}
+for (let widget of docWidgets) Widget.generate(widget);
 
 const textingBtn = document.getElementById("add-texting-shortcuts")!;
 let textshortcuts: object = {};
@@ -69,15 +70,15 @@ textingBtn.onclick = function () {
     // let stuffout: string = /*<HTMLTextAreaElement>*/ document.querySelector("div.popover-body > #out").value;
     // // create new textshortcuts[in] = out
     // textshortcuts[stuffin] = stuffout;
-    console.log("yet to be implemented. Should create popup where you can add shortcuts");
-    console.log(textshortcuts);
+    // TODO: yet to be implemented. Should create popup where you can add shortcuts
+    //console.log(textshortcuts);
 };
 const textingToggle = document.getElementById("txtModeToggle")!;
 let textingToggleState: boolean = false;
 textingToggle.onchange = function () {
     const inpt = document.getElementsByName("input-texting-toggle")[0]! as HTMLInputElement;
     textingToggleState = inpt.checked;
-    console.log(`toggled to ${textingToggleState.valueOf()}`);
+    //console.log(`toggled to ${textingToggleState.valueOf()}`);
 };
 
 let noteName: string = (<HTMLInputElement>document.getElementById("notename")).value;
@@ -123,20 +124,18 @@ function save(): void {
         }, 1000);
     }
 
-    let stringedWidgets: string[] = Widget.activeWidgets.map((widg: Widget) => {
-        return widg.toString();
+    let widgetList: object[] = Widget.widgets.map((widg: Widget) => {
+        return widg.toObj();
     });
 
     let data = {
         id: identifier,
         name: noteName,
         delta: quill.getContents(),
-        widgets: stringedWidgets,
+        widgets: widgetList,
         // txtshortcuts: textshortcuts,
     };
-    send("/save", data, (res: any) => {
-        console.log(res);
-    });
+    sendNoCB("/save", data);
 }
 
 function nameNote(): void {
@@ -191,8 +190,6 @@ window.onbeforeunload = (e: BeforeUnloadEvent) => {
     save();
 };
 
-let div: HTMLDivElement = <HTMLDivElement>document.getElementById("widgets")!;
-
 function searchWikipedia(keyWord: string) {
     let url = "https://en.wikipedia.org/w/api.php";
     let params = {
@@ -206,19 +203,14 @@ function searchWikipedia(keyWord: string) {
         url += "&" + key + "=" + params[key];
     });
     fetch(url)
-        .then(function (response) {
+        .then((response) => {
             return response.json();
         })
-        .then(function (response) {
+        .then((response) => {
             new Widget(
-                `wiki${keyWord}`,
-                keyWord,
-                `${response.query.search[0].snippet}<a target='_blank' href='https://en.wikipedia.org/wiki/${response.query.search[0].title}'>...</a>`,
-                div
+                `<h5 class='p-0 m-0 noselect'>${keyWord}</h5><hr class='mb-2 mt-1'>${response.query.search[0].snippet}<a target='_blank' href='https://en.wikipedia.org/wiki/${response.query.search[0].title}'>...</a>`,
+                ["fab", "fa-wikipedia-w"]
             );
-        })
-        .catch(function (error) {
-            console.log(error);
         });
 }
 
@@ -237,7 +229,10 @@ function searchDictionary(word: string, language: Lang = Lang.english) {
             return response.json();
         })
         .then((response) => {
-            new Widget(`dict${word}`, `${word} (${response[0].meanings[0].partOfSpeech})`, response[0].meanings[0].definitions[0].definition, div);
+            new Widget(
+                `<h5 class='p-0 m-0 noselect'>${word} (${response[0].meanings[0].partOfSpeech})</h5><hr class='mb-2 mt-1'>${response[0].meanings[0].definitions[0].definition}`,
+                ["fal", "fa-atlas"]
+            );
         });
 }
 

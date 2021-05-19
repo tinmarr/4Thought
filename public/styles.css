@@ -2,6 +2,24 @@ html, body {
     height: 100vh;
 }
 
+html, body, #notename, #widgets {
+    background: #EEF2F7;
+}
+
+.widget {
+    width: 300px;
+}
+
+.noselect {
+    cursor: default;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+}
+
 .tooltip-left {
     position: absolute;
     top: 100%;
@@ -54,13 +72,4 @@ html, body {
 .fas p {
     font-family: system-ui;
     font-weight: 500;
-}
-
-.widgets {
-    position: absolute;
-    z-index: 9;
-}
-
-.widgets > .widgetHeader {
-    cursor: move;
 }

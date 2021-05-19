@@ -18,6 +18,7 @@
 #### Editor Features
 
 ##### Hard things
+
 -   Drawing tool
 -   Key word auto-detect
 -   Images/Drawings that float on top of editor <- assigned to Tomer
@@ -25,7 +26,6 @@
 ##### Easier things
 
 -   Personal Dictionary for shorthand typing
--   Wikepedia scraping for revelent info
 -   Define Key words / Highlighted words
 -   Note templates
 -   Shorthand conversion

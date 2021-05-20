@@ -35,7 +35,14 @@ block layout-content
                                 input#in(type="text", class="form-control", placeholder="IN")
                                 input.my-2#out(type="text", class="form-control", placeholder="OUT")
                                 a(class="btn btn-outline-primary", role="button", type="button", data-bs-toggle="button", id="txtModeToggle") Txt Mode 
+
                                 a#SubmitNewDefinition(class="btn btn-outline-secondary", type="button", role = "button") Submit definition  
+
+                                a(class="btn btn-outline-secondary", type="button", id="SubmitNewDefinition") Submit definition  
+                    span.ql-formats 
+                        button.p-0#speakSelection 
+                            i.fas.fa-volume
+
                     span.ql-formats.float-end
                         button.position-relative.p-0#info-btn
                             i.fas.fa-info-circle
@@ -56,6 +63,8 @@ block layout-content
                     i.far.fa-atlas.fa-lg
                 button.btn.p-0.m-1.fw-bold#newComment 
                     i.far.fa-comment-alt-lines.fa-lg
+                button.btn.p-0.m-1.fw-bold#newYoutube 
+                    i.fab.fa-youtube.fa-lg
     script(src="./documentManager.js")
     script(src="./Widget.js")
     script(src="./WidgetTypes.js") 

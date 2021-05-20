@@ -61,7 +61,7 @@ class Widget {
     }
 
     static generate(fromObj) {
-        let lookup = { Widget: Widget, DefWidget: DefWidget, CommentWidget: CommentWidget };
+        let lookup = { Widget: Widget, DefWidget: DefWidget, CommentWidget: CommentWidget, YoutubeWidget: YoutubeWidget };
         new lookup[fromObj.type]({ content: fromObj.content, icon: fromObj.icon });
     }
 }

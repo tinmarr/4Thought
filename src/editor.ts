@@ -205,20 +205,56 @@ downloadButton.onclick = () => {
         .save(noteName + ".pdf");
 };
 
+const ttsButton = document.getElementById("speakSelection")!;
+ttsButton.onclick = () => {
+    if (quill.getSelection() != null && !window.speechSynthesis.speaking) {
+        let selection = quill.getText(quill.getSelection()?.index, quill.getSelection()?.length),
+            msg = new SpeechSynthesisUtterance();
+        msg.text = selection;
+        window.speechSynthesis.speak(msg);
+    } else {
+        window.speechSynthesis.cancel();
+    }
+};
+
 const wikiLookup = document.getElementById("searchWiki")!;
 wikiLookup.onclick = () => {
-    searchWikipedia(quill.getText(quill.getSelection()?.index, quill.getSelection()?.length));
+    if (quill.getSelection() != null) {
+        searchWikipedia(quill.getText(quill.getSelection()?.index, quill.getSelection()?.length));
+    }
 };
 
 const dicLookup = document.getElementById("searchDic")!;
 dicLookup.onclick = () => {
-    searchDictionary(quill.getText(quill.getSelection()?.index, quill.getSelection()?.length), "en_US");
+    if (quill.getSelection() != null) {
+        searchDictionary(quill.getText(quill.getSelection()?.index, quill.getSelection()?.length), "en_US");
+    }
 };
 
 const newComment = document.getElementById("newComment")!;
 newComment.onclick = () => {
     new CommentWidget({ icon: newComment.children[0].classList.value });
 };
+
+
+const newYoutube = document.getElementById("newYoutube")!;
+newYoutube.onclick = () => {
+    new YoutubeWidget({ icon: newYoutube.children[0].classList.value });
+};
+
+let popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]#add-texting-shortcuts'));
+let popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+    let content = document.getElementById("text-shortcuts-popover")?.innerHTML;
+    let options = {
+        container: "body",
+        sanitize: false,
+        html: true,
+        placement: "bottom",
+        content: content,
+        trigger: "click",
+    };
+    return new window.bootstrap.Popover(popoverTriggerEl, options);
+});
 
 window.onbeforeunload = (e: BeforeUnloadEvent) => {
     save();

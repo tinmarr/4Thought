@@ -78,11 +78,115 @@ class RecordWidget extends Widget {
         if (isGeneralConfig(config)) {
             super(config);
         } else {
-            let content = ` <button class="btn m-0 p-0" type="button" role="button">
-                                <i class="fal fa-play-circle fa-2x" />
-                            </button>`;
+            let content = ` <button id="recordButton" class="btn m-0 p-0 d-flex d-inline-flex" type="button" role="button">
+                                <i class="far fa-microphone fa-2x"></i>
+                            </button>
+                            <button id="playButton" class="btn m-0 p-0 d-flex d-inline-flex flex-row d-none" type="button" role="button">
+                                <i class="far fa-play-circle fa-2x d-flex flex-column"></i>
+                                <i class="far fa-pause-circle fa-2x d-none d-flex flex-column"></i>
+                            </button>
+                            <div id="storage" class="d-flex d-inline-flex"></div>`;
             super({ content: content, icon: config.icon });
         }
+        let recording = false;
+        let recorder: any = null;
+        // TODO load audio from data-audio
+        let audio: { audioBlob: Blob; audioUrl: string; audio: HTMLAudioElement; play: () => void; pause: () => void } | null = null;
+        (this.element.querySelector("button#recordButton") as HTMLButtonElement).onclick = (e) => {
+            if (!recording) {
+                recording = true;
+                RecordWidget.startRecord().then((res) => {
+                    recorder = res;
+                });
+            } else {
+                recording = false;
+                RecordWidget.stopRecord(recorder).then((res) => {
+                    audio = res;
+                    let reader = new FileReader();
+                    reader.readAsDataURL(audio?.audioBlob!);
+                    reader.onloadend = () => {
+                        let base64 = reader.result;
+                        base64 = (base64 as string).split(",")[1];
+                        this.element.querySelector("div#storage")?.setAttribute("data-audio", base64);
+                    };
+                    this.element.querySelector("button#recordButton")?.classList.add("d-none");
+                    this.element.querySelector("button#playButton")?.classList.remove("d-none");
+                });
+            }
+        };
+        (this.element.querySelector("button#playButton") as HTMLButtonElement).onclick = (e) => {
+            if (!this.element.querySelector("button#playButton > i.fa-play-circle")?.classList.contains("d-none")) {
+                this.element.querySelector("button#playButton > i.fa-play-circle")?.classList.add("d-none");
+                this.element.querySelector("button#playButton > i.fa-pause-circle")?.classList.remove("d-none");
+                audio!.play();
+                audio!.audio.addEventListener("ended", () => {
+                    this.element.querySelector("button#playButton > i.fa-play-circle")?.classList.remove("d-none");
+                    this.element.querySelector("button#playButton > i.fa-pause-circle")?.classList.add("d-none");
+                });
+            } else {
+                this.element.querySelector("button#playButton > i.fa-play-circle")?.classList.remove("d-none");
+                this.element.querySelector("button#playButton > i.fa-pause-circle")?.classList.add("d-none");
+                audio!.pause();
+            }
+        };
+    }
+
+    static sleep(time: number) {
+        return new Promise((resolve) => setTimeout(resolve, time));
+    }
+
+    static record(): Promise<{ start: any; stop: any }> {
+        return new Promise((resolve) => {
+            navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
+                const mediaRecorder = new MediaRecorder(stream);
+                const audioChunks: Blob[] = [];
+
+                mediaRecorder.addEventListener("dataavailable", (event) => {
+                    audioChunks.push(event.data);
+                });
+
+                const start = () => {
+                    mediaRecorder.start();
+                };
+
+                const stop = () => {
+                    return new Promise((resolve) => {
+                        mediaRecorder.addEventListener("stop", () => {
+                            const audioBlob = new Blob(audioChunks);
+                            const audioUrl = URL.createObjectURL(audioBlob);
+                            const audio = new Audio(audioUrl);
+                            const play = () => {
+                                audio.play();
+                            };
+                            const pause = () => {
+                                audio.pause();
+                            };
+
+                            resolve({ audioBlob, audioUrl, audio, play, pause });
+                        });
+
+                        mediaRecorder.stop();
+                    });
+                };
+
+                resolve({ start, stop });
+            });
+        });
+    }
+
+    static async startRecord() {
+        const recorder = await RecordWidget.record();
+        recorder.start();
+        return new Promise((resolve) => {
+            resolve(recorder);
+        });
+    }
+
+    static async stopRecord(recorder: { start: any; stop: any }): Promise<any> {
+        const audio = await recorder.stop();
+        return new Promise((resolve) => {
+            resolve(audio);
+        });
     }
 }
 

@@ -1,12 +1,8 @@
-html,
-body {
+html, body {
     height: 100vh;
 }
 
-html,
-body,
-#notename,
-#widgets {
+html, body, #notename, #widgets {
     background: #eef2f7;
 }
 

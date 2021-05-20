@@ -236,7 +236,6 @@ newComment.onclick = () => {
     new CommentWidget({ icon: newComment.children[0].classList.value });
 };
 
-
 const newYoutube = document.getElementById("newYoutube")!;
 newYoutube.onclick = () => {
     new YoutubeWidget({ icon: newYoutube.children[0].classList.value });
@@ -308,49 +307,6 @@ function searchDictionary(word: string, language: "en_US" | "fr" | "es") {
         });
 }
 
-function getImportantWords(): string {
-    let text: string = getText(Format.stringWithNoN) as string;
-    let importantWords: string[] = [];
-    let parsedText: string = text
-        .replace(/([^a-zA-Z\s])/gm, "")
-        .replace(/(\b\s\s+|\s\s+\b)/gm, " ")
-        .replace(/^\s|\s$|/gm, "");
-    // .split(" ");
-    return parsedText;
-    // let wordInfo: { [word: string]: { freq: number; length: number; noun: boolean } } = {};
-    // parsedText.forEach((word) => {
-    //     if (word.length < 6 && word == word.toLowerCase()) {
-    //         parsedText.splice(parsedText.indexOf(word, 1));
-    //     } else {
-    //         if (wordInfo[word] == null || wordInfo[word] == undefined) {
-    //             wordInfo[word] = {
-    //                 freq: 1,
-    //                 length: word.length,
-    //                 noun: word != word.toLowerCase(),
-    //             };
-    //         } else {
-    //             wordInfo[word].freq++;
-    //         }
-    //     }
-    // });
-
-    // let averages = { freq: 0, length: 0 };
-    // Object.values(wordInfo).forEach((info) => {
-    //     averages.freq += info.freq;
-    //     averages.length += info.length;
-    // });
-    // averages.freq /= Object.values(wordInfo).length;
-    // averages.length /= Object.values(wordInfo).length;
-
-    // parsedText.forEach((word) => {
-    //     if (!wordInfo[word].noun && (wordInfo[word].freq > averages.freq || wordInfo[word].length > averages.length)) {
-    //         parsedText.splice(parsedText.indexOf(word), 1);
-    //     }
-    // });
-    // console.log(wordInfo);
-    // return parsedText;
-}
-
 function alert(text: string) {
     let element = document.createElement("div");
     element.classList.add("alert", "alert-warning", "alert-dismissible", "fade", "show", "m-0");
@@ -358,6 +314,42 @@ function alert(text: string) {
     element.innerHTML = `<strong>Oh Noes!</strong> ${text} <button class="btn-close" data-bs-dismiss="alert" />`;
 
     document.body.insertBefore(element, document.body.firstChild);
+}
+
+export function record() {
+    return new Promise((resolve) => {
+        navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
+            const mediaRecorder = new MediaRecorder(stream);
+            const audioChunks: Blob[] = [];
+
+            mediaRecorder.addEventListener("dataavailable", (event) => {
+                audioChunks.push(event.data);
+            });
+
+            const start = () => {
+                mediaRecorder.start();
+            };
+
+            const stop = () => {
+                return new Promise((resolve) => {
+                    mediaRecorder.addEventListener("stop", () => {
+                        const audioBlob = new Blob(audioChunks);
+                        const audioUrl = URL.createObjectURL(audioBlob);
+                        const audio = new Audio(audioUrl);
+                        const play = () => {
+                            audio.play();
+                        };
+
+                        resolve({ audioBlob, audioUrl, play });
+                    });
+
+                    mediaRecorder.stop();
+                });
+            };
+
+            resolve({ start, stop });
+        });
+    });
 }
 
 declare global {

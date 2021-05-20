@@ -13,20 +13,12 @@ module.exports = [
     {
         mode: mode,
         watch: watch,
-        entry: "./dist/src/editor.js",
+        entry: { editor: "./dist/src/editor.js", dragManager: "./dist/src/dragManager.js" },
         output: {
-            filename: "editor.bundle.js",
+            filename: "[name].bundle.js",
             path: pth,
-        },
-        optimization: optimization,
-    },
-    {
-        mode: mode,
-        watch: watch,
-        entry: "./dist/src/dragManager.js",
-        output: {
-            filename: "dragManager.bundle.js",
-            path: pth,
+            library: ["window", "[name]"],
+            libraryTarget: "var",
         },
         optimization: optimization,
     },

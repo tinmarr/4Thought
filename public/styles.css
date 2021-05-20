@@ -6,6 +6,11 @@ html, body, #notename, #widgets {
     background: #EEF2F7;
 }
 
+.editable-div::before {
+    content: "Write here...";
+    color: gray;
+}
+
 .widget {
     width: 300px;
 }

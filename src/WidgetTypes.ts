@@ -27,16 +27,12 @@ class CommentWidget extends Widget {
         
         let ele = this.element.querySelector("div.widgetContent > div[contenteditable='plaintext-only']")!;
 
-        ele.innerHTML === "" && (ele.innerHTML = "Write here...");
+        if (ele.innerHTML == "") (ele.classList.add('editable-div'));
 
-        ele.addEventListener("focus", (e) => {
+        ele.addEventListener("input", (e) => {
             const value = ele.innerHTML;
-            value === "Write here..." && (ele.innerHTML = "");
-        });
-
-        ele.addEventListener("blur", (e) => {
-            const value = ele.innerHTML;
-            (value === "" || value === "<br>") && (ele.innerHTML = "Write here...");
+            if (value == "" || value == "<br>") ele.classList.add('editable-div');
+            else ele.classList.remove('editable-div');
         });
     }
 }

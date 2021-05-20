@@ -184,14 +184,28 @@ downloadButton.onclick = () => {
         .save(noteName + ".pdf");
 };
 
+const ttsButton = document.getElementById("speakSelection")!;
+ttsButton.onclick = () => {
+    if (quill.getSelection() != null && !window.speechSynthesis.speaking) {
+        let selection = quill.getText(quill.getSelection()?.index, quill.getSelection()?.length),
+            msg = new SpeechSynthesisUtterance();
+        msg.text = selection;
+        window.speechSynthesis.speak(msg);
+    }
+};
+
 const wikiLookup = document.getElementById("searchWiki")!;
 wikiLookup.onclick = () => {
-    searchWikipedia(quill.getText(quill.getSelection()?.index, quill.getSelection()?.length));
+    if (quill.getSelection() != null) {
+        searchWikipedia(quill.getText(quill.getSelection()?.index, quill.getSelection()?.length));
+    }
 };
 
 const dicLookup = document.getElementById("searchDic")!;
 dicLookup.onclick = () => {
-    searchDictionary(quill.getText(quill.getSelection()?.index, quill.getSelection()?.length), "en_US");
+    if (quill.getSelection() != null) {
+        searchDictionary(quill.getText(quill.getSelection()?.index, quill.getSelection()?.length), "en_US");
+    }
 };
 
 const newComment = document.getElementById("newComment")!;

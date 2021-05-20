@@ -21,18 +21,19 @@ class CommentWidget extends Widget {
         if (isGeneralConfig(config)) {
             super(config);
         } else {
-            let div = "<h5 class='p-0 m-0 noselect'>Comment</h5><hr class='mb-2 mt-1'><div contenteditable='plaintext-only' class='my-1 outline-0 border-0' />";
+            let div =
+                "<h5 class='p-0 m-0 noselect'>Comment</h5><hr class='mb-2 mt-1'><div contenteditable='plaintext-only' class='my-1 outline-0 border-0' />";
             super({ content: div, icon: config.icon });
         }
-        
+
         let ele = this.element.querySelector("div.widgetContent > div[contenteditable='plaintext-only']")!;
 
-        if (ele.innerHTML == "") (ele.classList.add('editable-div'));
+        if (ele.innerHTML == "") ele.classList.add("editable-div");
 
         ele.addEventListener("input", (e) => {
             const value = ele.innerHTML;
-            if (value == "" || value == "<br>") ele.classList.add('editable-div');
-            else ele.classList.remove('editable-div');
+            if (value == "" || value == "<br>") ele.classList.add("editable-div");
+            else ele.classList.remove("editable-div");
         });
     }
 }

@@ -84,23 +84,44 @@ if (data.name != null && data.name != "untitled note") (document.getElementById(
 
 for (let widget of docWidgets) Widget.generate(widget);
 
-const textingBtn = document.getElementById("add-texting-shortcuts")!;
-let textshortcuts: object = {};
-textingBtn.onclick = function () {
-    // // get whats in the in
-    // let stuffin: string = /*<HTMLTextAreaElement>*/ document.querySelector("div.popover-body > #in").value;
-    // // get whats in the out
-    // let stuffout: string = /*<HTMLTextAreaElement>*/ document.querySelector("div.popover-body > #out").value;
-    // // create new textshortcuts[in] = out
-    // textshortcuts[stuffin] = stuffout;
-    // TODO: yet to be implemented. Should create popup where you can add shortcuts
-    //console.log(textshortcuts);
+if (!("txtshortcuts" in Object.keys(data))) {
+    data["txtshortcuts"] = new SmallD();
+}
+let textshortcuts: SmallD = data["txtshortcuts"];
+
+const dictionaryBtn = document.getElementById("add-texting-shortcuts")!;
+dictionaryBtn.onclick = function (e) {
+    e.preventDefault();
+    let content = document.getElementById("text-shortcuts-popover")?.innerHTML;
+    let options = {
+        container: "body",
+        sanitize: false,
+        html: true,
+        placement: "bottom",
+        content: content,
+        trigger: "click",
+    };
+    let ppover = new window.bootstrap.Popover(dictionaryBtn, options);
+    ppover.show();
+
+    const textingsubmitBtn = <HTMLAnchorElement>document.querySelector("div.popover-body > #SubmitNewDefinition")!;
+    console.log(textingsubmitBtn);
+    textingsubmitBtn.onclick = function () {
+        // // get whats in the in
+        let stuffin: string = (<HTMLTextAreaElement>document.querySelector("div.popover-body > #in")).value;
+        // // get whats in the out
+        let stuffout: string = (<HTMLTextAreaElement>document.querySelector("div.popover-body > #out")).value;
+        console.log(stuffin, " ", stuffout);
+        textshortcuts.addPair(stuffin, stuffout);
+        console.log(textshortcuts);
+    };
 };
 const textingToggle = document.getElementById("txtModeToggle")!;
 let textingToggleState: boolean = false;
 textingToggle.onchange = function () {
     const inpt = document.getElementsByName("input-texting-toggle")[0]! as HTMLInputElement;
     textingToggleState = inpt.checked;
+    console.log(textingToggle);
     //console.log(`toggled to ${textingToggleState.valueOf()}`);
 };
 
@@ -155,7 +176,7 @@ function save(): void {
         name: noteName,
         delta: quill.getContents(),
         widgets: widgetList,
-        // txtshortcuts: textshortcuts,
+        txtshortcuts: textshortcuts,
     };
     sendNoCB("/save", data);
 }
@@ -198,20 +219,6 @@ const newComment = document.getElementById("newComment")!;
 newComment.onclick = () => {
     new CommentWidget({ icon: newComment.children[0].classList.value });
 };
-
-let popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]#add-texting-shortcuts'));
-let popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
-    let content = document.getElementById("text-shortcuts-popover")?.innerHTML;
-    let options = {
-        container: "body",
-        sanitize: false,
-        html: true,
-        placement: "bottom",
-        content: content,
-        trigger: "click",
-    };
-    return new window.bootstrap.Popover(popoverTriggerEl, options);
-});
 
 window.onbeforeunload = (e: BeforeUnloadEvent) => {
     save();

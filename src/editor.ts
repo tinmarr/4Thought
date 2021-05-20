@@ -199,6 +199,11 @@ newComment.onclick = () => {
     new CommentWidget({ icon: newComment.children[0].classList.value });
 };
 
+const newYoutube = document.getElementById("newYoutube")!;
+newYoutube.onclick = () => {
+    new YoutubeWidget({ icon: newYoutube.children[0].classList.value });
+};
+
 let popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]#add-texting-shortcuts'));
 let popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
     let content = document.getElementById("text-shortcuts-popover")?.innerHTML;

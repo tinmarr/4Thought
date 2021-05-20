@@ -40,6 +40,41 @@ class CommentWidget extends Widget {
     }
 }
 
+class YoutubeWidget extends Widget {
+    constructor(config: { url?: string; icon: string } | GeneralConfig) {
+        if (isGeneralConfig(config)) {
+            super(config);
+        } else {
+            if (config.url != undefined) {
+                let width = 300 - 16,
+                    params = new URLSearchParams(config.url.substring(config.url.indexOf("?")));
+
+                let content = `<iframe width="${width}" height="${width * (9 / 16)}" src="https://www.youtube.com/embed/${params.get(
+                    "v"
+                )}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+                super({ content: content, icon: config.icon });
+            } else {
+                let content = ` <div class="form-group">
+                                    <label for="utubeurl">Youtube URL</label>
+                                    <input type="text" class="form-control" id="utubeurl" placeholder="https://www.youtube.com/watch?v=...">
+                                </div>
+                                <button role="button" class="btn btn-primary" id="getUtube">Get</button>`;
+                super({ content: content, icon: config.icon });
+            }
+        }
+        if (this.element.querySelector("button#getUtube") != null) {
+            console.log("listener made");
+            (<HTMLButtonElement>this.element.querySelector("button#getUtube")!).onclick = (e) => {
+                console.log("we are in");
+                e.preventDefault();
+                let url = (<HTMLInputElement>this.element.querySelector("div.form-group > input#utubeurl")!).value;
+                new YoutubeWidget({ url: url, icon: config.icon });
+                this.delete();
+            };
+        }
+    }
+}
+
 function isGeneralConfig(config: object | GeneralConfig): config is GeneralConfig {
     return (config as GeneralConfig).content != undefined;
 }

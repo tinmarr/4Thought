@@ -73,6 +73,19 @@ class YoutubeWidget extends Widget {
     }
 }
 
+class RecordWidget extends Widget {
+    constructor(config: { icon: string } | GeneralConfig) {
+        if (isGeneralConfig(config)) {
+            super(config);
+        } else {
+            let content = ` <button class="btn m-0 p-0" type="button" role="button">
+                                <i class="fal fa-play-circle fa-2x" />
+                            </button>`;
+            super({ content: content, icon: config.icon });
+        }
+    }
+}
+
 function isGeneralConfig(config: object | GeneralConfig): config is GeneralConfig {
     return (config as GeneralConfig).content != undefined;
 }

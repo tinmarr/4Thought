@@ -1,9 +1,13 @@
-html, body {
+html,
+body {
     height: 100vh;
 }
 
-html, body, #notename, #widgets {
-    background: #EEF2F7;
+html,
+body,
+#notename,
+#widgets {
+    background: #eef2f7;
 }
 
 .editable-div::before {
@@ -70,6 +74,21 @@ html, body, #notename, #widgets {
 }
 
 .fas::before {
+    position: relative;
+    top: 1px;
+}
+
+.fab::before {
+    position: relative;
+    top: 1px;
+}
+
+.far::before {
+    position: relative;
+    top: 1px;
+}
+
+.fal::before {
     position: relative;
     top: 1px;
 }

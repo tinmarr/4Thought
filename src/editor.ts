@@ -191,6 +191,8 @@ ttsButton.onclick = () => {
             msg = new SpeechSynthesisUtterance();
         msg.text = selection;
         window.speechSynthesis.speak(msg);
+    } else {
+        window.speechSynthesis.cancel();
     }
 };
 

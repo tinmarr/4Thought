@@ -21,10 +21,11 @@ class CommentWidget extends Widget {
         if (isGeneralConfig(config)) {
             super(config);
         } else {
-            let div = "<h5 class='p-0 m-0 noselect'>Note</h5> <div contenteditable='true' class='my-1'></div>";
+            let div = "<h5 class='p-0 m-0 noselect'>Comment</h5><div contenteditable='plaintext-only' class='my-1 outline-0 border-0'></div>";
             super({ content: div, icon: config.icon });
         }
-        let ele = this.element.querySelector("div.widgetContent > div[contenteditable='true']")!;
+        
+        let ele = this.element.querySelector("div.widgetContent > div[contenteditable='plaintext-only']")!;
 
         ele.innerHTML === "" && (ele.innerHTML = "Write here...");
 
@@ -35,7 +36,7 @@ class CommentWidget extends Widget {
 
         ele.addEventListener("blur", (e) => {
             const value = ele.innerHTML;
-            value === "" && (ele.innerHTML = "Write here...");
+            (value === "" || value === "<br>") && (ele.innerHTML = "Write here...");
         });
     }
 }

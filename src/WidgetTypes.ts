@@ -1,29 +1,31 @@
 interface GeneralConfig {
     content: string;
-    icon: string;
+    collapse: string | boolean;
 }
 
 class DefWidget extends Widget {
-    constructor(config: { word: string; definition: string; icon: string; partOfSpeech?: string } | GeneralConfig) {
+    constructor(config: { word: string; definition: string; partOfSpeech?: string } | GeneralConfig) {
         if (isGeneralConfig(config)) {
             super(config);
         } else {
-            let text: string = `<h5 class='p-0 m-0 noselect'>${config.word} ${
+            const content: string = `<h5 class='p-0 m-0 noselect'>${config.word} ${
                 config.partOfSpeech != undefined ? `(${config.partOfSpeech})` : ""
             }</h5><hr class='mb-2 mt-1'>${config.definition}`;
-            super({ content: text, icon: config.icon });
+            const collapse = false;
+            super({ content: content, collapse: collapse });
         }
     }
 }
 
 class CommentWidget extends Widget {
-    constructor(config: { icon: string } | GeneralConfig) {
+    constructor(config: {} | GeneralConfig = {}) {
         if (isGeneralConfig(config)) {
             super(config);
         } else {
-            let div =
+            const content =
                 "<h5 class='p-0 m-0 noselect'>Comment</h5><hr class='mb-2 mt-1'><div contenteditable='plaintext-only' class='my-1 outline-0 border-0' />";
-            super({ content: div, icon: config.icon });
+            const collapse = false;
+            super({ content: content, collapse: collapse });
         }
 
         let ele = this.element.querySelector("div.widgetContent > div[contenteditable='plaintext-only']")!;
@@ -39,25 +41,27 @@ class CommentWidget extends Widget {
 }
 
 class YoutubeWidget extends Widget {
-    constructor(config: { url?: string; icon: string } | GeneralConfig) {
+    constructor(config: { url?: string } | GeneralConfig = {}) {
         if (isGeneralConfig(config)) {
             super(config);
         } else {
             if (config.url != undefined) {
-                let width = 300 - 16,
+                const width = 300 - 16,
                     params = new URLSearchParams(config.url.substring(config.url.indexOf("?")));
 
-                let content = `<iframe width="${width}" height="${width * (9 / 16)}" src="https://www.youtube.com/embed/${params.get(
+                const content = `<iframe width="${width}" height="${width * (9 / 16)}" src="https://www.youtube.com/embed/${params.get(
                     "v"
                 )}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
-                super({ content: content, icon: config.icon });
+                const collapse = false;
+                super({ content: content, collapse: collapse });
             } else {
-                let content = ` <div class="form-group">
+                const content = ` <div class="form-group">
                                     <label for="utubeurl">Youtube URL</label>
                                     <input type="text" class="form-control" id="utubeurl" placeholder="https://www.youtube.com/watch?v=...">
                                 </div>
                                 <button role="button" class="btn btn-primary" id="getUtube">Get</button>`;
-                super({ content: content, icon: config.icon });
+                const collapse = false;
+                super({ content: content, collapse: collapse });
             }
         }
         if (this.element.querySelector("button#getUtube") != null) {
@@ -66,7 +70,7 @@ class YoutubeWidget extends Widget {
                 console.log("we are in");
                 e.preventDefault();
                 let url = (<HTMLInputElement>this.element.querySelector("div.form-group > input#utubeurl")!).value;
-                new YoutubeWidget({ url: url, icon: config.icon });
+                new YoutubeWidget({ url: url });
                 this.delete();
             };
         }
@@ -78,14 +82,15 @@ class RecordWidget extends Widget {
         if (isGeneralConfig(config)) {
             super(config);
         } else {
-            let content = ` <button id="recordButton" class="btn m-0 p-0 d-flex d-inline-flex" type="button" role="button">
+            const content = ` <button id="recordButton" class="btn m-0 p-0 d-flex d-inline-flex" type="button" role="button">
                                 <i class="far fa-microphone fa-2x"></i>
                             </button>
                             <button id="playButton" class="btn m-0 p-0 d-flex d-inline-flex flex-row d-none" type="button" role="button">
                                 <i class="far fa-play-circle fa-2x d-flex flex-column"></i>
                             </button>
                             <div id="storage" class="d-flex d-inline-flex d-none"></div>`;
-            super({ content: content, icon: config.icon });
+            const collapse = false;
+            super({ content: content, collapse: collapse });
         }
         let recording = false;
         let recorder: any = null;

@@ -234,12 +234,12 @@ dicLookup.onclick = () => {
 
 const newComment = document.getElementById("newComment")!;
 newComment.onclick = () => {
-    new CommentWidget({ icon: newComment.children[0].classList.value });
+    new CommentWidget();
 };
 
 const newYoutube = document.getElementById("newYoutube")!;
 newYoutube.onclick = () => {
-    new YoutubeWidget({ icon: newYoutube.children[0].classList.value });
+    new YoutubeWidget();
 };
 
 const newRecording = document.getElementById("newRecording")!;
@@ -285,7 +285,6 @@ function searchWikipedia(keyWord: string) {
             new DefWidget({
                 word: keyWord,
                 definition: `${response.query.search[0].snippet}<a target='_blank' href='https://en.wikipedia.org/wiki/${response.query.search[0].title}'>...</a>`,
-                icon: wikiLookup.children[0].classList.value,
             });
         })
         .catch((err) => {
@@ -304,7 +303,6 @@ function searchDictionary(word: string, language: "en_US" | "fr" | "es") {
             new DefWidget({
                 word: word,
                 definition: response[0].meanings[0].definitions[0].definition,
-                icon: dicLookup.children[0].classList.value,
                 partOfSpeech: response[0].meanings[0].partOfSpeech,
             });
         })

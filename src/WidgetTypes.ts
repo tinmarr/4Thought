@@ -83,16 +83,28 @@ class RecordWidget extends Widget {
                             </button>
                             <button id="playButton" class="btn m-0 p-0 d-flex d-inline-flex flex-row d-none" type="button" role="button">
                                 <i class="far fa-play-circle fa-2x d-flex flex-column"></i>
-                                <i class="far fa-pause-circle fa-2x d-none d-flex flex-column"></i>
                             </button>
-                            <div id="storage" class="d-flex d-inline-flex"></div>`;
+                            <div id="storage" class="d-flex d-inline-flex d-none"></div>`;
             super({ content: content, icon: config.icon });
         }
         let recording = false;
         let recorder: any = null;
-        // TODO load audio from data-audio
+
+        let base64 = (this.element.querySelector("div#storage")?.getAttribute("data-audio") as string) || "";
+        if (base64 != "") {
+            let base64response = fetch(base64).then((res) => {
+                res.blob().then((blob) => {
+                    audio = RecordWidget.makeOthers(blob);
+                });
+            });
+            this.element.querySelector("button#playButton > i.far")?.classList.add("fa-play-circle");
+            this.element.querySelector("button#playButton > i.far")?.classList.remove("fa-pause-circle");
+        }
+
         let audio: { audioBlob: Blob; audioUrl: string; audio: HTMLAudioElement; play: () => void; pause: () => void } | null = null;
         (this.element.querySelector("button#recordButton") as HTMLButtonElement).onclick = (e) => {
+            this.element.querySelector("button#recordButton > i.fa-microphone")?.classList.remove("far");
+            this.element.querySelector("button#recordButton > i.fa-microphone")?.classList.add("fas");
             if (!recording) {
                 recording = true;
                 RecordWidget.startRecord().then((res) => {
@@ -105,8 +117,7 @@ class RecordWidget extends Widget {
                     let reader = new FileReader();
                     reader.readAsDataURL(audio?.audioBlob!);
                     reader.onloadend = () => {
-                        let base64 = reader.result;
-                        base64 = (base64 as string).split(",")[1];
+                        base64 = reader.result as string;
                         this.element.querySelector("div#storage")?.setAttribute("data-audio", base64);
                     };
                     this.element.querySelector("button#recordButton")?.classList.add("d-none");
@@ -115,17 +126,17 @@ class RecordWidget extends Widget {
             }
         };
         (this.element.querySelector("button#playButton") as HTMLButtonElement).onclick = (e) => {
-            if (!this.element.querySelector("button#playButton > i.fa-play-circle")?.classList.contains("d-none")) {
-                this.element.querySelector("button#playButton > i.fa-play-circle")?.classList.add("d-none");
-                this.element.querySelector("button#playButton > i.fa-pause-circle")?.classList.remove("d-none");
+            if (this.element.querySelector("button#playButton > i.far")?.classList.contains("fa-play-circle")) {
+                this.element.querySelector("button#playButton > i.far")?.classList.remove("fa-play-circle");
+                this.element.querySelector("button#playButton > i.far")?.classList.add("fa-pause-circle");
                 audio!.play();
                 audio!.audio.addEventListener("ended", () => {
-                    this.element.querySelector("button#playButton > i.fa-play-circle")?.classList.remove("d-none");
-                    this.element.querySelector("button#playButton > i.fa-pause-circle")?.classList.add("d-none");
+                    this.element.querySelector("button#playButton > i.far")?.classList.add("fa-play-circle");
+                    this.element.querySelector("button#playButton > i.far")?.classList.remove("fa-pause-circle");
                 });
             } else {
-                this.element.querySelector("button#playButton > i.fa-play-circle")?.classList.remove("d-none");
-                this.element.querySelector("button#playButton > i.fa-pause-circle")?.classList.add("d-none");
+                this.element.querySelector("button#playButton > i.far")?.classList.add("fa-play-circle");
+                this.element.querySelector("button#playButton > i.far")?.classList.remove("fa-pause-circle");
                 audio!.pause();
             }
         };
@@ -153,16 +164,8 @@ class RecordWidget extends Widget {
                     return new Promise((resolve) => {
                         mediaRecorder.addEventListener("stop", () => {
                             const audioBlob = new Blob(audioChunks);
-                            const audioUrl = URL.createObjectURL(audioBlob);
-                            const audio = new Audio(audioUrl);
-                            const play = () => {
-                                audio.play();
-                            };
-                            const pause = () => {
-                                audio.pause();
-                            };
 
-                            resolve({ audioBlob, audioUrl, audio, play, pause });
+                            resolve(RecordWidget.makeOthers(audioBlob));
                         });
 
                         mediaRecorder.stop();
@@ -187,6 +190,18 @@ class RecordWidget extends Widget {
         return new Promise((resolve) => {
             resolve(audio);
         });
+    }
+
+    static makeOthers(blob: Blob): { audioBlob: Blob; audioUrl: string; audio: HTMLAudioElement; play: () => void; pause: () => void } {
+        const audioUrl = URL.createObjectURL(blob);
+        const audio = new Audio(audioUrl);
+        const play = () => {
+            audio.play();
+        };
+        const pause = () => {
+            audio.pause();
+        };
+        return { audioBlob: blob, audioUrl: audioUrl, audio: audio, play: play, pause: pause };
     }
 }
 

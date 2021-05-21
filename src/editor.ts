@@ -103,7 +103,7 @@ let ppover = new window.bootstrap.Popover(dictionaryBtn, options);
 dictionaryBtn.onclick = () => {
     ppover.toggle();
 };
-dictionaryBtn.addEventListener("show.bs.popover", (e) => {
+dictionaryBtn.addEventListener("shown.bs.popover", (e) => {
     const textingsubmitBtn = <HTMLAnchorElement>document.querySelector("div.popover-body > #SubmitNewDefinition")!;
     console.log(textingsubmitBtn);
     textingsubmitBtn.onclick = function () {
@@ -240,6 +240,11 @@ newComment.onclick = () => {
 const newYoutube = document.getElementById("newYoutube")!;
 newYoutube.onclick = () => {
     new YoutubeWidget({ icon: newYoutube.children[0].classList.value });
+};
+
+const newRecording = document.getElementById("newRecording")!;
+newRecording.onclick = () => {
+    new RecordWidget({ icon: newRecording.children[0].classList.value });
 };
 
 let popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]#add-texting-shortcuts'));

@@ -3,11 +3,12 @@ class Widget {
     static idMin = 0;
     element: HTMLDivElement;
     content: string;
-    icon: string[];
+    collapse: string | boolean;
 
-    constructor(config: { content: string; icon: string | string[] }) {
+    constructor(config: { content: string; collapse: string | boolean }) {
         this.content = config.content;
-        this.icon = typeof config.icon == "string" ? config.icon.split(" ") : config.icon;
+        this.collapse = config.collapse;
+
         this.element = document.createElement("div");
         this.element.id = "widget" + Widget.idMin;
         this.element.classList.add("widget", "shadow-lg", "rounded", "bg-body", "mb-2", "position-relative");
@@ -29,7 +30,8 @@ class Widget {
             Widget.updateList();
         };
 
-        buttonsDiv.appendChild(collapseBtn);
+        console.log(config.collapse !== false);
+        if (config.collapse !== false) buttonsDiv.appendChild(collapseBtn);
         buttonsDiv.appendChild(closeBtn);
 
         this.element.appendChild(contentDiv);
@@ -44,7 +46,7 @@ class Widget {
 
     toObj(): object {
         this.content = this.element.querySelector("div.widgetContent")!.innerHTML;
-        return { content: this.content, icon: this.icon, type: this.constructor.name };
+        return { content: this.content, collapse: this.collapse, type: this.constructor.name };
     }
 
     delete() {
@@ -62,6 +64,6 @@ class Widget {
 
     static generate(fromObj) {
         let lookup = { Widget: Widget, DefWidget: DefWidget, CommentWidget: CommentWidget, YoutubeWidget: YoutubeWidget, RecordWidget: RecordWidget };
-        new lookup[fromObj.type]({ content: fromObj.content, icon: fromObj.icon });
+        new lookup[fromObj.type]({ content: fromObj.content, collapse: fromObj.collapse });
     }
 }

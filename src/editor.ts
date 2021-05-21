@@ -87,7 +87,7 @@ for (let widget of docWidgets) Widget.generate(widget);
 if (!("txtshortcuts" in Object.keys(data))) {
     data["txtshortcuts"] = new SmallD();
 }
-let textshortcuts: SmallD = data["txtshortcuts"];
+export let textshortcuts: SmallD = data["txtshortcuts"];
 
 const dictionaryBtn = document.getElementById("add-texting-shortcuts")!;
 dictionaryBtn.onclick = function (e) {

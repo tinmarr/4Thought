@@ -11,7 +11,9 @@ class DefWidget extends Widget {
             const content: string = `<h5 class='p-0 m-0 noselect'>${config.word} ${
                 config.partOfSpeech != undefined ? `(${config.partOfSpeech})` : ""
             }</h5><hr class='mb-2 mt-1'>${config.definition}`;
-            const collapse = false;
+            const collapse = `<h5 class='p-0 m-0 noselect'>${config.word} ${
+                config.partOfSpeech != undefined ? `(${config.partOfSpeech})` : ""
+            }</h5>`;
             super({ content: content, collapse: collapse });
         }
     }
@@ -78,7 +80,7 @@ class YoutubeWidget extends Widget {
 }
 
 class RecordWidget extends Widget {
-    constructor(config: { icon: string } | GeneralConfig) {
+    constructor(config: {} | GeneralConfig = {}) {
         if (isGeneralConfig(config)) {
             super(config);
         } else {

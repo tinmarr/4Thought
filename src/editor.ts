@@ -244,7 +244,7 @@ newYoutube.onclick = () => {
 
 const newRecording = document.getElementById("newRecording")!;
 newRecording.onclick = () => {
-    new RecordWidget({ icon: newRecording.children[0].classList.value });
+    new RecordWidget();
 };
 
 let popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]#add-texting-shortcuts'));

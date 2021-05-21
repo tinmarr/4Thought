@@ -3,7 +3,7 @@ html, body {
 }
 
 html, body, #notename, #widgets {
-    background: #EEF2F7;
+    background: #eef2f7;
 }
 
 .editable-div::before {
@@ -70,6 +70,21 @@ html, body, #notename, #widgets {
 }
 
 .fas::before {
+    position: relative;
+    top: 1px;
+}
+
+.fab::before {
+    position: relative;
+    top: 1px;
+}
+
+.far::before {
+    position: relative;
+    top: 1px;
+}
+
+.fal::before {
     position: relative;
     top: 1px;
 }

@@ -90,20 +90,20 @@ if (!("txtshortcuts" in Object.keys(data))) {
 export let textshortcuts: SmallD = data["txtshortcuts"];
 
 const dictionaryBtn = document.getElementById("add-texting-shortcuts")!;
-dictionaryBtn.onclick = function (e) {
-    e.preventDefault();
-    let content = document.getElementById("text-shortcuts-popover")?.innerHTML;
-    let options = {
-        container: "body",
-        sanitize: false,
-        html: true,
-        placement: "bottom",
-        content: content,
-        trigger: "click",
-    };
-    let ppover = new window.bootstrap.Popover(dictionaryBtn, options);
-    ppover.show();
-
+let content = document.getElementById("text-shortcuts-popover")?.innerHTML;
+let options = {
+    container: "body",
+    sanitize: false,
+    html: true,
+    placement: "bottom",
+    content: content,
+    trigger: "click",
+};
+let ppover = new window.bootstrap.Popover(dictionaryBtn, options);
+dictionaryBtn.onclick = () => {
+    ppover.toggle();
+};
+dictionaryBtn.addEventListener("show.bs.popover", (e) => {
     const textingsubmitBtn = <HTMLAnchorElement>document.querySelector("div.popover-body > #SubmitNewDefinition")!;
     console.log(textingsubmitBtn);
     textingsubmitBtn.onclick = function () {
@@ -115,7 +115,8 @@ dictionaryBtn.onclick = function (e) {
         textshortcuts.addPair(stuffin, stuffout);
         console.log(textshortcuts);
     };
-};
+});
+
 const textingToggle = document.getElementById("txtModeToggle")!;
 let textingToggleState: boolean = false;
 textingToggle.onchange = function () {
@@ -314,42 +315,6 @@ function alert(text: string) {
     element.innerHTML = `<strong>Oh Noes!</strong> ${text} <button class="btn-close" data-bs-dismiss="alert" />`;
 
     document.body.insertBefore(element, document.body.firstChild);
-}
-
-export function record() {
-    return new Promise((resolve) => {
-        navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
-            const mediaRecorder = new MediaRecorder(stream);
-            const audioChunks: Blob[] = [];
-
-            mediaRecorder.addEventListener("dataavailable", (event) => {
-                audioChunks.push(event.data);
-            });
-
-            const start = () => {
-                mediaRecorder.start();
-            };
-
-            const stop = () => {
-                return new Promise((resolve) => {
-                    mediaRecorder.addEventListener("stop", () => {
-                        const audioBlob = new Blob(audioChunks);
-                        const audioUrl = URL.createObjectURL(audioBlob);
-                        const audio = new Audio(audioUrl);
-                        const play = () => {
-                            audio.play();
-                        };
-
-                        resolve({ audioBlob, audioUrl, play });
-                    });
-
-                    mediaRecorder.stop();
-                });
-            };
-
-            resolve({ start, stop });
-        });
-    });
 }
 
 declare global {

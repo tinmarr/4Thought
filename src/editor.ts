@@ -324,5 +324,6 @@ declare global {
     interface Window {
         bootstrap: any;
         html2pdf: any;
+        streamReference: any;
     }
 }

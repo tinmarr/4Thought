@@ -154,6 +154,7 @@ class RecordWidget extends Widget {
     static record(): Promise<{ start: any; stop: any }> {
         return new Promise((resolve) => {
             navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
+                window.streamReference = stream;
                 const mediaRecorder = new MediaRecorder(stream);
                 const audioChunks: Blob[] = [];
 
@@ -174,6 +175,19 @@ class RecordWidget extends Widget {
                         });
 
                         mediaRecorder.stop();
+
+                        console.log(window.streamReference);
+                        if (!window.streamReference) return;
+
+                        window.streamReference.getAudioTracks().forEach(function (track) {
+                            track.stop();
+                        });
+
+                        window.streamReference.getVideoTracks().forEach(function (track) {
+                            track.stop();
+                        });
+
+                        window.streamReference = null;
                     });
                 };
 

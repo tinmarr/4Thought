@@ -2,12 +2,18 @@ html, body {
     height: 100vh;
 }
 
-html, body, #notename, #widgets {
+html, body, #notename, #widgets, .buttons-div {
     background: #eef2f7;
 }
 
+.buttons-div {
+    display: flex;
+    top: 0;
+    right: 0;
+}
+
 .widget-btn:hover {
-    background: lightgray;
+    background: #dfe3e8;
 }
 
 .widget-btn {

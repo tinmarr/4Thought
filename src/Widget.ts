@@ -19,11 +19,12 @@ class Widget {
         contentDiv.classList.add("widgetContent", "p-2", "rounded");
 
         const buttonsDiv = document.createElement("div");
-        buttonsDiv.classList.add("position-absolute", "top-0", "end-0", "px-2", "mx-2", "my-1", "rounded", "bg-white");
+        buttonsDiv.classList.add("position-absolute", "buttons-div", "m-1", "p-1", "px-2", "rounded", "align-items-center");
 
         if (config.collapse !== false) {
-            const collapseBtn = document.createElement("a");
-            collapseBtn.innerHTML = "<i class='btn far fa-angle-down p-0 me-2' id='collapseBtn' />";
+            const collapseBtn = document.createElement("i");
+            collapseBtn.classList.add("far", "fa-angle-down", "p-0", "me-2", "btn");
+            collapseBtn.id = 'collapseBtn';
             buttonsDiv.appendChild(collapseBtn);
             collapseBtn.onclick = () => { this.toggleCollapse() }
 
@@ -34,8 +35,8 @@ class Widget {
             this.element.append(collapsedDiv);
         }
 
-        const closeBtn = document.createElement("a");
-        closeBtn.innerHTML = "<i class='btn fal fa-times p-0 m-0' />";
+        const closeBtn = document.createElement("i");
+        closeBtn.classList.add("fal", "fa-times", "p-0", "m-0", "btn");
         closeBtn.onclick = () => {
             this.delete();
             Widget.updateList();

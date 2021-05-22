@@ -95,7 +95,6 @@ class Widget {
     }
 
     static sort(array: string[]) {
-        console.log(array);
         const temp: Widget[] = [];
 
         for (let str of array) {

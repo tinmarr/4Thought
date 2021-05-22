@@ -23,7 +23,7 @@ class Widget {
 
         if (config.collapse !== false) {
             const collapseBtn = document.createElement("a");
-            collapseBtn.innerHTML = "<i class='btn far fa-angle-down p-0 me-2' />";
+            collapseBtn.innerHTML = "<i class='btn far fa-angle-down p-0 me-2' id='collapseBtn' />";
             buttonsDiv.appendChild(collapseBtn);
             collapseBtn.onclick = () => { this.toggleCollapse() }
 
@@ -69,9 +69,9 @@ class Widget {
         this.element.querySelector(this.isCollapsed ? "div.widgetContent" : "div.widgetCollapsed")!.classList.remove("d-none");
         this.element.querySelector(this.isCollapsed ? "div.widgetCollapsed" : "div.widgetContent")!.classList.add("d-none");
 
-        this.isCollapsed = !this.isCollapsed;
-        
-        // TODO: change collapsebutton icon, and also make collapsed state save
+        (this.element.querySelector("#collapseBtn")! as HTMLDivElement).style.transform = 'rotate('+(this.isCollapsed ? 0 : 90)+'deg)'; 
+
+        this.isCollapsed = !this.isCollapsed;        
     }
 
     static updateList() {

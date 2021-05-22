@@ -56,6 +56,10 @@ html, body, #notename, #widgets {
     cursor: grab;
 }
 
+#collapseBtn {
+    transition: all 0.2s ease-in-out;
+}
+
 .rotating {
     animation: rotation 1s ease-in-out;
 }

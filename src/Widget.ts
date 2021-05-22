@@ -93,19 +93,4 @@ class Widget {
         let lookup = { Widget: Widget, DefWidget: DefWidget, CommentWidget: CommentWidget, YoutubeWidget: YoutubeWidget, RecordWidget: RecordWidget };
         new lookup[fromObj.type]({ content: fromObj.content, collapse: fromObj.collapse, isCollapsed: fromObj.isCollapsed });
     }
-
-    static sort(array: string[]) {
-        const temp: Widget[] = [];
-
-        for (let str of array) {
-            for (let widget of Widget.widgets) {
-                if (str == widget.element.id) {
-                    temp.push(widget);
-                    break;
-                }
-            }
-        }
-
-        Widget.widgets = temp;
-    }
 }

@@ -37,8 +37,7 @@ if (parent == "Home") {
         ghostClass: "invisible",
         handle: ".handle",
         onSort: (ev: Sortable.SortableEvent) => {
-            let array = sortable.toArray();
-            Widget.sort(array);
+            Widget.widgets.splice(ev.newIndex!, 0, Widget.widgets.splice(ev.oldIndex!, 1)[0]);
         }
     });
 }

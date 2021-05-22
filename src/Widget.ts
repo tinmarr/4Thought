@@ -6,7 +6,7 @@ class Widget {
     collapse: string | boolean;
     isCollapsed = false;
 
-    constructor(config: { content: string; collapse: string | boolean }) {
+    constructor(config: { content: string; collapse: string | boolean; isCollapsed?: boolean }) {
         this.content = config.content;
         this.collapse = config.collapse;
 
@@ -50,12 +50,14 @@ class Widget {
         Widget.widgets.push(this);
 
         Widget.updateList();
+
+        if (config.isCollapsed || false) this.toggleCollapse();
     }
 
     toObj(): object {
         this.content = this.element.querySelector("div.widgetContent")!.innerHTML;
         if (this.collapse !== false) this.element.querySelector("div.widgetCollapsed")!.innerHTML;
-        return { content: this.content, collapse: this.collapse, type: this.constructor.name };
+        return { content: this.content, collapse: this.collapse, isCollapsed: this.isCollapsed, type: this.constructor.name };
     }
 
     delete() {
@@ -82,6 +84,6 @@ class Widget {
 
     static generate(fromObj) {
         let lookup = { Widget: Widget, DefWidget: DefWidget, CommentWidget: CommentWidget, YoutubeWidget: YoutubeWidget, RecordWidget: RecordWidget };
-        new lookup[fromObj.type]({ content: fromObj.content, collapse: fromObj.collapse });
+        new lookup[fromObj.type]({ content: fromObj.content, collapse: fromObj.collapse, isCollapsed: fromObj.isCollapsed });
     }
 }

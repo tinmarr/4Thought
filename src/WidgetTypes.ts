@@ -1,6 +1,7 @@
 interface GeneralConfig {
     content: string;
     collapse: string | boolean;
+    isCollapsed?: boolean;
 }
 
 class DefWidget extends Widget {
@@ -26,11 +27,11 @@ class CommentWidget extends Widget {
         } else {
             const content =
                 "<h5 class='p-0 m-0 noselect'>Comment</h5><hr class='mb-2 mt-1'><div contenteditable='plaintext-only' class='my-1 outline-0 border-0' />";
-            const collapse = false;
+            const collapse = "<h5 class='p-0 m-0 noselect'>Comment</h5>";
             super({ content: content, collapse: collapse });
         }
 
-        let ele = this.element.querySelector("div.widgetContent > div[contenteditable='plaintext-only']")!;
+        const ele = this.element.querySelector("div.widgetContent > div[contenteditable='plaintext-only']")!;
 
         if (ele.innerHTML == "") ele.classList.add("editable-div");
 
@@ -54,16 +55,14 @@ class YoutubeWidget extends Widget {
                 const content = `<iframe width="${width}" height="${width * (9 / 16)}" src="https://www.youtube.com/embed/${params.get(
                     "v"
                 )}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
-                const collapse = false;
-                super({ content: content, collapse: collapse });
+                super({ content: content, collapse: false });
             } else {
-                const content = ` <div class="form-group">
+                const content = `<div class="form-group">
                                     <label for="utubeurl">Youtube URL</label>
                                     <input type="text" class="form-control" id="utubeurl" placeholder="https://www.youtube.com/watch?v=...">
                                 </div>
                                 <button role="button" class="btn btn-primary" id="getUtube">Get</button>`;
-                const collapse = false;
-                super({ content: content, collapse: collapse });
+                super({ content: content, collapse: false });
             }
         }
         if (this.element.querySelector("button#getUtube") != null) {
@@ -91,8 +90,7 @@ class RecordWidget extends Widget {
                                 <i class="far fa-play-circle fa-2x d-flex flex-column"></i>
                             </button>
                             <div id="storage" class="d-flex d-inline-flex d-none"></div>`;
-            const collapse = false;
-            super({ content: content, collapse: collapse });
+            super({ content: content, collapse: false });
         }
         let recording = false;
         let recorder: any = null;

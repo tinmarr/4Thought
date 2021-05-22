@@ -52,7 +52,7 @@ block layout-content
                         button.p-0#sync-btn
                             i.fas.fa-sync-alt
                 .flex-grow-1#editor
-            .shadow-lg.rounded.d-flex.d-none.flex-column.p-2.me-2.position-relative#widgets
+            .sortable.shadow-lg.rounded.d-flex.d-none.flex-column.p-2.me-2.position-relative#widgets
             .shadow-lg.rounded.bg-body.d-flex.flex-column.py-2.position-relative#suggestions
                 button.btn.widget-btn.mx-1.fw-bold#searchWiki
                     i.fab.fa-wikipedia-w.fa-lg
@@ -69,3 +69,4 @@ block layout-content
     script(src="./WidgetTypes.js") 
     script(src="./dictionary.js")
     script(src="./editor.bundle.js", note-id=identifier, doc-data=documentData, doc-widgets=widgets, defer)
+    script(src="./dragManager.bundle.js", doc-parent=title)

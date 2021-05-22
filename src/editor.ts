@@ -26,7 +26,7 @@ const quill: Quill = new Quill("#editor", {
             maxWidth: 500, // default
             maxHeight: 500, // default
             imageType: "image/jpeg", // default
-            debug: true, // default
+            debug: false,
         },
         magicUrl: true,
     },
@@ -105,15 +105,15 @@ dictionaryBtn.onclick = () => {
 };
 dictionaryBtn.addEventListener("shown.bs.popover", (e) => {
     const textingsubmitBtn = <HTMLAnchorElement>document.querySelector("div.popover-body > #SubmitNewDefinition")!;
-    console.log(textingsubmitBtn);
+    //console.log(textingsubmitBtn);
     textingsubmitBtn.onclick = function () {
         // // get whats in the in
         let stuffin: string = (<HTMLTextAreaElement>document.querySelector("div.popover-body > #in")).value;
         // // get whats in the out
         let stuffout: string = (<HTMLTextAreaElement>document.querySelector("div.popover-body > #out")).value;
-        console.log(stuffin, " ", stuffout);
+        //console.log(stuffin, " ", stuffout);
         textshortcuts.addPair(stuffin, stuffout);
-        console.log(textshortcuts);
+        //console.log(textshortcuts);
     };
 });
 
@@ -122,7 +122,7 @@ let textingToggleState: boolean = false;
 textingToggle.onchange = function () {
     const inpt = document.getElementsByName("input-texting-toggle")[0]! as HTMLInputElement;
     textingToggleState = inpt.checked;
-    console.log(textingToggle);
+    //console.log(textingToggle);
     //console.log(`toggled to ${textingToggleState.valueOf()}`);
 };
 

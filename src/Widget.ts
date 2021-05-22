@@ -12,7 +12,7 @@ class Widget {
 
         this.element = document.createElement("div");
         this.element.id = "widget" + Widget.idMin;
-        this.element.classList.add("widget", "shadow-lg", "rounded", "bg-body", "mb-2", "position-relative");
+        this.element.classList.add("widget", "drag", "shadow-lg", "rounded", "bg-body", "mb-2", "position-relative");
 
         const contentDiv = document.createElement("div");
         contentDiv.innerHTML = config.content;
@@ -35,12 +35,18 @@ class Widget {
             this.element.append(collapsedDiv);
         }
 
+        const reorderBtn = document.createElement("i");
+        reorderBtn.classList.add("far", "handle", "fa-bars", "fa-sm", "p-0", "me-2", "btn");
+        reorderBtn.id = 'reorderBtn';
+
         const closeBtn = document.createElement("i");
         closeBtn.classList.add("fal", "fa-times", "p-0", "m-0", "btn");
         closeBtn.onclick = () => {
             this.delete();
             Widget.updateList();
         };
+
+        buttonsDiv.appendChild(reorderBtn);
         buttonsDiv.appendChild(closeBtn);
 
         this.element.appendChild(contentDiv);
@@ -86,5 +92,9 @@ class Widget {
     static generate(fromObj) {
         let lookup = { Widget: Widget, DefWidget: DefWidget, CommentWidget: CommentWidget, YoutubeWidget: YoutubeWidget, RecordWidget: RecordWidget };
         new lookup[fromObj.type]({ content: fromObj.content, collapse: fromObj.collapse, isCollapsed: fromObj.isCollapsed });
+    }
+
+    static sort(array: string[]) {
+        console.log(array);
     }
 }

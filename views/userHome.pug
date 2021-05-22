@@ -33,7 +33,7 @@ block layout-content
             .my-3#noneLeft
                 hr.w-75
                 | No Documents Yet!
-    script(src="./dragManager.bundle.js")
+    script(src="./dragManager.bundle.js", doc-parent=title)
     script(src="./documentManager.js") 
     script
         | numOfDocs = !{Object.keys(userData.documents).length}

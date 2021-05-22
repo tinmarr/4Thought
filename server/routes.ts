@@ -123,7 +123,7 @@ router.get("/home", (req, res) => {
             return res.redirect("/logout");
         } else {
             return res.render("userHome", {
-                title: "Editor",
+                title: "Home",
                 userData: data[req.session.userEmail],
                 error_messages: req.flash("error"),
             });

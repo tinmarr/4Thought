@@ -9,10 +9,10 @@ class DefWidget extends Widget {
         if (isGeneralConfig(config)) {
             super(config);
         } else {
-            const content: string = `<h5 class='p-0 m-0 noselect'>${config.word} ${
+            const content: string = `<h5 class='p-0 m-0'>${config.word} ${
                 config.partOfSpeech != undefined ? `(${config.partOfSpeech})` : ""
             }</h5><hr class='my-2'>${config.definition}`;
-            const collapse = `<h5 class='p-0 m-0 noselect'>${config.word} ${
+            const collapse = `<h5 class='p-0 m-0'>${config.word} ${
                 config.partOfSpeech != undefined ? `(${config.partOfSpeech})` : ""
             }</h5>`;
             super({ content: content, collapse: collapse });
@@ -26,8 +26,8 @@ class CommentWidget extends Widget {
             super(config);
         } else {
             const content =
-                "<h5 class='p-0 m-0 noselect'>Comment</h5><hr class='my-2'><div contenteditable='plaintext-only' class='my-1 outline-0 border-0' />";
-            const collapse = "<h5 class='p-0 m-0 noselect'>Comment</h5>";
+                "<h5 class='p-0 m-0'>Comment</h5><hr class='my-2'><div contenteditable='plaintext-only' class='my-1 outline-0 border-0' />";
+            const collapse = "<h5 class='p-0 m-0'>Comment</h5>";
             super({ content: content, collapse: collapse });
         }
 

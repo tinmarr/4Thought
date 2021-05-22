@@ -11,7 +11,7 @@ class DefWidget extends Widget {
         } else {
             const content: string = `<h5 class='p-0 m-0 noselect'>${config.word} ${
                 config.partOfSpeech != undefined ? `(${config.partOfSpeech})` : ""
-            }</h5><hr class='mb-2 mt-1'>${config.definition}`;
+            }</h5><hr class='my-2'>${config.definition}`;
             const collapse = `<h5 class='p-0 m-0 noselect'>${config.word} ${
                 config.partOfSpeech != undefined ? `(${config.partOfSpeech})` : ""
             }</h5>`;
@@ -26,7 +26,7 @@ class CommentWidget extends Widget {
             super(config);
         } else {
             const content =
-                "<h5 class='p-0 m-0 noselect'>Comment</h5><hr class='mb-2 mt-1'><div contenteditable='plaintext-only' class='my-1 outline-0 border-0' />";
+                "<h5 class='p-0 m-0 noselect'>Comment</h5><hr class='my-2'><div contenteditable='plaintext-only' class='my-1 outline-0 border-0' />";
             const collapse = "<h5 class='p-0 m-0 noselect'>Comment</h5>";
             super({ content: content, collapse: collapse });
         }
@@ -83,7 +83,7 @@ class RecordWidget extends Widget {
         if (isGeneralConfig(config)) {
             super(config);
         } else {
-            const content = ` <button id="recordButton" class="btn m-0 p-0 d-flex d-inline-flex" type="button" role="button">
+            const content = `<button id="recordButton" class="btn m-0 p-0 d-flex d-inline-flex" type="button" role="button">
                                 <i class="far fa-microphone fa-2x"></i>
                             </button>
                             <button id="playButton" class="btn m-0 p-0 d-flex d-inline-flex flex-row d-none" type="button" role="button">
@@ -97,7 +97,7 @@ class RecordWidget extends Widget {
 
         let base64 = (this.element.querySelector("div#storage")?.getAttribute("data-audio") as string) || "";
         if (base64 != "") {
-            let base64response = fetch(base64).then((res) => {
+            fetch(base64).then((res) => {
                 res.blob().then((blob) => {
                     audio = RecordWidget.makeOthers(blob);
                 });

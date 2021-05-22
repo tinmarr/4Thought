@@ -96,5 +96,17 @@ class Widget {
 
     static sort(array: string[]) {
         console.log(array);
+        const temp: Widget[] = [];
+
+        for (let str of array) {
+            for (let widget of Widget.widgets) {
+                if (str == widget.element.id) {
+                    temp.push(widget);
+                    break;
+                }
+            }
+        }
+
+        Widget.widgets = temp;
     }
 }

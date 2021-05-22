@@ -6,6 +6,15 @@ html, body, #notename, #widgets {
     background: #eef2f7;
 }
 
+.widget-btn:hover {
+    background: lightgray;
+}
+
+.widget-btn {
+    padding: 3px 0 3px 0;
+    margin-bottom: 2px;
+}
+
 .editable-div::before {
     content: "Write here...";
     color: gray;

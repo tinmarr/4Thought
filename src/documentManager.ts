@@ -18,14 +18,11 @@ function sendNoCB(loc: string, content: object): void {
     });
 }
 
-let numOfDocs: number; // TODO: fix this
-
 function deleteDoc(id: string): void {
     send("/delete-doc", { id: id }, (res: any) => {
         $("#doc" + id).fadeOut(400, () => {
             document.getElementById("doc" + id)?.remove();
-            numOfDocs--;
-            if (numOfDocs == 0) {
+            if (document.getElementById("sortable")?.children.length == 0) {
                 document.getElementById("noneLeft")?.classList.remove("invisible");
                 $("#noneLeft").fadeIn(400);
             }

@@ -1,7 +1,7 @@
 import express from "express";
 import fs from "fs";
 
-import { save, User } from "./dbHandler";
+import { save } from "./dbHandler";
 import { Queue } from "./queue";
 import { Encrypter } from "./encrypter";
 

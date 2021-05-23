@@ -2,7 +2,8 @@ const newUser: boolean = document.currentScript?.getAttribute("new-user")! == "t
 const sumbitButton: HTMLButtonElement = <HTMLButtonElement>document.querySelector("button[type=submit]")!;
 
 sumbitButton.classList.add("disabled");
-window.onkeyup = () => {
+
+document.getElementById("authForm")?.addEventListener("change", () => {
     let good: boolean = true;
     let alerts: string[] = [];
     let email: string = (<HTMLInputElement>document.getElementById("email"))?.value;
@@ -40,7 +41,7 @@ window.onkeyup = () => {
         alertsBox.innerHTML += `<li class="my-0">${alert}</li>`;
     });
     alertsBox.innerHTML += "</ul>";
-};
+});
 
 function isValidEmail(email: string): boolean {
     const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

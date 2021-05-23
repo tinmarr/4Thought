@@ -72,7 +72,7 @@ router.post("/user", (req, res) => {
                 data[email] = {
                     name: name,
                     password: crypt.encryptText(password),
-                    documents: {},
+                    documents: [],
                 };
                 return res.redirect("/home");
             }
@@ -92,11 +92,19 @@ router.get("/logout", (req, res) => {
 router.post("/save", (req, res) => {
     queue.add(() => {
         let user: string = req.session?.userEmail;
-        data[user].documents[req.body.id] = {
-            name: req.body.name,
-            delta: req.body.delta,
-            widgets: req.body.widgets,
-        };
+        if (data[user].documents[req.body.id] != undefined) {
+            data[user].documents[req.body.id] = {
+                name: req.body.name,
+                delta: req.body.delta,
+                widgets: req.body.widgets,
+            };
+        } else {
+            data[user].documents.push({
+                name: req.body.name,
+                delta: req.body.delta,
+                widgets: req.body.widgets,
+            });
+        }
         return res.json("synced");
     });
 });
@@ -105,11 +113,7 @@ router.post("/save", (req, res) => {
 router.post("/update-order", (req, res) => {
     queue.add(() => {
         let user: string = req.session?.userEmail;
-        let sortedDocuments: object[] = [];
-        for (let i = 0; i < req.body.order.length; i++) {
-            sortedDocuments[i] = data[user].documents[req.body.order[i].substring(3)];
-        }
-        data[user].documents = { ...sortedDocuments };
+        data[user].documents.splice(req.body.to!, 0, data[user].documents.splice(req.body.from!, 1)[0]);
         return res.json("updated order");
     });
 });
@@ -138,7 +142,7 @@ router.get("/document", (req, res) => {
     let documentData: object = { ops: [] };
     let widgets: object[] = [];
     if (req.query.id == null) {
-        id = Object.keys(data[user].documents).length.toString();
+        id = data[user].documents.length.toString();
     } else {
         id = req.query.id as string;
         documentData = data[user].documents[id];
@@ -150,7 +154,7 @@ router.get("/document", (req, res) => {
 router.post("/delete-doc", (req, res) => {
     queue.add(() => {
         let user: string = req.session?.userEmail;
-        delete data[user].documents[req.body.id];
+        data[user].documents.splice(req.body.id, 1);
         return res.json("deleted");
     });
 });

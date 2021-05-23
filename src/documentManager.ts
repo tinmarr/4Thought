@@ -18,7 +18,7 @@ function sendNoCB(loc: string, content: object): void {
     });
 }
 
-let numOfDocs: number;
+let numOfDocs: number; // TODO: fix this
 
 function deleteDoc(id: string): void {
     send("/delete-doc", { id: id }, (res: any) => {

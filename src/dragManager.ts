@@ -18,9 +18,7 @@ if (parent == "Home") {
         ghostClass: "invisible",
         handle: ".handle",
         onSort: (ev: Sortable.SortableEvent) => {
-            let array = sortable.toArray();
-            
-            sendNoCB("/update-order", { order: array });
+            sendNoCB("/update-order", { from: ev.oldIndex, to: ev.newIndex });
         },
     });
 } else if (parent == "Editor") {

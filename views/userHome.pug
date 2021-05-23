@@ -11,21 +11,21 @@ block layout-content
             i.fas.fa-plus.fa-lg.m-2.align-middle
                 p.ps-2.d-inline new note
         .sortable.user-select-none#sortable
-            each document in Object.keys(userData.documents)
-                .w-75.drag(id="doc"+document)
+            each document, index in userData.documents
+                .w-75.drag(id="doc"+index)
                     hr.p-0.m-0
-                    .my-3.d-flex.align-middle(id=document)
+                    .my-3.d-flex.align-middle(id=index)
                         .m-0.py-2.d-inline
                             i.fas.fa-bars.me-3.ms-1.handle(style="transform: scale(1.25,1);")
-                            | #{userData.documents[document].name}
-                            - let redirect = "./document?id=" + document
+                            | #{document.name}
+                            - let redirect = "./document?id=" + index
                         .flex-grow-1
                         .m-0.p-0.d-flex-inline
                             a.btn.p-0.my-1.mx-2(href=redirect) 
                                 i.far.fa-edit.text-secondary.fa-lg
-                            a.btn.p-0.my-1.mx-2(onclick="deleteDoc(" + document + ")", id="delete" + document)
+                            a.btn.p-0.my-1.mx-2(onclick="deleteDoc(" + index + ")", id="delete" + index)
                                 i.far.fa-trash-alt.text-danger.fa-lg
-        if Object.keys(userData.documents).length != 0
+        if userData.documents.length != 0
             .my-3.invisible#noneLeft
                 hr.w-75
                 | No Documents Yet!
@@ -36,4 +36,4 @@ block layout-content
     script(src="./dragManager.bundle.js", doc-parent=title)
     script(src="./documentManager.js") 
     script
-        | numOfDocs = !{Object.keys(userData.documents).length}
+        | numOfDocs = !{userData.documents.length}

@@ -2,10 +2,9 @@
 
 ## Features
 
--   Minimalist yet feature-rich text editor for lectures and notetaking
+-   Minimalist yet feature-rich WYSIWYG text editor for lectures and notetaking
 -   Cloud-synced notes, available from any device
--   Adaptive AI that gives you dynamic suggestions based on your note's contents
--   Widget Based UI
+-   Adaptive widgets dynamically pull relevant information from online sources
 
 ## Todo
 
@@ -18,9 +17,8 @@
 
 ##### Hard things
 
--   Drawing tool
+-   Direct document annotations
 -   Key word auto-detect
--   Images/Drawings that float on top of editor <- assigned to Tomer
 
 ##### Easier things
 

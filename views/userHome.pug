@@ -1,36 +1,33 @@
 extends layout 
 
 block layout-content 
-    .m-4
-        a.btn.float-end.p-0(href="./logout")
-            i.far.fa-sign-out.text-secondary.fa-2x
-        a.btn.float-end.p-0.mx-3(href="./settings")
-            i.far.fa-cog.text-secondary.fa-2x
-        h1.p-0.m-0.text-secondary #{userData.name}'s notes
-        a.btn.my-3.p-1.rounded-square.border-2.border-primary.text-primary(href="./document")
-            i.fas.fa-plus.fa-lg.m-2.align-middle
-                p.ps-2.d-inline new note
-        .sortable.user-select-none#sortable
-            each document, index in userData.documents
-                .w-75.mb-3.drag(id="doc"+index)
-                    .py-2.px-3.rounded.shadow-lg.bg-body.d-flex.align-middle.align-items-center(id=index)
-                        .m-0.py-2.d-inline
-                            i.fas.fa-bars.me-3.ms-1.handle(style="transform: scale(1.25,1);")
-                            | #{document.name}
-                            - let redirect = "./document?id=" + index
-                        .flex-grow-1
-                        .m-0.p-0.d-flex-inline
-                            a.btn.p-0.my-1.mx-2(href=redirect) 
-                                i.far.fa-edit.text-secondary.fa-lg
-                            a.btn.p-0.my-1.mx-2(onclick="deleteDoc(" + index + ")", id="delete" + index)
-                                i.far.fa-trash-alt.text-danger.fa-lg
-        if userData.documents.length != 0
-            .my-3.invisible#noneLeft
-                hr.w-75
-                | No Documents Yet!
-        else
-            .my-3#noneLeft
-                hr.w-75
-                | No Documents Yet!
+    .d-flex.h-100.flex-column
+        .m-4
+            a.btn.float-end.p-0(href="./logout")
+                i.far.fa-sign-out.text-secondary.fa-2x
+            a.btn.float-end.p-0.mx-3(href="./settings")
+                i.far.fa-cog.text-secondary.fa-2x
+            h1.p-0.m-0.text-secondary #{userData.name}'s notes
+            a.btn.my-3.p-1.rounded-square.border-2.border-primary.text-primary(href="./document")
+                i.fas.fa-plus.fa-lg.m-2.align-middle
+                    p.ps-2.d-inline new note
+            .sortable.user-select-none#sortable
+                each document, index in userData.documents
+                    .maxw-42.mb-3.drag(id="doc"+index)
+                        .py-2.px-3.rounded.shadow-lg.bg-body.d-flex.align-middle.align-items-center(id=index)
+                            .m-0.py-2.d-inline
+                                i.fas.fa-bars.me-3.ms-1.handle(style="transform: scale(1.25,1);")
+                                .d-inline.lead #{document.name}
+                                - let redirect = "./document?id=" + index
+                            .flex-grow-1
+                            .m-0.p-0.d-flex-inline
+                                a.btn.p-0.my-1.mx-2(href=redirect) 
+                                    i.far.fa-edit.text-secondary.fa-lg
+                                a.btn.p-0.my-1.mx-2(onclick="deleteDoc(" + index + ")", id="delete" + index)
+                                    i.far.fa-trash-alt.text-danger.fa-lg
+            if userData.documents.length != 0
+                .invisible.d-inline-block.py-2.px-3.rounded.shadow-lg.bg-body.lead#noneLeft Whoah, so empty O.o
+            else
+                .d-inline-block.py-2.px-3.rounded.shadow-lg.bg-body.lead#noneLeft Whoah, so empty O.o
     script(src="./dragManager.bundle.js", doc-parent=title)
     script(src="./documentManager.js")

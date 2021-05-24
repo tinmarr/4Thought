@@ -1,5 +1,17 @@
 extends layout 
 
 block layout-content 
-    h1.mx-auto.text-center.m-4 Welcome to 4Thought! 
-    a.btn.btn-primary.position-absolute.start-50.translate-middle(href="./home") Open Dashboard
+    .d-flex.h-100.text-center.text-white.bg-dark.home-back
+        .cover-container.d-flex.w-100.h-100.p-3.mx-auto.flex-column
+            header.mb-auto
+                div
+                    h3.float-md-start.mb-0 4Thought
+                    nav.nav.nav-masthead.justify-content-center.float-md-end
+                        a.nav-link.active(aria-current="page" href="#") Home
+                        a.nav-link(href="#") About
+                        a.nav-link(href="#") Register
+            main.px-3.mb-auto
+                h1 Welcome to 4Thought!
+                p.lead A cloud-based adaptive note taking app built from the ground up for privacy and user comfort
+                p.lead
+                    a.btn.btn-lg.btn-secondary.fw-bold.border-white.bg-white(href="./Home") Open Dashboard

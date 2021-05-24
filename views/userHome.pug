@@ -12,9 +12,8 @@ block layout-content
                 p.ps-2.d-inline new note
         .sortable.user-select-none#sortable
             each document, index in userData.documents
-                .w-75.drag(id="doc"+index)
-                    hr.p-0.m-0
-                    .my-3.d-flex.align-middle(id=index)
+                .w-75.mb-3.drag(id="doc"+index)
+                    .py-2.px-3.rounded.shadow-lg.bg-body.d-flex.align-middle.align-items-center(id=index)
                         .m-0.py-2.d-inline
                             i.fas.fa-bars.me-3.ms-1.handle(style="transform: scale(1.25,1);")
                             | #{document.name}

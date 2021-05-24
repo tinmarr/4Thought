@@ -88,22 +88,8 @@ html, body, #notename, #widgets, .buttons-div {
     }
 }
 
-.fas::before {
-    position: relative;
-    top: 1px;
-}
-
-.fab::before {
-    position: relative;
-    top: 1px;
-}
-
-.far::before {
-    position: relative;
-    top: 1px;
-}
-
-.fal::before {
+/* Icons */
+.fas::before, .fab::before, .far::before, .fal::before {
     position: relative;
     top: 1px;
 }
@@ -113,7 +99,7 @@ html, body, #notename, #widgets, .buttons-div {
     font-weight: 500;
 }
 
-/* Homescreen */
+/* Home */
 .home-back {
     text-shadow: 0 .05rem .1rem rgba(255, 255, 255, .5);
     box-shadow: inset 0 0 5rem rgba(255, 255, 255, .5);
@@ -131,8 +117,7 @@ html, body, #notename, #widgets, .buttons-div {
     border-bottom: .25rem solid transparent;
 }
 
-.nav-masthead .nav-link:hover,
-.nav-masthead .nav-link:focus {
+.nav-masthead .nav-link:hover, .nav-masthead .nav-link:focus {
     border-bottom-color: rgba(0, 0, 0, .25);
 }
 

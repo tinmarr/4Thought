@@ -1,7 +1,6 @@
 import crypto from "crypto";
 import fs from "fs";
 
-
 export class Encrypter {
     private algoritm: string = "aes-256-cbc";
     private key: Buffer = fs.readFileSync("./key.key");

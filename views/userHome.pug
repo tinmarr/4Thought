@@ -12,20 +12,20 @@ block layout-content
                 i.fas.fa-plus.fa-lg.m-2.align-middle
                     p.ps-2.d-inline new note
             .sortable.user-select-none#sortable
-                each document, index in userData.documents
-                    .maxw-42.mb-3.drag(id="doc"+index)
-                        .py-2.px-3.rounded.shadow-lg.bg-body.d-flex.align-middle.align-items-center(id=index)
+                each identifier in userData.order
+                    .maxw-42.mb-3.drag(id="doc"+identifier)
+                        .py-2.px-3.rounded.shadow-lg.bg-body.d-flex.align-middle.align-items-center(id=identifier)
                             .m-0.py-2.d-inline
                                 i.fas.fa-bars.me-3.ms-1.handle(style="transform: scale(1.25,1);")
-                                .d-inline.lead #{document.name}
-                                - let redirect = "./document?id=" + index
+                                .d-inline.lead #{userData.documents[identifier].name}
+                                - let redirect = "./document?id=" + identifier
                             .flex-grow-1
                             .m-0.p-0.d-flex-inline
                                 a.btn.p-0.my-1.mx-2(href=redirect) 
                                     i.far.fa-edit.text-secondary.fa-lg
-                                a.btn.p-0.my-1.mx-2(onclick="deleteDoc(" + index + ")", id="delete" + index)
+                                a.btn.p-0.my-1.mx-2(onclick="deleteDoc(" + identifier + ")", id="delete" + identifier)
                                     i.far.fa-trash-alt.text-danger.fa-lg
-            if userData.documents.length != 0
+            if userData.order.length != 0
                 .invisible.d-inline-block.py-2.px-3.rounded.shadow-lg.bg-body.lead#noneLeft Whoah, so empty O.o
             else
                 .d-inline-block.py-2.px-3.rounded.shadow-lg.bg-body.lead#noneLeft Whoah, so empty O.o

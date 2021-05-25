@@ -113,15 +113,15 @@ router.post("/update-order", (req, res) => {
 });
 
 // User Dashboard
-router.get("/home", (req, res) => {
+router.get("/dashboard", (req, res) => {
     if (req.session?.userEmail == null) {
         res.redirect("/user?new=false");
     } else {
         if (data[req.session.userEmail] == null) {
             return res.redirect("/logout");
         } else {
-            return res.render("userHome", {
-                title: "Home",
+            return res.render("dashboard", {
+                title: "Dashboard",
                 userData: data[req.session.userEmail],
                 error_messages: req.flash("error"),
             });

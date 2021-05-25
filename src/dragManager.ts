@@ -4,7 +4,7 @@ import Sortable from "sortablejs";
 
 const parent = document.currentScript?.getAttribute("doc-parent")!;
 
-if (parent == "Home") {
+if (parent == "Dashboard") {
     new Sortable(document.getElementById("sortable") as HTMLElement, {
         group: {
             name: "documents",

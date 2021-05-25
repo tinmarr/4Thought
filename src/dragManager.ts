@@ -1,9 +1,6 @@
 /// <reference path="./documentManager.ts" />
 
 import Sortable from "sortablejs";
-//import { AutoScroll } from "sortablejs";
-
-//Sortable.mount(new AutoScroll());
 
 const parent = document.currentScript?.getAttribute("doc-parent")!;
 

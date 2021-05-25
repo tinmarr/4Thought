@@ -61,7 +61,7 @@ router.post("/user", (req, res) => {
 
             if (crypt.decrypt(user.password) == password) {
                 if (req.session != null) req.session.userEmail = email;
-                return res.redirect("/home");
+                return res.redirect("/dashboard");
             }
 
             req.flash("error", "Incorrect username or password");
@@ -75,7 +75,7 @@ router.post("/user", (req, res) => {
                     documents: {},
                     order: []
                 };
-                return res.redirect("/home");
+                return res.redirect("/dashboard");
             }
             req.flash("error", "Incorrect username or password");
             return res.redirect(req.url);

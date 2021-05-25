@@ -135,7 +135,7 @@ router.get("/document", (req, res) => {
     let user: string = req.session?.userEmail;
     let documentData: object = { ops: [] };
     if (req.query.id == null) {
-        id = (Math.random().toString(36)+'00000000000000000').slice(2, 9);
+        id = Encrypter.genID(20);
     } else {
         id = req.query.id as string;
         documentData = data[user].documents[id];

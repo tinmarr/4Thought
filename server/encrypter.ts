@@ -1,10 +1,15 @@
 import crypto from "crypto";
 import fs from "fs";
 
+
 export class Encrypter {
     private algoritm: string = "aes-256-cbc";
     private key: Buffer = fs.readFileSync("./key.key");
     private iv: Buffer = crypto.randomBytes(16);
+
+    static genID(length: number): string {
+        return crypto.randomBytes(length).toString('hex').substr(0, length);
+    }
 
     encryptText(text: string): { iv: string; encryptedData: string } {
         let cipher = crypto.createCipheriv(this.algoritm, Buffer.from(this.key), this.iv);

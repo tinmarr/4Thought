@@ -73,7 +73,7 @@ router.post("/user", (req, res) => {
                     name: name,
                     password: crypt.encryptText(password),
                     documents: {},
-                    order:[]
+                    order: []
                 };
                 return res.redirect("/home");
             }
@@ -135,7 +135,7 @@ router.get("/document", (req, res) => {
     let user: string = req.session?.userEmail;
     let documentData: object = { ops: [] };
     if (req.query.id == null) {
-        id = data[user].order.length.toString();
+        id = (Math.random().toString(36)+'00000000000000000').slice(2, 9);
     } else {
         id = req.query.id as string;
         documentData = data[user].documents[id];
@@ -147,7 +147,7 @@ router.post("/delete-doc", (req, res) => {
     queue.add(() => {
         let user: string = req.session?.userEmail;
         delete data[user].documents[req.body.id];
-        data[user].order.splice(data[user].order.indexOf(req.body.id), 1);
+        data[user].order.splice(data[user].order.indexOf('' + req.body.id), 1);
         return res.json("deleted");
     });
 });

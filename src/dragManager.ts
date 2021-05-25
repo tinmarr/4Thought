@@ -1,6 +1,9 @@
 /// <reference path="./documentManager.ts" />
 
 import Sortable from "sortablejs";
+//import { AutoScroll } from "sortablejs";
+
+//Sortable.mount(new AutoScroll());
 
 const parent = document.currentScript?.getAttribute("doc-parent")!;
 
@@ -8,7 +11,7 @@ if (parent == "Dashboard") {
     new Sortable(document.getElementById("sortable") as HTMLElement, {
         group: {
             name: "documents",
-            pull: true,
+            pull: false, put: false
         },
         sort: true,
         animation: 150,
@@ -25,8 +28,8 @@ if (parent == "Dashboard") {
 } else if (parent == "Editor") {
     new Sortable(document.getElementById("widgets") as HTMLElement, {
         group: {
-            name: "documents",
-            pull: true,
+            name: "widgets",
+            pull: false, put: false
         },
         sort: true,
         animation: 150,
@@ -35,7 +38,6 @@ if (parent == "Dashboard") {
         direction: "vertical",
         ghostClass: "invisible",
         handle: ".handle",
-        forceFallback: true,
         onSort: (ev: Sortable.SortableEvent) => {
             Widget.widgets.splice(ev.newIndex!, 0, Widget.widgets.splice(ev.oldIndex!, 1)[0]);
         }

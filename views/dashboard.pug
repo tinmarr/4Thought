@@ -14,7 +14,7 @@ block layout-content
             .sortable.user-select-none#sortable
                 each identifier in userData.order
                     .maxw-42.mb-3.drag(id="doc"+identifier)
-                        .py-2.px-3.rounded.shadow-lg.bg-body.d-flex.align-middle.align-items-center(id=identifier)
+                        .py-2.px-3.rounded.shadow-lg.bg-body.d-flex.align-middle.align-items-center
                             .m-0.py-2.d-inline
                                 i.fas.fa-bars.me-3.ms-1.handle(style="transform: scale(1.25,1);")
                                 .d-inline.lead #{userData.documents[identifier].name}
@@ -23,7 +23,7 @@ block layout-content
                             .m-0.p-0.d-flex-inline
                                 a.btn.p-0.my-1.mx-2(href=redirect) 
                                     i.far.fa-edit.text-secondary.fa-lg
-                                a.btn.p-0.my-1.mx-2(onclick="deleteDoc(" + identifier + ")", id="delete" + identifier)
+                                a.btn.p-0.my-1.mx-2(onclick="deleteDoc('" + identifier + "')")
                                     i.far.fa-trash-alt.text-danger.fa-lg
             if userData.order.length != 0
                 .invisible.d-inline-block.py-2.px-3.rounded.shadow-lg.bg-body.lead#noneLeft Whoah, so empty O.o

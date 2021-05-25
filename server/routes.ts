@@ -44,7 +44,7 @@ router.get("/", (req, res) => {
 
 // Login Manager
 router.get("/user", (req, res) => {
-    res.render("authPage", { title: "Login", newUser: req.query.new == "true", error_messages: req.flash("error") });
+    res.render("auth", { title: "Authentication", newUser: req.query.new == "true", error_messages: req.flash("error") });
 });
 
 router.post("/user", (req, res) => {
@@ -154,5 +154,5 @@ router.post("/delete-doc", (req, res) => {
 
 // Settings Page
 router.get("/settings", (req, res) => {
-    return res.render("userSettings", { title: "Settings", userData: data[req.session?.userEmail], error_messages: req.flash("error") });
+    return res.render("settings", { title: "Settings", userData: data[req.session?.userEmail], error_messages: req.flash("error") });
 });

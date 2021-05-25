@@ -17,6 +17,7 @@ if (parent == "Dashboard") {
         direction: "vertical",
         ghostClass: "invisible",
         handle: ".handle",
+        forceFallback: true,
         onSort: (ev: Sortable.SortableEvent) => {
             sendNoCB("/update-order", { from: ev.oldIndex, to: ev.newIndex });
         },
@@ -34,6 +35,7 @@ if (parent == "Dashboard") {
         direction: "vertical",
         ghostClass: "invisible",
         handle: ".handle",
+        forceFallback: true,
         onSort: (ev: Sortable.SortableEvent) => {
             Widget.widgets.splice(ev.newIndex!, 0, Widget.widgets.splice(ev.oldIndex!, 1)[0]);
         }

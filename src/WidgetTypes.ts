@@ -86,6 +86,7 @@ class YoutubeWidget extends Widget {
 }
 
 class RecordWidget extends Widget {
+    playing: boolean;
     constructor(config: {} | GeneralConfig = {}) {
         if (isGeneralConfig(config)) {
             super(config);
@@ -96,9 +97,12 @@ class RecordWidget extends Widget {
                             <button id="playButton" class="btn m-0 p-0 d-flex d-inline-flex flex-row d-none" type="button" role="button">
                                 <i class="far fa-play-circle fa-2x d-flex flex-column"></i>
                             </button>
+                            <div class="totalBar d-none d-inline-flex m-1 p-0 rounded"> <div class="currentBar rounded"></div> </div>
                             <div id="storage" class="d-flex d-inline-flex d-none"></div>`;
             super({ content: content, collapse: false });
         }
+        this.playing = false;
+        (<HTMLDivElement>this.element.querySelector("div.totalBar > div.currentBar"))!.style.width = "0%";
         let recording = false;
         let recorder: any = null;
 
@@ -134,6 +138,7 @@ class RecordWidget extends Widget {
                     };
                     this.element.querySelector("button#recordButton")?.classList.add("d-none");
                     this.element.querySelector("button#playButton")?.classList.remove("d-none");
+                    this.element.querySelector("div.totalBar")?.classList.remove("d-none");
                 });
             }
         };
@@ -142,16 +147,35 @@ class RecordWidget extends Widget {
                 this.element.querySelector("button#playButton > i.far")?.classList.remove("fa-play-circle");
                 this.element.querySelector("button#playButton > i.far")?.classList.add("fa-pause-circle");
                 audio!.play();
+                this.playing = true;
                 audio!.audio.addEventListener("ended", () => {
                     this.element.querySelector("button#playButton > i.far")?.classList.add("fa-play-circle");
                     this.element.querySelector("button#playButton > i.far")?.classList.remove("fa-pause-circle");
+                    this.playing = false;
                 });
+                audio!.audio.onplay = (e) => {
+                    this.playLoop(audio!.audio);
+                };
             } else {
                 this.element.querySelector("button#playButton > i.far")?.classList.add("fa-play-circle");
                 this.element.querySelector("button#playButton > i.far")?.classList.remove("fa-pause-circle");
                 audio!.pause();
             }
         };
+    }
+
+    async playLoop(audioElement: HTMLAudioElement) {
+        (<HTMLDivElement>this.element.querySelector("div.totalBar > div.currentBar"))!.style.width = `${
+            (audioElement.currentTime / audioElement.duration) * 100
+        }%`;
+        if (audioElement.ended) {
+            audioElement.currentTime = 0;
+            (<HTMLDivElement>this.element.querySelector("div.totalBar > div.currentBar"))!.style.width = "0%";
+            return null;
+        } else {
+            await RecordWidget.sleep(1);
+            return this.playLoop(audioElement);
+        }
     }
 
     static sleep(time: number) {

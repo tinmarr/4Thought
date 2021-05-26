@@ -195,6 +195,7 @@ let textingToggleState: boolean = false;
 textingToggle.onchange = function () {
     const inpt = document.getElementsByName("input-texting-toggle")[0]! as HTMLInputElement;
     textingToggleState = inpt.checked;
+    dothething();
     //console.log(textingToggle);
     //console.log(`toggled to ${textingToggleState.valueOf()}`);
 };

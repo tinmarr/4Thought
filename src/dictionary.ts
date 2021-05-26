@@ -8,7 +8,7 @@ class GeneralD {
         delete this.dictionary[key];
     }
     match(inpt: string) {
-        return this.dictionary[inpt];
+        return inpt in this.dictionary ? this.dictionary[inpt] : null;
     }
 }
 class BigD extends GeneralD {

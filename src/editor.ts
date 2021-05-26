@@ -14,7 +14,7 @@ class CustomImageSpec extends ImageSpec {
     }
 }
 
-const quill: Quill = new Quill("#editor", {
+export const quill: Quill = new Quill("#editor", {
     modules: {
         toolbar: "#toolbar",
         formula: true,
@@ -45,14 +45,16 @@ function handleKeyPress(e) {
     }
 }
 
-enum Format {
+export enum Format {
     list,
     raw,
     stringWithNoN,
 }
-function getText(format: Format): string[] | string {
+export function getText(format: Format): string[] | string {
     let thing: HTMLDivElement = <HTMLDivElement>document.getElementsByClassName("ql-editor")[0];
     let text: string = thing.innerText;
+    // let text: string = quill.getContents().ops[0].insert;
+    // quill.setText
     if (format === Format.list) {
         return text.split("\n");
     }
@@ -62,6 +64,77 @@ function getText(format: Format): string[] | string {
     return text;
 }
 
+
+// export function dothething(){
+//     let editor: HTMLDivElement = <HTMLDivElement>document.getElementsByClassName("ql-editor")[0];
+//     function compareOrRecall(children: HTMLCollection){
+//         for (let i = 0; i < children.length; i++){
+//             let child = <HTMLElement>children[i];
+            
+//             if(!child.innerText){
+//                 console.log(child);
+//                 continue;
+//             }
+//             let words: string[] = child.innerText.split(" ");
+//             for (let i = 0; i < words.length; i++) {
+//                 let element = words[i];
+//                 if (textshortcuts.match(element) != null) {
+//                     console.log(element, textshortcuts.match(element)![0]);
+//                     words[i] = textshortcuts.match(element)![0];
+//                 }
+//             }
+//             let line = words.join(" ");
+//             child.innerText = line;
+            
+//             if (child.children){
+//                 return compareOrRecall(child.children);
+//             }
+             
+//         }
+//     }
+//     let children = editor.children;
+//     compareOrRecall(children);
+// }
+export function dothething(){
+    let editorcontents = quill.getContents();
+    for(let i = 0; i < editorcontents.ops.length; i++) {
+        let element = editorcontents.ops[i];
+        // console.log(i, " ", typeof element.insert == typeof " ", " ", element.insert);
+        if(element.insert && typeof element.insert == typeof " ") {
+            let words: string[] = (element.insert as string).split(" ");
+            for (let i = 0; i < words.length; i++) {
+                let wordsmightcontainbackslash = words[i].split("\n");
+                for (let j = 0; j < wordsmightcontainbackslash.length; j++) {
+                    let word = wordsmightcontainbackslash[j];
+                    if (textshortcuts.match(word) != null) {
+                        // console.log(word, textshortcuts.match(word)![0]);
+                        wordsmightcontainbackslash[j] = textshortcuts.match(word)![0];
+                    }
+                }
+                words[i] = wordsmightcontainbackslash.join("\n");
+            }
+            let line = words.join(" ");
+            element.insert = line;
+            // console.log(line, " ", element.insert);
+        }
+        
+    }
+    quill.setContents(editorcontents);    
+}
+
+// recursively call the children of the editor until  all we have is the text, then each individual text check on the dictionary
+export function insertText(format: Format, newText: any) {
+    let thing: HTMLDivElement = <HTMLDivElement>document.getElementsByClassName("ql-editor")[0];
+    let text: string = thing.innerText;
+    if (format === Format.list) {
+        thing.innerText = newText.join("\n");
+        return;
+    }
+    if (format === Format.stringWithNoN) {
+        return "cannot reinsert this";
+    }
+    thing.innerText = text;
+}
 declare function mathquill4quill(): any;
 let enableMathQuillFormulaAuthoring = mathquill4quill();
 enableMathQuillFormulaAuthoring(quill, {
@@ -84,7 +157,7 @@ if (data.name != null && data.name != "untitled note") (document.getElementById(
 
 if (data.widgets != undefined) for (let widget of data.widgets) Widget.generate(widget);
 
-if (!("txtshortcuts" in Object.keys(data))) {
+if (!("txtshortcuts" in data)) {
     data["txtshortcuts"] = new SmallD();
 }
 export let textshortcuts: SmallD = data["txtshortcuts"];
@@ -125,6 +198,33 @@ textingToggle.onchange = function () {
     //console.log(textingToggle);
     //console.log(`toggled to ${textingToggleState.valueOf()}`);
 };
+
+// function scanLine(line: string) {
+//     let words: string[] = line.split(" ");
+//     for (let i = 0; i < words.length; i++) {
+//         let element = words[i];
+//         if (textshortcuts.match(element) !== null) {
+//             console.log(element, textshortcuts.match(element)[0]);
+//             words[i] = textshortcuts.match(element)[0];
+//         }
+//     }
+//     line = words.join(" ");
+//     console.log(line);
+//     return line;
+// }
+// document.addEventListener("keyup", function (event) {
+//     let eventsForCheck: string[] = ["Enter", "Space", "Period", "Slash"];
+//     eventsForCheck.forEach((eventType) => {
+//         if (event.code == eventType) {
+//             console.log("chekcing...");
+//             let text: string[] = getText(Format.list);
+//             let last = text[text.length - 1];
+//             // let secondlast = text.pop(); // this may cause error
+//             text[text.length - 1] = scanLine(last);
+//             insertText(Format.list, text);
+//         }
+//     });
+// });
 
 let noteName: string = (<HTMLInputElement>document.getElementById("notename")).value;
 
@@ -171,7 +271,7 @@ function save(): void {
     let widgetList: object[] = Widget.widgets.map((widg: Widget) => {
         return widg.toObj();
     });
-
+    console.log(textshortcuts);
     let data = {
         id: identifier,
         name: noteName,

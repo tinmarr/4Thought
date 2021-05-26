@@ -24,9 +24,11 @@ class Widget {
         if (config.collapse !== false) {
             const collapseBtn = document.createElement("i");
             collapseBtn.classList.add("far", "fa-angle-down", "p-0", "me-2", "btn");
-            collapseBtn.id = 'collapseBtn';
+            collapseBtn.id = "collapseBtn";
             buttonsDiv.appendChild(collapseBtn);
-            collapseBtn.onclick = () => { this.toggleCollapse() }
+            collapseBtn.onclick = () => {
+                this.toggleCollapse();
+            };
 
             const collapsedDiv = document.createElement("div");
             collapsedDiv.innerHTML = config.collapse as string;
@@ -37,7 +39,7 @@ class Widget {
 
         const reorderBtn = document.createElement("i");
         reorderBtn.classList.add("far", "handle", "fa-bars", "fa-sm", "p-0", "me-2", "btn");
-        reorderBtn.id = 'reorderBtn';
+        reorderBtn.id = "reorderBtn";
 
         const closeBtn = document.createElement("i");
         closeBtn.classList.add("fal", "fa-times", "p-0", "m-0", "btn");
@@ -78,9 +80,13 @@ class Widget {
         this.element.querySelector(this.isCollapsed ? "div.widgetContent" : "div.widgetCollapsed")!.classList.remove("d-none");
         this.element.querySelector(this.isCollapsed ? "div.widgetCollapsed" : "div.widgetContent")!.classList.add("d-none");
 
-        (this.element.querySelector("#collapseBtn")! as HTMLDivElement).style.transform = 'rotate('+(this.isCollapsed ? 0 : 90)+'deg)'; 
+        (this.element.querySelector("#collapseBtn")! as HTMLDivElement).style.transform = "rotate(" + (this.isCollapsed ? 0 : 90) + "deg)";
 
-        this.isCollapsed = !this.isCollapsed;        
+        this.isCollapsed = !this.isCollapsed;
+    }
+
+    updateContent() {
+        this.element.querySelector("div.widgetContent")!.innerHTML = this.content;
     }
 
     static updateList() {

@@ -12,9 +12,7 @@ class DefWidget extends Widget {
             const content: string = `<h5 class='p-0 m-0'>${config.word} ${
                 config.partOfSpeech != undefined ? `(${config.partOfSpeech})` : ""
             }</h5><hr class='my-2'>${config.definition}`;
-            const collapse = `<h5 class='p-0 m-0'>${config.word} ${
-                config.partOfSpeech != undefined ? `(${config.partOfSpeech})` : ""
-            }</h5>`;
+            const collapse = `<h5 class='p-0 m-0'>${config.word} ${config.partOfSpeech != undefined ? `(${config.partOfSpeech})` : ""}</h5>`;
             super({ content: content, collapse: collapse });
         }
     }
@@ -49,32 +47,41 @@ class YoutubeWidget extends Widget {
             super(config);
         } else {
             if (config.url != undefined) {
-                const width = 300 - 16,
-                    params = new URLSearchParams(config.url.substring(config.url.indexOf("?")));
-
-                const content = `<iframe width="${width}" height="${width * (9 / 16)}" src="https://www.youtube.com/embed/${params.get(
-                    "v"
-                )}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
-                super({ content: content, collapse: false });
+                super({ content: YoutubeWidget.makeIframe(config.url), collapse: false });
             } else {
                 const content = `<div class="form-group">
                                     <label for="utubeurl">Youtube URL</label>
-                                    <input type="text" class="form-control" id="utubeurl" placeholder="https://www.youtube.com/watch?v=...">
+                                    <input type="text" class="form-control my-1" id="utubeurl" placeholder="https://www.youtube.com/watch?v=...">
                                 </div>
                                 <button role="button" class="btn btn-primary" id="getUtube">Get</button>`;
                 super({ content: content, collapse: false });
             }
         }
         if (this.element.querySelector("button#getUtube") != null) {
-            console.log("listener made");
             (<HTMLButtonElement>this.element.querySelector("button#getUtube")!).onclick = (e) => {
-                console.log("we are in");
                 e.preventDefault();
                 let url = (<HTMLInputElement>this.element.querySelector("div.form-group > input#utubeurl")!).value;
-                new YoutubeWidget({ url: url });
-                this.delete();
+                this.content = YoutubeWidget.makeIframe(url);
+                this.updateContent();
             };
         }
+    }
+
+    static makeIframe(url: string): string {
+        let width = 300 - 16,
+            code = "";
+
+        if (url.includes("?v") as boolean) {
+            code = new URLSearchParams(url.substring(url.indexOf("?"))).get("v")!;
+        } else if (url.includes("youtu.be") as boolean) {
+            code = url.substr(url.length - 12);
+        } else {
+            code = "";
+        }
+        const content = `<iframe width="${width}" height="${
+            width * (9 / 16)
+        }" src="https://www.youtube.com/embed/${code}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+        return content;
     }
 }
 

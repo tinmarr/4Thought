@@ -2,8 +2,8 @@ const path = require("path");
 
 module.exports = [
     {
-        mode: "development",
-        watch: true,
+        mode: "production",
+        watch: false,
         entry: {
             editor: "./dist/src/editor.js",
             dragManager: "./dist/src/dragManager.js",
@@ -15,10 +15,10 @@ module.exports = [
             libraryTarget: "var",
         },
         optimization: {
-            mangleExports: false
+            mangleExports: true,
         },
         performance: {
-            hints: false
+            hints: false,
         },
         // devtool: "source-map"
     },

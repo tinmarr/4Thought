@@ -149,7 +149,6 @@ enableMathQuillFormulaAuthoring(quill, {
 
 const identifier: string = document.currentScript?.getAttribute("note-id")!;
 const data = JSON.parse(document.currentScript?.getAttribute("doc-data")!);
-console.log(data);
 
 quill.setContents(data.delta);
 
@@ -176,6 +175,8 @@ let ppover = new window.bootstrap.Popover(dictionaryBtn, options);
 dictionaryBtn.onclick = () => {
     ppover.toggle();
 };
+let textingToggleState: boolean = false;
+
 dictionaryBtn.addEventListener("shown.bs.popover", (e) => {
     const textingsubmitBtn = <HTMLAnchorElement>document.querySelector("div.popover-body > #SubmitNewDefinition")!;
     //console.log(textingsubmitBtn);
@@ -188,17 +189,18 @@ dictionaryBtn.addEventListener("shown.bs.popover", (e) => {
         textshortcuts.addPair(stuffin, stuffout);
         //console.log(textshortcuts);
     };
+    const textingToggle = <HTMLAnchorElement>document.querySelector("div.popover-body > #txtModeToggle")!;
+    textingToggle.onclick = function () {
+        console.log("still alive.");
+        textingToggleState = !textingToggleState;
+        if (textingToggleState)
+        dothething();
+        //console.log(textingToggle);
+        //console.log(`toggled to ${textingToggleState.valueOf()}`);
+    };
 });
 
-const textingToggle = document.getElementById("txtModeToggle")!;
-let textingToggleState: boolean = false;
-textingToggle.onchange = function () {
-    const inpt = document.getElementsByName("input-texting-toggle")[0]! as HTMLInputElement;
-    textingToggleState = inpt.checked;
-    dothething();
-    //console.log(textingToggle);
-    //console.log(`toggled to ${textingToggleState.valueOf()}`);
-};
+
 
 // function scanLine(line: string) {
 //     let words: string[] = line.split(" ");

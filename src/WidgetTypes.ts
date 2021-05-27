@@ -207,7 +207,6 @@ class RecordWidget extends Widget {
 
                         mediaRecorder.stop();
 
-                        console.log(window.streamReference);
                         if (!window.streamReference) return;
 
                         window.streamReference.getAudioTracks().forEach(function (track) {

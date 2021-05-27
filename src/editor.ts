@@ -171,27 +171,23 @@ let ppover = new window.bootstrap.Popover(dictionaryBtn, options);
 dictionaryBtn.onclick = () => {
     ppover.toggle();
 };
+let textingToggleState: boolean = false;
+
 dictionaryBtn.addEventListener("shown.bs.popover", (e) => {
     const textingsubmitBtn = <HTMLAnchorElement>document.querySelector("div.popover-body > #SubmitNewDefinition")!;
-    //console.log(textingsubmitBtn);
     textingsubmitBtn.onclick = function () {
         // // get whats in the in
         let stuffin: string = (<HTMLTextAreaElement>document.querySelector("div.popover-body > #in")).value;
         // // get whats in the out
         let stuffout: string = (<HTMLTextAreaElement>document.querySelector("div.popover-body > #out")).value;
-        //console.log(stuffin, " ", stuffout);
         textshortcuts.addPair(stuffin, stuffout);
-        //console.log(textshortcuts);
     };
-});
-
-// Toggle whether or not you want the shortcuts
-const textingToggle = document.getElementById("txtModeToggle")!;
-let textingToggleState: boolean = false;
-textingToggle.onchange = function () {
-    const inpt = document.getElementsByName("input-texting-toggle")[0]! as HTMLInputElement;
-    textingToggleState = inpt.checked;
-    dothething();
+    const textingToggle = <HTMLAnchorElement>document.querySelector("div.popover-body > #txtModeToggle")!;
+    textingToggle.onclick = function () {
+        textingToggleState = !textingToggleState;
+        if (textingToggleState)
+        dothething();
+    };
 };
 
 let noteName: string = (<HTMLInputElement>document.getElementById("notename")).value;

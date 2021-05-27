@@ -97,7 +97,8 @@ router.post("/save", (req, res) => {
         data[user].documents[req.body.id] = {
             name: req.body.name,
             delta: req.body.delta,
-            widgets: req.body.widgets
+            widgets: req.body.widgets,
+            textshortcuts: req.body.txtshortcuts
         };
         return res.json("synced");
     });

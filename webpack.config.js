@@ -14,12 +14,6 @@ module.exports = [
             library: ["window", "[name]"],
             libraryTarget: "var",
         },
-        optimization: {
-            mangleExports: true,
-        },
-        performance: {
-            hints: false,
-        },
         // devtool: "source-map"
     },
 ];

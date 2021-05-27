@@ -31,7 +31,8 @@ client.connect((err) => {
 client
     .query("SELECT data FROM main")
     .then((res) => {
-        data = res.rows[0].main;
+        console.log(res);
+        data = res.rows[0].main || {};
     })
     .catch((err) => {
         client
@@ -194,12 +195,16 @@ router.get("/settings", (req, res) => {
 });
 
 function save(data: object) {
-    // let toSave = JSON.stringify(data).replace(/'/g, '\\"');
-    // client
-    //     .query(`UPDATE main SET data = "${toSave}"`)
-    //     .then((res) => {
-    //         const d = new Date();
-    //         console.log(`save on ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}.`);
-    //     })
-    //     .catch((err) => console.error(err));
+    console.log(data);
+    let lol = fs.readFileSync("./data.json").toString();
+    console.log(lol);
+    let toSave = JSON.stringify(data).replace(/'/g, '\\"');
+    console.log(toSave);
+    client
+        .query(`UPDATE main SET data = '${toSave}' WHERE TRUE`)
+        .then((res) => {
+            const d = new Date();
+            console.log(`save on ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}.`);
+        })
+        .catch((err) => console.error(err));
 }

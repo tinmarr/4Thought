@@ -1,30 +1,65 @@
 import express from "express";
 import fs from "fs";
+import { Client } from "pg";
 
-import { save } from "./dbHandler";
 import { Queue } from "./queue";
 import { Encrypter } from "./encrypter";
 
 export const router = express.Router();
 export const queue = new Queue();
 
+export let data = {};
+
 const crypt = new Encrypter();
 
+const client = new Client({
+    connectionString:
+        process.env.DATABASE_URL ||
+        "postgres://kjethxogdlxabu:eeb579ff1fe220ede3a281f087957edf64cd80c306c4ffd485f8a28bc42e0a00@ec2-34-193-113-223.compute-1.amazonaws.com:5432/dcv25gr2rc6e7f",
+    host: process.env.PGHOST,
+    user: "postgres",
+    ssl: {
+        rejectUnauthorized: false,
+    },
+});
+
+client.connect((err) => {
+    err != null && console.log(err);
+});
+
 // Get Data
-let rawData = fs.readFileSync("./data.json");
-export let data;
-try {
-    data = JSON.parse(rawData.toString());
-} catch (err) {
-    data = {};
-}
+client
+    .query("SELECT data FROM main")
+    .then((res) => {
+        data = res.rows[0].main;
+    })
+    .catch((err) => {
+        client
+            .query("CREATE TABLE main ( data varchar )")
+            .then((res) => {
+                client
+                    .query(`INSERT INTO main(data) VALUES ('{}')`)
+                    .then((res) => {
+                        console.log(res);
+                    })
+                    .catch((err) => {
+                        console.error(err);
+                    });
+            })
+            .catch((err) => {
+                console.error(err);
+            })
+            .finally(() => {
+                client.end();
+            });
+    });
 
 // Auto Save DB
 const saveLoop = setInterval(() => {
     queue.add(() => {
         save(data);
     });
-}, 60 * 1000); // DO NOT MAKE THE SAVE INTERVAL MORE FREQUENT THAN A MINUTE
+}, 5 * 1000); // DO NOT MAKE THE SAVE INTERVAL MORE FREQUENT THAN A MINUTE
 
 function exitHandler(options: string, exitCode: any) {
     clearInterval(saveLoop);
@@ -73,7 +108,7 @@ router.post("/user", (req, res) => {
                     name: name,
                     password: crypt.encryptText(password),
                     documents: {},
-                    order: []
+                    order: [],
                 };
                 return res.redirect("/dashboard");
             }
@@ -98,7 +133,7 @@ router.post("/save", (req, res) => {
             name: req.body.name,
             delta: req.body.delta,
             widgets: req.body.widgets,
-            textshortcuts: req.body.txtshortcuts
+            textshortcuts: req.body.txtshortcuts,
         };
         return res.json("synced");
     });
@@ -148,7 +183,7 @@ router.post("/delete-doc", (req, res) => {
     queue.add(() => {
         let user: string = req.session?.userEmail;
         delete data[user].documents[req.body.id];
-        data[user].order.splice(data[user].order.indexOf('' + req.body.id), 1);
+        data[user].order.splice(data[user].order.indexOf("" + req.body.id), 1);
         return res.json("deleted");
     });
 });
@@ -157,3 +192,14 @@ router.post("/delete-doc", (req, res) => {
 router.get("/settings", (req, res) => {
     return res.render("settings", { title: "Settings", userData: data[req.session?.userEmail], error_messages: req.flash("error") });
 });
+
+function save(data: object) {
+    // let toSave = JSON.stringify(data).replace(/'/g, '\\"');
+    // client
+    //     .query(`UPDATE main SET data = "${toSave}"`)
+    //     .then((res) => {
+    //         const d = new Date();
+    //         console.log(`save on ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}.`);
+    //     })
+    //     .catch((err) => console.error(err));
+}

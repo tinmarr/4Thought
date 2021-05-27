@@ -87,15 +87,15 @@ class YoutubeWidget extends Widget {
 
 class RecordWidget extends Widget {
     playing: boolean;
+
     constructor(config: {} | GeneralConfig = {}) {
+        if (navigator.mediaDevices == undefined) {
+            alert("Your browser doesn't support recording audio");
+        }
         if (isGeneralConfig(config)) {
             super(config);
         } else {
-            let content;
-            if (navigator.mediaDevices == undefined) {
-                content = "Your browser doesn't support recording audio";
-            } else {
-                content = `<button id="recordButton" class="btn m-0 p-0 d-flex d-inline-flex" type="button" role="button">
+            const content = `<button id="recordButton" class="btn m-0 p-0 d-flex d-inline-flex" type="button" role="button">
                                 <i class="far fa-microphone fa-2x"></i>
                             </button>
                             <button id="playButton" class="btn m-0 p-0 d-flex d-inline-flex flex-row d-none" type="button" role="button">
@@ -103,7 +103,7 @@ class RecordWidget extends Widget {
                             </button>
                             <div class="totalBar d-none d-inline-flex m-1 p-0 rounded"> <div class="currentBar rounded"></div> </div>
                             <div id="storage" class="d-flex d-inline-flex d-none"></div>`;
-            }
+
             super({ content: content, collapse: false });
         }
         this.playing = false;

@@ -11,7 +11,7 @@ module.exports = [
         output: {
             filename: "[name].bundle.js",
             path: path.join(__dirname, "./dist/src"),
-            library: ["window", "[name]"],
+            library: "[name]",
             libraryTarget: "var",
         },
         // devtool: "source-map"

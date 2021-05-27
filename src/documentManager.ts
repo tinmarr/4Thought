@@ -29,7 +29,3 @@ function deleteDoc(id: string): void {
         });
     });
 }
-
-interface Window {
-    numOfDocs: number;
-}

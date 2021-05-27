@@ -31,8 +31,9 @@ client.connect((err) => {
 client
     .query("SELECT data FROM main")
     .then((res) => {
-        console.log(res);
-        data = res.rows[0].main || {};
+        data = JSON.parse(res.rows[0].data) || {};
+        const d = new Date();
+        console.log(`successfully get data on ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}.`);
     })
     .catch((err) => {
         client
@@ -60,7 +61,7 @@ const saveLoop = setInterval(() => {
     queue.add(() => {
         save(data);
     });
-}, 5 * 1000); // DO NOT MAKE THE SAVE INTERVAL MORE FREQUENT THAN A MINUTE
+}, 60 * 1000); // DO NOT MAKE THE SAVE INTERVAL MORE FREQUENT THAN A MINUTE
 
 function exitHandler(options: string, exitCode: any) {
     clearInterval(saveLoop);
@@ -195,11 +196,8 @@ router.get("/settings", (req, res) => {
 });
 
 function save(data: object) {
-    console.log(data);
-    let lol = fs.readFileSync("./data.json").toString();
-    console.log(lol);
+    // let lol = fs.readFileSync("./data.json").toString().replace(/'/g, '\\"'); // use this to load from file
     let toSave = JSON.stringify(data).replace(/'/g, '\\"');
-    console.log(toSave);
     client
         .query(`UPDATE main SET data = '${toSave}' WHERE TRUE`)
         .then((res) => {

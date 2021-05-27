@@ -1,4 +1,4 @@
-import express from "express";
+import express, { json } from "express";
 import fs from "fs";
 import { Client } from "pg";
 
@@ -8,54 +8,59 @@ import { Encrypter } from "./encrypter";
 export const router = express.Router();
 export const queue = new Queue();
 
-export let data = {};
+let data = {};
+
+// Local/Offline Mode
+export let localMode: boolean = false; // MUST BE SET TO TRUE BEFORE EVERY COMMIT
 
 const crypt = new Encrypter();
 
-const client = new Client({
-    connectionString:
-        process.env.DATABASE_URL ||
-        "postgres://kjethxogdlxabu:eeb579ff1fe220ede3a281f087957edf64cd80c306c4ffd485f8a28bc42e0a00@ec2-34-193-113-223.compute-1.amazonaws.com:5432/dcv25gr2rc6e7f",
-    host: process.env.PGHOST,
-    user: "postgres",
-    ssl: {
-        rejectUnauthorized: false,
-    },
-});
-
-client.connect((err) => {
-    err != null && console.log(err);
-});
-
-// Get Data
-client
-    .query("SELECT data FROM main")
-    .then((res) => {
-        data = JSON.parse(res.rows[0].data) || {};
-        const d = new Date();
-        console.log(`successfully get data on ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}.`);
-    })
-    .catch((err) => {
-        client
-            .query("CREATE TABLE main ( data varchar )")
-            .then((res) => {
-                client
-                    .query(`INSERT INTO main(data) VALUES ('{}')`)
-                    .then((res) => {
-                        console.log(res);
-                    })
-                    .catch((err) => {
-                        console.error(err);
-                    });
-            })
-            .catch((err) => {
-                console.error(err);
-            })
-            .finally(() => {
-                client.end();
-            });
+let client: Client;
+if (!localMode) {
+    client = new Client({
+        connectionString:
+            process.env.DATABASE_URL ||
+            "postgres://kjethxogdlxabu:eeb579ff1fe220ede3a281f087957edf64cd80c306c4ffd485f8a28bc42e0a00@ec2-34-193-113-223.compute-1.amazonaws.com:5432/dcv25gr2rc6e7f",
+        host: process.env.PGHOST,
+        user: "postgres",
+        ssl: {
+            rejectUnauthorized: false,
+        },
     });
 
+    client.connect((err) => {
+        err != null && console.log(err);
+    });
+
+    // Get Data
+    client
+        .query("SELECT data FROM main")
+        .then((res) => {
+            data = JSON.parse(res.rows[0].data) || {};
+            const d = new Date();
+            console.log(`successfully get data on ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}.`);
+        })
+        .catch((err) => {
+            client
+                .query("CREATE TABLE main ( data varchar )")
+                .then((res) => {
+                    client
+                        .query(`INSERT INTO main(data) VALUES ('{}')`)
+                        .then((res) => {
+                            console.log(res);
+                        })
+                        .catch((err) => {
+                            console.error(err);
+                        });
+                })
+                .catch((err) => {
+                    console.error(err);
+                })
+                .finally(() => {
+                    client.end();
+                });
+        });
+}
 // Auto Save DB
 const saveLoop = setInterval(() => {
     queue.add(() => {
@@ -72,6 +77,10 @@ function exitHandler(options: string, exitCode: any) {
 [`exit`, `SIGINT`, `SIGUSR1`, `SIGUSR2`, `uncaughtException`, `SIGTERM`].forEach((eventType) => {
     process.on(eventType, exitHandler.bind(null, eventType));
 });
+
+if (localMode) {
+    data = JSON.parse(fs.readFileSync("./data.json").toString());
+}
 
 // Routes
 // Index
@@ -196,13 +205,18 @@ router.get("/settings", (req, res) => {
 });
 
 function save(data: object) {
-    // let lol = fs.readFileSync("./data.json").toString().replace(/'/g, '\\"'); // use this to load from file
-    let toSave = JSON.stringify(data).replace(/'/g, '\\"');
-    client
-        .query(`UPDATE main SET data = '${toSave}' WHERE TRUE`)
-        .then((res) => {
-            const d = new Date();
-            console.log(`save on ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}.`);
-        })
-        .catch((err) => console.error(err));
+    if (localMode) {
+        let local = fs.writeFileSync("./data.json", JSON.stringify(data)); // use this to load from file
+        const d = new Date();
+        console.log(`LOCAL save on ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}.`);
+    } else {
+        let toSave = JSON.stringify(data).replace(/'/g, '\\"');
+        client
+            .query(`UPDATE main SET data = '${toSave}' WHERE TRUE`)
+            .then((res) => {
+                const d = new Date();
+                console.log(`save on ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}.`);
+            })
+            .catch((err) => console.error(err));
+    }
 }

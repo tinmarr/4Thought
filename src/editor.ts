@@ -52,7 +52,7 @@ enableMathQuillFormulaAuthoring(quill, {
 
 // Get saved data
 const identifier: string = document.currentScript?.getAttribute("note-id")!;
-const data = JSON.parse(document.currentScript?.getAttribute("doc-data")!);
+export const data = JSON.parse(document.currentScript?.getAttribute("doc-data")!);
 
 quill.setContents(data.delta);
 
@@ -61,10 +61,11 @@ if (data.name != null && data.name != "untitled note") (document.getElementById(
 
 if (data.widgets != undefined) for (let widget of data.widgets) Widget.generate(widget);
 
-if (!("txtshortcuts" in data)) {
-    data["txtshortcuts"] = new SmallD();
+// JSON.stringify forgets that textshortcuts is a SmallD and just gives all variables (how to fix)?
+export let textshortcuts: SmallD = new SmallD();
+if (("textshortcuts" in data)) {
+    textshortcuts.dictionary = data["textshortcuts"].dictionary;
 }
-export let textshortcuts: SmallD = data["txtshortcuts"];
 
 /*** Save Handler ***/
 let lastSavedOn: Date = new Date();
@@ -133,23 +134,26 @@ export function dothething() {
     let editorcontents = quill.getContents();
     for (let i = 0; i < editorcontents.ops.length; i++) {
         let element = editorcontents.ops[i];
-        // console.log(i, " ", typeof element.insert == typeof " ", " ", element.insert);
+        // element is a so called child of the editor
+        // we check if it has an insert and it is a string
         if (element.insert && typeof element.insert == typeof " ") {
             let words: string[] = (element.insert as string).split(" ");
+            // split the string into words and process
             for (let i = 0; i < words.length; i++) {
                 let wordsmightcontainbackslash = words[i].split("\n");
+                // split along the \ns and process
                 for (let j = 0; j < wordsmightcontainbackslash.length; j++) {
                     let word = wordsmightcontainbackslash[j];
+                    // if the dictionary contains said word than we shall input it to list
                     if (textshortcuts.match(word) != null) {
-                        // console.log(word, textshortcuts.match(word)![0]);
                         wordsmightcontainbackslash[j] = textshortcuts.match(word)![0];
                     }
                 }
                 words[i] = wordsmightcontainbackslash.join("\n");
             }
             let line = words.join(" ");
+            // our insert is refilled with the corrected words from dictionary
             element.insert = line;
-            // console.log(line, " ", element.insert);
         }
     }
     quill.setContents(editorcontents);
@@ -188,7 +192,7 @@ dictionaryBtn.addEventListener("shown.bs.popover", (e) => {
         if (textingToggleState)
         dothething();
     };
-};
+});
 
 let noteName: string = (<HTMLInputElement>document.getElementById("notename")).value;
 

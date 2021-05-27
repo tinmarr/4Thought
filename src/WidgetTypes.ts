@@ -89,9 +89,6 @@ class RecordWidget extends Widget {
     playing: boolean;
 
     constructor(config: {} | GeneralConfig = {}) {
-        if (navigator.mediaDevices == undefined) {
-            alert("Your browser doesn't support recording audio");
-        }
         if (isGeneralConfig(config)) {
             super(config);
         } else {
@@ -106,6 +103,12 @@ class RecordWidget extends Widget {
 
             super({ content: content, collapse: false });
         }
+
+        if (navigator.mediaDevices == undefined) {
+            alert("Your browser doesn't support recording audio");
+            this.delete();
+        }
+
         this.playing = false;
         (<HTMLDivElement>this.element.querySelector("div.totalBar > div.currentBar"))!.style.width = "0%";
         let recording = false;

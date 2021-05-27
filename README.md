@@ -10,7 +10,6 @@
 
 #### User Interface
 
--   Redesigned homepage
 -   User settings page
 
 #### Editor Features
@@ -29,5 +28,4 @@
 
 #### Bonus Features
 
--   Speech to text
 -   Transcribe images

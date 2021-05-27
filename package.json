@@ -4,8 +4,8 @@
     "description": "## Features",
     "scripts": {
         "start": "node dist/app.js",
-        "devBuild": "webpack",
-        "build": "tsc && echo Typescript Built && webpack && echo Webpack Complete",
+        "devBuild": "webpack --config webpack-dev.config.js",
+        "build": "tsc && echo Typescript Built && webpack --config webpack-production.config.js && echo Webpack Complete",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "repository": {

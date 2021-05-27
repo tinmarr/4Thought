@@ -106,7 +106,7 @@ router.post("/user", (req, res) => {
             }
 
             if (crypt.decrypt(user.password) == password) {
-                if (req.session != null) req.session.userEmail = email;
+                req.session!.userEmail = email;
                 return res.redirect("/dashboard");
             }
 
@@ -201,9 +201,37 @@ router.post("/delete-doc", (req, res) => {
 
 // Settings Page
 router.get("/settings", (req, res) => {
-    return res.render("settings", { title: "Settings", userData: data[req.session?.userEmail], error_messages: req.flash("error") });
+    return res.render("settings", {
+        title: "Settings",
+        userData: data[req.session?.userEmail],
+        userEmail: req.session?.userEmail,
+        error_messages: req.flash("error"),
+        success_messages: req.flash("success"),
+    });
 });
 
+router.post("/settings", (req, res) => {
+    let user: string = req.session?.userEmail;
+    if (req.body.type == "username&email") {
+        data[user].name = req.body.name;
+        if (req.body.email != user) {
+            req.session!.userEmail = req.body.email;
+            data[req.body.email] = data[user];
+            delete data[user];
+            user = req.session?.userEmail;
+        }
+    } else if (req.body.type == "pw") {
+        data[user].password = crypt.encryptText(req.body.password);
+    } else if (req.body.type == "delete") {
+        delete data[user];
+        req.session!.userEmail = null;
+        return res.redirect("/");
+    }
+    req.flash("success", "Successfully updated!");
+    return res.redirect(req.url);
+});
+
+// Save data
 function save(data: object) {
     if (localMode) {
         let local = fs.writeFileSync("./data.json", JSON.stringify(data)); // use this to load from file

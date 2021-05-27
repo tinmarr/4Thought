@@ -2,13 +2,51 @@ extends layout
 
 block layout-content 
     .m-4
-        h1 Welcome to the settings. This will do something one day 
+        h1 Settings
         a.btn.btn-secondary(href="./dashboard") Go Back Home
-        br
-        | Things we need to do here: 
-        br 
-        | - Change name, password, email
-        br
-        | - Edit personal dictionary 
-        br
-        | - Export data 
+        form.w-75.mx-auto.my-4.border.border-5.border-secondary.rounded.p-3(action="./settings", method="post")
+            h5.mb-3 Your Personal Information
+            .mb-3 
+                label.form-label(for="name") Username 
+                input.form-control#name(name="name", type="text", value=userData.name)
+            .mb-3
+                label.form-label(for="email") Email 
+                input.form-control#email(name="email", type="email", value=userEmail)
+            input.d-none(type="text", name="type", value="username&email")
+            button.btn.btn-primary(type="submit") Update Username and Email
+        form.w-75.mx-auto.my-4.border.border-5.border-secondary.rounded.p-3#editPassword(action="./settings", method="post")
+            .row.mb-3 
+                .col 
+                    label.form-label(for="password")
+                        h5 Password 
+                    input.form-control#password(type="password", name="password")
+                .col
+                    label.form-label(for="passwordConfirm")
+                        h5 Confirm Password 
+                    input.form-control#passwordConfirm(type="password", name="passwordConfirm")
+            input.d-none(type="text", name="type", value="pw")
+            button.btn.btn-primary(type="submit") Update Password
+        .w-75.mx-auto.my-4.border.border-5.border-secondary.rounded.p-3
+            form.mb-3(action="./settings", method="post")
+                input.d-none(type="text", name="type", value="export")
+                - var object = {}
+                - object[userEmail] = userData  
+                a.btn.btn-warning(type="button", href="data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(object)), download="data.json") Export Data
+            button.btn.btn-outline-danger(type="button", data-bs-toggle="modal", data-bs-target="#areYouSureModal") Delete Account  
+    
+    .modal.fade#areYouSureModal(data-bs-backdrop="static", data-bs-keyboard="false", tabindex="-1")
+        .modal-dialog.modal-dialog-centered
+            .modal-content 
+                .modal-header
+                    h5.modal-title Are you sure you want to delete your account?
+                    button.btn-close(type="button", data-bs-dismiss="modal")
+                .modal-body
+                    | Your account will be deleted forever.
+                    br
+                    | Forever is a really long time!
+                .modal-footer
+                    button.btn.btn-primary(type="button", data-bs-dismiss="modal") No
+                    form(action="./settings", method="post")
+                        input.d-none(type="text", name="type", value="delete")
+                        button.btn.btn-danger(type="submit") Yes
+    script(src="./loginManager.js")

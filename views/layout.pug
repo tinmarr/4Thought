@@ -34,5 +34,11 @@ html(lang="en")
                     strong Oh Noes! 
                     |  #{message}
                     button.btn-close(data-bs-dismiss="alert")
+        if success_messages 
+            each message in success_messages 
+                .alert.alert-success.alert-dismissible.fade.show.m-0(role="alert")
+                    strong Yay! 
+                    |  #{message}
+                    button.btn-close(data-bs-dismiss="alert")
         .position-relative.h-100#root
             block layout-content 

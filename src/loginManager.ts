@@ -6,7 +6,7 @@ sumbitButton?.classList.add("disabled");
 updatePasswordButton?.classList.add("disabled");
 
 if (document.getElementById("authForm") != null) {
-    document.getElementById("authForm")!.onkeyup = () => {
+    document.getElementById("authForm")!.addEventListener('input', () => {
         let good: boolean = true;
         let alerts: string[] = [];
         let email: string = (<HTMLInputElement>document.getElementById("email"))?.value;
@@ -44,17 +44,17 @@ if (document.getElementById("authForm") != null) {
             alertsBox.innerHTML += `<li class="my-0">${alert}</li>`;
         });
         alertsBox.innerHTML += "</ul>";
-    };
+    });
 }
 
 if (document.getElementById("editPassword") != null) {
-    document.getElementById("editPassword")!.onkeyup = () => {
+    document.getElementById("editPassword")!.addEventListener('input', () => {
         const password = (<HTMLInputElement>document.getElementById("password")!).value;
         const passwordConfirm = (<HTMLInputElement>document.getElementById("passwordConfirm")!).value;
         if (isStrongPassword(password) && password == passwordConfirm) {
             updatePasswordButton.classList.remove("disabled");
         }
-    };
+    });
 }
 
 function isValidEmail(email: string): boolean {

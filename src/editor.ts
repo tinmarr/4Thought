@@ -131,6 +131,7 @@ function save(): void {
 }
 
 export function parseAndMatchDictionary() {
+    // this is the index of our cursor rn
     let index = quill.getSelection()?.index;
     let editorcontents = quill.getContents();
     for (let i = 0; i < editorcontents.ops.length; i++) {

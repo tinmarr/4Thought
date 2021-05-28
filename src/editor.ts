@@ -63,7 +63,7 @@ if (data.widgets != undefined) for (let widget of data.widgets) Widget.generate(
 
 // JSON.stringify forgets that textshortcuts is a SmallD and just gives all variables (how to fix)?
 export let textshortcuts: SmallD = new SmallD();
-if (("textshortcuts" in data)) {
+if ("textshortcuts" in data) {
     textshortcuts.dictionary = data["textshortcuts"].dictionary;
 }
 
@@ -172,9 +172,6 @@ let options = {
     trigger: "click",
 };
 let ppover = new window.bootstrap.Popover(dictionaryBtn, options);
-dictionaryBtn.onclick = () => {
-    ppover.toggle();
-};
 let textingToggleState: boolean = false;
 
 dictionaryBtn.addEventListener("shown.bs.popover", (e) => {
@@ -189,10 +186,56 @@ dictionaryBtn.addEventListener("shown.bs.popover", (e) => {
     const textingToggle = <HTMLAnchorElement>document.querySelector("div.popover-body > #txtModeToggle")!;
     textingToggle.onclick = function () {
         textingToggleState = !textingToggleState;
-        if (textingToggleState)
-        dothething();
+        if (textingToggleState) dothething();
     };
 });
+
+function scanLine(line: string) {
+    let words: string[] = line.split(" ");
+    for (let i = 0; i < words.length; i++) {
+        let element = words[i];
+        if (textshortcuts.match(element) !== null) {
+            console.log(element, textshortcuts.match(element)![0]);
+            words[i] = textshortcuts.match(element)![0];
+        }
+    }
+    line = words.join(" ");
+    console.log(line);
+    return line;
+}
+// document.addEventListener("keyup", function (event) {
+//     let eventsForCheck: string[] = ["Enter", "Space", "Period", "Slash"];
+//     eventsForCheck.forEach((eventType) => {
+//         if (event.code == eventType) {
+//             console.log("chekcing...");
+//             let text: string[] = getText(Format.list);
+//             let last = text[text.length - 1];
+//             // let secondlast = text.pop(); // this may cause error
+//             text[text.length - 1] = scanLine(last);
+//             insertText(Format.list, text);
+//         }
+//     });
+// });
+
+export enum Format {
+    list,
+    raw,
+    stringWithNoN,
+}
+
+function getText(format: Format): string[] | string {
+    let thing: HTMLDivElement = <HTMLDivElement>document.getElementsByClassName("ql-editor")[0];
+    let text: string = thing.innerText;
+    // let text: string = quill.getContents().ops[0].insert;
+    // quill.setText
+    if (format === Format.list) {
+        return text.split("\n");
+    }
+    if (format === Format.stringWithNoN) {
+        return text.replace(/(\r\n|\n|\r)/gm, " ");
+    }
+    return text;
+}
 
 let noteName: string = (<HTMLInputElement>document.getElementById("notename")).value;
 

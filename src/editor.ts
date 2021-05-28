@@ -130,7 +130,8 @@ function save(): void {
     sendNoCB("/save", data);
 }
 
-export function dothething() {
+export function parseAndMatchDictionary() {
+    let index = quill.getSelection()?.index;
     let editorcontents = quill.getContents();
     for (let i = 0; i < editorcontents.ops.length; i++) {
         let element = editorcontents.ops[i];
@@ -146,7 +147,11 @@ export function dothething() {
                     let word = wordsmightcontainbackslash[j];
                     // if the dictionary contains said word than we shall input it to list
                     if (textshortcuts.match(word) != null) {
+                        if (index)
+                            index! -= word.length;
                         wordsmightcontainbackslash[j] = textshortcuts.match(word)![0];
+                        if (index)
+                            index! += wordsmightcontainbackslash[j].length;
                     }
                 }
                 words[i] = wordsmightcontainbackslash.join("\n");
@@ -157,6 +162,7 @@ export function dothething() {
         }
     }
     quill.setContents(editorcontents);
+    quill.setSelection(index || 0, 0);
 }
 
 /*** Button Handlers ***/
@@ -186,36 +192,21 @@ dictionaryBtn.addEventListener("shown.bs.popover", (e) => {
     const textingToggle = <HTMLAnchorElement>document.querySelector("div.popover-body > #txtModeToggle")!;
     textingToggle.onclick = function () {
         textingToggleState = !textingToggleState;
-        if (textingToggleState) dothething();
+        if (textingToggleState) parseAndMatchDictionary();
     };
 });
 
-function scanLine(line: string) {
-    let words: string[] = line.split(" ");
-    for (let i = 0; i < words.length; i++) {
-        let element = words[i];
-        if (textshortcuts.match(element) !== null) {
-            console.log(element, textshortcuts.match(element)![0]);
-            words[i] = textshortcuts.match(element)![0];
+
+document.addEventListener("keyup", function (event) {
+    let eventsForCheck: string[] = ["Enter", "Space", "Period", "Slash"];
+    eventsForCheck.forEach((eventType) => {
+        if (event.code == eventType) {
+            if(quill.getSelection())
+                parseAndMatchDictionary();
         }
-    }
-    line = words.join(" ");
-    console.log(line);
-    return line;
-}
-// document.addEventListener("keyup", function (event) {
-//     let eventsForCheck: string[] = ["Enter", "Space", "Period", "Slash"];
-//     eventsForCheck.forEach((eventType) => {
-//         if (event.code == eventType) {
-//             console.log("chekcing...");
-//             let text: string[] = getText(Format.list);
-//             let last = text[text.length - 1];
-//             // let secondlast = text.pop(); // this may cause error
-//             text[text.length - 1] = scanLine(last);
-//             insertText(Format.list, text);
-//         }
-//     });
-// });
+        
+    });
+});
 
 export enum Format {
     list,

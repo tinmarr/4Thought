@@ -201,7 +201,7 @@ document.addEventListener("keyup", function (event) {
     let eventsForCheck: string[] = ["Enter", "Space", "Period", "Slash"];
     eventsForCheck.forEach((eventType) => {
         if (event.code == eventType) {
-            if(quill.getSelection())
+            if(quill.getSelection() && textingToggleState)
                 parseAndMatchDictionary();
         }
         

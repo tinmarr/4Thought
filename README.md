@@ -6,26 +6,12 @@
 -   Cloud-synced notes, available from any device
 -   Adaptive widgets dynamically pull relevant information from online sources
 
-## Todo
-
-#### User Interface
-
--   User settings page
-
-#### Editor Features
-
-##### Hard things
+## Future Features
 
 -   Direct document annotations
 -   Key word auto-detect
-
-##### Easier things
-
--   Personal Dictionary for shorthand typing
 -   Define Key words / Highlighted words
 -   Note templates
--   Shorthand conversion
-
-#### Bonus Features
-
+-   Transcribe Text
 -   Transcribe images
+-   Always use latest document version

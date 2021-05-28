@@ -1,4 +1,4 @@
-import express, { json } from "express";
+import express, { json, response } from "express";
 import fs from "fs";
 import { Client } from "pg";
 
@@ -9,6 +9,7 @@ export const router = express.Router();
 export const queue = new Queue();
 
 let data = {};
+let time = 0;
 
 // Local/Offline Mode
 export let localMode: boolean = false; // MUST BE SET TO TRUE BEFORE EVERY COMMIT
@@ -33,19 +34,20 @@ if (!localMode) {
     });
 
     // Get Data
+    const d = new Date();
     client
-        .query("SELECT data FROM main")
+        .query("SELECT * FROM main")
         .then((res) => {
             data = JSON.parse(res.rows[0].data) || {};
-            const d = new Date();
             console.log(`successfully get data on ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}.`);
+            time = parseInt(res.rows[0].time);
         })
         .catch((err) => {
             client
-                .query("CREATE TABLE main ( data varchar )")
+                .query("CREATE TABLE main ( data varchar, time varchar )")
                 .then((res) => {
                     client
-                        .query(`INSERT INTO main(data) VALUES ('{}')`)
+                        .query(`INSERT INTO main(data, time) VALUES ('{}', ${d.getTime()})`)
                         .then((res) => {
                             console.log(res);
                         })
@@ -233,18 +235,26 @@ router.post("/settings", (req, res) => {
 
 // Save data
 function save(data: object) {
+    const d = new Date();
     if (localMode) {
         let local = fs.writeFileSync("./data.json", JSON.stringify(data)); // use this to load from file
-        const d = new Date();
         console.log(`LOCAL save on ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}.`);
     } else {
         let toSave = JSON.stringify(data).replace(/'/g, '\\"');
-        client
-            .query(`UPDATE main SET data = '${toSave}' WHERE TRUE`)
-            .then((res) => {
-                const d = new Date();
-                console.log(`save on ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}.`);
-            })
-            .catch((err) => console.error(err));
+        client.query("SELECT * from main").then((res) => {
+            if (parseInt(res.rows[0].time) > time) {
+                time = parseInt(res.rows[0].time);
+                data = JSON.parse(res.rows[0].data);
+                console.log(`data update on ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`);
+            } else {
+                time = d.getTime();
+                client
+                    .query(`UPDATE main SET data = '${toSave}', time=${d.getTime()} WHERE TRUE`)
+                    .then((res) => {
+                        console.log(`save on ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}.`);
+                    })
+                    .catch((err) => console.error(err));
+            }
+        });
     }
 }
